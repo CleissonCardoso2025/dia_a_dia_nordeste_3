@@ -242,3 +242,18 @@ export async function insertWebStory(story: any) {
 export async function deleteWebStory(id: string) {
   return supabase.from('web_stories').delete().eq('id', id);
 }
+
+// ==========================================
+// MÍDIAS AVULSAS (GALERIA)
+// ==========================================
+export async function getMidiasAvulsas() {
+  return supabase.from('galeria_midias').select('*').order('criado_em', { ascending: false });
+}
+
+export async function insertMidiaAvulsa(midia: { titulo: string; url: string }) {
+  return supabase.from('galeria_midias').insert([midia]);
+}
+
+export async function deleteMidiaAvulsa(id: string) {
+  return supabase.from('galeria_midias').delete().eq('id', id);
+}

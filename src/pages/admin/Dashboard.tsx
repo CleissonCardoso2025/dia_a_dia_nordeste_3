@@ -6,11 +6,12 @@ import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag, PlaySquare } from 'lucide-react';
+import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag, PlaySquare, Image as ImageIcon } from 'lucide-react';
 import { getWebhookUrl, setWebhookUrl, sendWebhookPayload, getNewsWebhookUrl, setNewsWebhookUrl, sendNewsWebhookPayload } from '@/lib/webhook';
 import CategoryManagerModal from '@/components/admin/CategoryManagerModal';
 import BannerManagerModal from '@/components/admin/BannerManagerModal';
 import WebStoriesManagerModal from '@/components/admin/WebStoriesManagerModal';
+import MediaManagerModal from '@/components/admin/MediaManagerModal';
 
 interface DashboardProps {
   onLogout: () => void;
@@ -22,6 +23,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isWebStoriesModalOpen, setIsWebStoriesModalOpen] = useState(false);
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
 
   // Configurações do Digital Signage (Modo TV)
   const savedConfigRaw = localStorage.getItem('tv_signage_config');
@@ -540,6 +542,14 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             </button>
 
             <button
+              onClick={() => setIsMediaModalOpen(true)}
+              className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
+            >
+              <ImageIcon size={15} className="text-brand-laranja" />
+              Upload de Mídia
+            </button>
+
+            <button
               onClick={() => setIsWebStoriesModalOpen(true)}
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
@@ -650,6 +660,12 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       <WebStoriesManagerModal
         isOpen={isWebStoriesModalOpen}
         onClose={() => setIsWebStoriesModalOpen(false)}
+      />
+
+      {/* Modal de Gestão de Mídias (Upload Avulso) */}
+      <MediaManagerModal
+        isOpen={isMediaModalOpen}
+        onClose={() => setIsMediaModalOpen(false)}
       />
     </div>
   );
