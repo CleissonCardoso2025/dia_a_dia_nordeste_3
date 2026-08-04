@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { supabase, getCategorias } from '@/lib/supabase';
+import { convertToWebP } from '@/lib/imageProcessor';
 import type { Categoria, Noticia } from '@/types';
 import { ArrowLeft, Save, Upload, Image as ImageIcon, Link as LinkIcon, Trash2, Check, Loader2, Share2 } from 'lucide-react';
 import { sendNewsWebhookPayload, type RedeSocialDestino } from '@/lib/webhook';
@@ -71,9 +72,8 @@ export default function ArticleEditor() {
     }));
   };
 
-  // Upload direto da imagem para o Supabase Storage
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    let file = e.target.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
@@ -88,7 +88,10 @@ export default function ArticleEditor() {
 
     setUploading(true);
     try {
-      const fileExt = file.name.split('.').pop() || 'jpg';
+      // Converte para WebP antes do upload
+      file = await convertToWebP(file);
+
+      const fileExt = file.name.split('.').pop() || 'webp';
       const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
       const filePath = `noticias/${fileName}`;
 

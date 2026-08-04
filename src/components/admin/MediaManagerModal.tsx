@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { supabase, insertMidiaAvulsa, getMidiasAvulsas, deleteMidiaAvulsa } from '@/lib/supabase';
+import { convertToWebP } from '@/lib/imageProcessor';
 import { Image as ImageIcon, Upload, X, Copy, Check, Trash2, Loader2 } from 'lucide-react';
 
 interface MediaManagerModalProps {
@@ -28,7 +29,7 @@ export default function MediaManagerModal({ isOpen, onClose }: MediaManagerModal
   }, [isOpen]);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    let file = e.target.files?.[0];
     if (!file) return;
     if (!titulo.trim()) {
       alert('Por favor, digite um título para a imagem antes de fazer o upload.');
@@ -38,7 +39,8 @@ export default function MediaManagerModal({ isOpen, onClose }: MediaManagerModal
 
     setUploading(true);
     try {
-      const fileExt = file.name.split('.').pop() || 'jpg';
+      file = await convertToWebP(file);
+      const fileExt = file.name.split('.').pop() || 'webp';
       const fileName = `galeria/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage

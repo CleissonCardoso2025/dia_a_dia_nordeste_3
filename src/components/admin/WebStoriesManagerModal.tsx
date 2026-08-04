@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase, insertWebStory, deleteWebStory } from '@/lib/supabase';
+import { convertToWebP } from '@/lib/imageProcessor';
 import type { WebStory, StorySlide, Categoria } from '@/types';
 import { Plus, Trash2, X, PlaySquare, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 
@@ -102,7 +103,7 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'capa' | 'slide', index?: number) => {
-    const file = e.target.files?.[0];
+    let file = e.target.files?.[0];
     if (!file) return;
 
     if (type === 'capa') {
@@ -112,7 +113,8 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
     }
 
     try {
-      const fileExt = file.name.split('.').pop() || 'jpg';
+      file = await convertToWebP(file);
+      const fileExt = file.name.split('.').pop() || 'webp';
       const fileName = `webstories/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage

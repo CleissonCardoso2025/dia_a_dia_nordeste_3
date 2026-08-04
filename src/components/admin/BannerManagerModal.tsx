@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase, verificarEAlertarBannersExpirados } from '@/lib/supabase';
+import { convertToWebP } from '@/lib/imageProcessor';
 import type { BannerAd } from '@/types';
 import { Plus, Trash2, Eye, MousePointerClick, Printer, Upload, X, BarChart3, Loader2, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
@@ -65,12 +66,13 @@ export default function BannerManagerModal({ isOpen, onClose }: BannerManagerMod
 
   // Upload direto do GIF para o Supabase Storage
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    let file = e.target.files?.[0];
     if (!file) return;
 
     setUploading(true);
     try {
-      const fileExt = file.name.split('.').pop() || 'gif';
+      file = await convertToWebP(file);
+      const fileExt = file.name.split('.').pop() || 'webp';
       const fileName = `banners/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
