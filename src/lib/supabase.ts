@@ -226,3 +226,19 @@ export async function buscarNoticias(query: string, limite = 20) {
     .order('data_publicacao', { ascending: false })
     .limit(limite);
 }
+
+// === WEB STORIES ===
+export async function getWebStories() {
+  return supabase
+    .from('web_stories')
+    .select('*')
+    .order('criadoEm', { ascending: false });
+}
+
+export async function insertWebStory(story: any) {
+  return supabase.from('web_stories').insert([story]).select();
+}
+
+export async function deleteWebStory(id: string) {
+  return supabase.from('web_stories').delete().eq('id', id);
+}

@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
-import { getCategorias } from '@/lib/supabase';
+import { getCategorias, getWebStories } from '@/lib/supabase';
 import type { WebStory, Categoria } from '@/types';
-import { MOCK_STORIES } from '@/data/mockStories';
 import WebStoryModal from './WebStoryModal';
 
 export default function WebStoriesSection() {
@@ -11,19 +10,32 @@ export default function WebStoriesSection() {
   const [storyModal, setStoryModal] = useState<WebStory | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [categoriasEditoriais, setCategoriasEditoriais] = useState<string[]>(['Todas']);
+  const [stories, setStories] = useState<WebStory[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getCategorias().then(({ data }) => {
-      if (data) {
-        const editoriais = (data as Categoria[]).filter(c => c.tipo === 'editorial');
+    async function loadData() {
+      const [resCat, resStories] = await Promise.all([
+        getCategorias(),
+        getWebStories()
+      ]);
+
+      if (resCat.data) {
+        const editoriais = (resCat.data as Categoria[]).filter(c => c.tipo === 'editorial');
         setCategoriasEditoriais(['Todas', ...editoriais.map(e => e.nome)]);
       }
-    });
+
+      if (resStories.data) {
+        setStories(resStories.data as WebStory[]);
+      }
+      setLoading(false);
+    }
+    loadData();
   }, []);
 
   const storiesFiltradas = categoriaSelecionada === 'Todas'
-    ? MOCK_STORIES
-    : MOCK_STORIES.filter(s => s.categoria === categoriaSelecionada);
+    ? stories
+    : stories.filter(s => s.categoria === categoriaSelecionada);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return;

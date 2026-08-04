@@ -6,10 +6,11 @@ import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag } from 'lucide-react';
+import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag, PlaySquare } from 'lucide-react';
 import { getWebhookUrl, setWebhookUrl, sendWebhookPayload, getNewsWebhookUrl, setNewsWebhookUrl, sendNewsWebhookPayload } from '@/lib/webhook';
 import CategoryManagerModal from '@/components/admin/CategoryManagerModal';
 import BannerManagerModal from '@/components/admin/BannerManagerModal';
+import WebStoriesManagerModal from '@/components/admin/WebStoriesManagerModal';
 
 interface DashboardProps {
   onLogout: () => void;
@@ -20,6 +21,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [loading, setLoading] = useState(true);
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isWebStoriesModalOpen, setIsWebStoriesModalOpen] = useState(false);
 
   // Configurações do Digital Signage (Modo TV)
   const savedConfigRaw = localStorage.getItem('tv_signage_config');
@@ -538,6 +540,14 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             </button>
 
             <button
+              onClick={() => setIsWebStoriesModalOpen(true)}
+              className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
+            >
+              <PlaySquare size={15} className="text-brand-laranja" />
+              Gestão de Web Stories
+            </button>
+
+            <button
               onClick={() => setIsBannerModalOpen(true)}
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
@@ -634,6 +644,12 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       <CategoryManagerModal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
+      />
+
+      {/* Modal de Gestão de Web Stories */}
+      <WebStoriesManagerModal
+        isOpen={isWebStoriesModalOpen}
+        onClose={() => setIsWebStoriesModalOpen(false)}
       />
     </div>
   );
