@@ -76,5 +76,6 @@ export interface WebStory {
   corCategoria: string;
   capaUrl: string;
   criadoEm: string;
+  corpo?: string;
   slides: StorySlide[];
 }

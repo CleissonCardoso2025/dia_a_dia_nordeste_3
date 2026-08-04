@@ -16,6 +16,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
   const [paused, setPaused] = useState(false);
   const [copiado, setCopiado] = useState(false);
   const [shareMenuAberto, setShareMenuAberto] = useState(false);
+  const [leituraAberta, setLeituraAberta] = useState(false);
 
   const isPausedRef = useRef(paused);
   isPausedRef.current = paused;
@@ -26,6 +27,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
     setProgress(0);
     setPaused(false);
     setShareMenuAberto(false);
+    setLeituraAberta(false);
   }, [story]);
 
   const proximoSlide = useCallback(() => {
@@ -47,7 +49,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
 
   // Timer do slide com barra de progresso
   useEffect(() => {
-    if (!story || paused || shareMenuAberto) return;
+    if (!story || paused || shareMenuAberto || leituraAberta) return;
 
     const step = 50; // atualiza a cada 50ms
     const timer = setInterval(() => {
@@ -61,7 +63,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
     }, step);
 
     return () => clearInterval(timer);
-  }, [story, slideIndex, paused, shareMenuAberto, proximoSlide]);
+  }, [story, slideIndex, paused, shareMenuAberto, leituraAberta, proximoSlide]);
 
   if (!story) return null;
 
@@ -251,19 +253,58 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
               </motion.div>
             </AnimatePresence>
 
-            {/* Link Saiba Mais */}
-            {currentSlide.linkSaibaMais && (
-              <a
-                href={currentSlide.linkSaibaMais}
-                target="_blank"
-                rel="noopener noreferrer"
+            {/* Link Saiba Mais ou Corpo da Notícia */}
+            {(currentSlide.linkSaibaMais || story.corpo) && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // Evita avançar slide
+                  if (story.corpo) {
+                    setLeituraAberta(true);
+                  } else if (currentSlide.linkSaibaMais) {
+                    window.open(currentSlide.linkSaibaMais, '_blank');
+                  }
+                }}
                 className="flex items-center justify-center gap-2 w-full rounded-full bg-brand-laranja py-3 text-sm font-bold text-white hover:bg-brand-laranja-dark transition-all shadow-lg active:scale-98"
               >
-                <span>Ver matéria completa</span>
+                <span>Ler matéria completa</span>
                 <ExternalLink size={15} />
-              </a>
+              </button>
             )}
           </div>
+
+          {/* Modal Overlay do Corpo da Notícia */}
+          <AnimatePresence>
+            {leituraAberta && story.corpo && (
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 100 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="absolute inset-0 z-40 bg-brand-surface flex flex-col"
+                onClick={(e) => e.stopPropagation()} // Impede que o clique passe para a story
+              >
+                <div className="flex items-center justify-between p-4 border-b border-brand-border bg-brand-surface sticky top-0 z-10">
+                  <span className="font-bold text-brand-creme truncate flex-1 mr-4">
+                    {story.titulo}
+                  </span>
+                  <button
+                    onClick={() => setLeituraAberta(false)}
+                    className="p-2 bg-brand-grafite text-brand-muted hover:text-brand-creme rounded-full shrink-0"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+                
+                <div className="flex-1 overflow-y-auto p-5 text-brand-creme prose prose-invert max-w-none">
+                  {/<[a-z][\s\S]*>/i.test(story.corpo) ? (
+                    <div dangerouslySetInnerHTML={{ __html: story.corpo }} />
+                  ) : (
+                    <div className="whitespace-pre-wrap font-sans text-base leading-relaxed">{story.corpo}</div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Popover de Compartilhamento Rápido */}
           <AnimatePresence>

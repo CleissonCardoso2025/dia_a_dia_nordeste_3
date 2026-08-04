@@ -22,11 +22,13 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
     titulo: string;
     categoriaId: string;
     capaUrl: string;
+    corpo: string;
     slides: StorySlide[];
   }>({
     titulo: '',
     categoriaId: '',
     capaUrl: '',
+    corpo: '',
     slides: [],
   });
 
@@ -89,13 +91,14 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
       categoria: cat.nome,
       corCategoria: cat.cor_hex,
       capaUrl: form.capaUrl,
+      corpo: form.corpo || null,
       slides: form.slides
     });
 
     if (error) {
       alert('Erro ao salvar story: ' + error.message);
     } else {
-      setForm({ titulo: '', categoriaId: '', capaUrl: '', slides: [] });
+      setForm({ titulo: '', categoriaId: '', capaUrl: '', corpo: '', slides: [] });
       setMostrarForm(false);
       carregarDados();
     }
@@ -255,6 +258,24 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
                       <img src={form.capaUrl} alt="Capa preview" className="w-full h-full object-cover" />
                     </div>
                   )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-brand-creme mb-2">
+                    Corpo da Notícia (Opcional)
+                  </label>
+                  <div className="bg-brand-grafite border border-brand-border rounded-xl p-2 min-h-75">
+                    <textarea
+                      value={form.corpo}
+                      onChange={e => setForm({ ...form, corpo: e.target.value })}
+                      rows={12}
+                      className="w-full h-full rounded-lg bg-transparent px-3 py-2.5 text-brand-creme font-mono text-sm focus:outline-none transition-colors resize-y"
+                      placeholder="<p>Escreva ou cole o HTML da matéria aqui...</p>"
+                    />
+                  </div>
+                  <p className="text-xs text-brand-muted mt-2">
+                    Se preenchido, os slides ganharão um botão "Ler matéria completa" que abrirá esse texto.
+                  </p>
                 </div>
 
                 {/* Slides Section */}

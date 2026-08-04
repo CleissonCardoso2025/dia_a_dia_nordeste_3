@@ -140,12 +140,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://diaadianordeste.com.br/categoria/geral</loc>
-    
-    <changefreq>hourly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://diaadianordeste.com.br/categoria/politica</loc>
     
     <changefreq>hourly</changefreq>
@@ -195,6 +189,12 @@
   </url>
   <url>
     <loc>https://diaadianordeste.com.br/categoria/tecnologia</loc>
+    
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://diaadianordeste.com.br/categoria/geral</loc>
     
     <changefreq>hourly</changefreq>
     <priority>0.8</priority>
