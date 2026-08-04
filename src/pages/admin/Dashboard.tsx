@@ -6,8 +6,9 @@ import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone } from 'lucide-react';
+import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag } from 'lucide-react';
 import { getWebhookUrl, setWebhookUrl, sendWebhookPayload, getNewsWebhookUrl, setNewsWebhookUrl, sendNewsWebhookPayload } from '@/lib/webhook';
+import CategoryManagerModal from '@/components/admin/CategoryManagerModal';
 import BannerManagerModal from '@/components/admin/BannerManagerModal';
 
 interface DashboardProps {
@@ -18,6 +19,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [noticias, setNoticias] = useState<Partial<Noticia>[]>([]);
   const [loading, setLoading] = useState(true);
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   // Configurações do Digital Signage (Modo TV)
   const savedConfigRaw = localStorage.getItem('tv_signage_config');
@@ -528,6 +530,14 @@ export default function Dashboard({ onLogout }: DashboardProps) {
           <h2 className="font-titulo font-bold text-brand-creme text-lg">Notícias do Portal</h2>
           <div className="flex items-center gap-3">
             <button
+              onClick={() => setIsCategoryModalOpen(true)}
+              className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
+            >
+              <Tag size={15} className="text-brand-laranja" />
+              Gestão de Categorias
+            </button>
+
+            <button
               onClick={() => setIsBannerModalOpen(true)}
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
@@ -618,6 +628,12 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       <BannerManagerModal
         isOpen={isBannerModalOpen}
         onClose={() => setIsBannerModalOpen(false)}
+      />
+
+      {/* Modal de Gestão de Categorias */}
+      <CategoryManagerModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
       />
     </div>
   );

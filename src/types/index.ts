@@ -5,6 +5,7 @@ export interface Categoria {
   nome: string;
   slug: string;
   cor_hex: string;
+  tipo?: 'municipio' | 'editorial';
 }
 
 export interface Autor {

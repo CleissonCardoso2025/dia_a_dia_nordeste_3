@@ -15,13 +15,6 @@ function slugify(texto: string) {
     .replace(/\s+/g, '-');
 }
 
-const MUNICIPIONS_SLUGS = [
-  'adustina', 'antas', 'banzae', 'cicero-dantas', 'cipo', 'coronel-joao-sa',
-  'euclides-da-cunha', 'fatima', 'heliopolis', 'jeremoabo', 'nova-soure',
-  'novo-triunfo', 'paripiranga', 'pedro-alexandre', 'ribeira-do-amparo',
-  'ribeira-do-pombal', 'santa-brigida', 'sitio-do-quinto'
-];
-
 export default function ArticleEditor() {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
@@ -178,8 +171,8 @@ export default function ArticleEditor() {
     return <div className="min-h-screen bg-brand-grafite flex items-center justify-center text-brand-muted">Carregando notícia...</div>;
   }
 
-  const secoesEditoriais = categorias.filter(c => !MUNICIPIONS_SLUGS.includes(c.slug));
-  const municipiosRegiao = categorias.filter(c => MUNICIPIONS_SLUGS.includes(c.slug));
+  const secoesEditoriais = categorias.filter(c => c.tipo === 'editorial');
+  const municipiosRegiao = categorias.filter(c => c.tipo === 'municipio');
 
   return (
     <div className="min-h-screen bg-brand-grafite text-brand-creme">

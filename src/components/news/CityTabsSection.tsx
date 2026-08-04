@@ -19,8 +19,7 @@ export default function CityTabsSection({
   useEffect(() => {
     getCategorias().then(({ data }) => {
       if (data && data.length > 0) {
-        const categoriasIgnoradas = ['Saúde', 'Educação', 'Esportes', 'Cultura', 'Economia', 'Tecnologia'];
-        const cats = (data as Categoria[]).filter(c => !categoriasIgnoradas.includes(c.nome));
+        const cats = (data as Categoria[]).filter(c => c.tipo !== 'editorial');
         setCategorias(cats);
 
         // Se uma categoria especifica foi solicitada (ex: a cidade da materia atual), seleciona ela.

@@ -1,16 +1,25 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
-import type { WebStory } from '@/types';
+import { getCategorias } from '@/lib/supabase';
+import type { WebStory, Categoria } from '@/types';
 import { MOCK_STORIES } from '@/data/mockStories';
 import WebStoryModal from './WebStoryModal';
-
-const CATEGORIAS_STORIES = ['Todas', 'Saúde', 'Educação', 'Esportes', 'Cultura', 'Economia', 'Tecnologia'];
 
 export default function WebStoriesSection() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('Todas');
   const [storyModal, setStoryModal] = useState<WebStory | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [categoriasEditoriais, setCategoriasEditoriais] = useState<string[]>(['Todas']);
+
+  useEffect(() => {
+    getCategorias().then(({ data }) => {
+      if (data) {
+        const editoriais = (data as Categoria[]).filter(c => c.tipo === 'editorial');
+        setCategoriasEditoriais(['Todas', ...editoriais.map(e => e.nome)]);
+      }
+    });
+  }, []);
 
   const storiesFiltradas = categoriaSelecionada === 'Todas'
     ? MOCK_STORIES
@@ -64,7 +73,7 @@ export default function WebStoriesSection() {
 
       {/* Filtro por Categorias de Editoriais */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-        {CATEGORIAS_STORIES.map(cat => {
+        {categoriasEditoriais.map(cat => {
           const active = categoriaSelecionada === cat;
           return (
             <button

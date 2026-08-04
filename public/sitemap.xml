@@ -146,6 +146,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://diaadianordeste.com.br/categoria/politica</loc>
+    
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://diaadianordeste.com.br/categoria/policial</loc>
+    
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://diaadianordeste.com.br/categoria/ambiente</loc>
+    
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://diaadianordeste.com.br/categoria/saude</loc>
     
     <changefreq>hourly</changefreq>
@@ -182,22 +200,10 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://diaadianordeste.com.br/categoria/politica</loc>
-    
-    <changefreq>hourly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://diaadianordeste.com.br/categoria/policial</loc>
-    
-    <changefreq>hourly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://diaadianordeste.com.br/categoria/ambiente</loc>
-    
-    <changefreq>hourly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://diaadianordeste.com.br/noticia/ribeira-do-pombal/prefeitura-de-ribeira-do-pombal-anuncia-dia-do-evangelico-2026-com-duas-noites-d</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://diaadianordeste.com.br/noticia/ribeira-do-pombal/ribeira-do-pombal-novo-polo-comercial</loc>

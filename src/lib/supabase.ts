@@ -90,6 +90,10 @@ export async function getCategorias() {
   return { data: ordenadas, error: null };
 }
 
+export async function insertCategoria(categoria: Omit<Categoria, 'id'>) {
+  return supabase.from('categorias').insert([categoria]);
+}
+
 export async function getBanners(posicao: string) {
   // Checa em segundo plano se algum banner acabou de vencer e avisa no webhook do n8n
   verificarEAlertarBannersExpirados().catch(err => console.error('[Banner Expirado Check]', err));
