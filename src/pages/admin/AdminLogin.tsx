@@ -23,7 +23,8 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
       password: senha,
     });
     if (error) {
-      setErro('E-mail ou senha inválidos.');
+      console.error("Login erro:", error);
+      setErro(error.message === 'Invalid login credentials' ? 'E-mail ou senha inválidos.' : `Erro: ${error.message}`);
     } else {
       onLogin();
     }
