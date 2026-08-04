@@ -1,20 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Categoria } from '@/types';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://mkbnqyhvaozqfpmcyoyw.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rYm5xeWh2YW96cWZwbWN5b3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1OTg1MDgsImV4cCI6MjEwMTE3NDUwOH0.CLof_mxTVCHjJqXnCorz2EdyXQ6EeAbgDO0YBhAsDb4';
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
-    '[Supabase] Variáveis de ambiente não configuradas. ' +
-    'Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env'
-  );
-}
-
-export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder-anon-key'
-);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // ─────────────────────────────────────────────
 // Helpers de query
