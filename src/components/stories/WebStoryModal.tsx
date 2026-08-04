@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Share2, ChevronLeft, ChevronRight, ExternalLink, Check, Copy } from 'lucide-react';
 import type { WebStory } from '@/types';
@@ -21,6 +21,15 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
   const isPausedRef = useRef(paused);
   isPausedRef.current = paused;
 
+  const slides = useMemo(() => {
+    if (!story) return [];
+    try {
+      return Array.isArray(story.slides) ? story.slides : (typeof story.slides === 'string' ? JSON.parse(story.slides) : []);
+    } catch {
+      return [];
+    }
+  }, [story]);
+
   // Reseta estado ao abrir nova story
   useEffect(() => {
     setSlideIndex(0);
@@ -31,14 +40,14 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
   }, [story]);
 
   const proximoSlide = useCallback(() => {
-    if (!story) return;
-    if (slideIndex < story.slides.length - 1) {
+    if (!story || slides.length === 0) return;
+    if (slideIndex < slides.length - 1) {
       setSlideIndex(prev => prev + 1);
       setProgress(0);
     } else {
       onClose();
     }
-  }, [slideIndex, story, onClose]);
+  }, [slideIndex, story, slides.length, onClose]);
 
   const slideAnterior = useCallback(() => {
     if (slideIndex > 0) {
@@ -65,9 +74,9 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
     return () => clearInterval(timer);
   }, [story, slideIndex, paused, shareMenuAberto, leituraAberta, proximoSlide]);
 
-  if (!story) return null;
+  if (!story || slides.length === 0) return null;
 
-  const currentSlide = story.slides[slideIndex];
+  const currentSlide = slides[slideIndex] || slides[0];
 
   // Compartilhamento
   const handleShare = async (e: React.MouseEvent) => {
@@ -147,7 +156,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
           <div className="relative z-20 p-4 space-y-3">
             {/* Segmentos de Progresso */}
             <div className="flex gap-1.5 w-full">
-              {story.slides.map((_, idx) => {
+              {slides.map((_, idx) => {
                 let barWidth = '0%';
                 if (idx < slideIndex) barWidth = '100%';
                 else if (idx === slideIndex) barWidth = `${progress}%`;
@@ -224,7 +233,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
               <ChevronLeft size={20} />
             </button>
           )}
-          {slideIndex < story.slides.length - 1 && (
+          {slideIndex < slides.length - 1 && (
             <button
               onClick={proximoSlide}
               className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 z-20 h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white border border-white/20 hover:bg-black/70"
