@@ -1,13 +1,13 @@
 # ─────────────────────────────────────────────
 # Stage 1: Build
 # ─────────────────────────────────────────────
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
 # Instalar dependências (camada em cache separada)
 COPY package*.json ./
-RUN npm ci --frozen-lockfile
+RUN npm install
 
 # Copiar código-fonte + .env (variáveis já embarcadas no build)
 COPY . .

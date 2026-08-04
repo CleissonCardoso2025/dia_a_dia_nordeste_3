@@ -65,7 +65,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative h-[55vh] min-h-[420px] sm:h-[70vh] sm:min-h-120 max-h-170 overflow-hidden rounded-2xl"
+      className="relative h-[55vh] min-h-105 sm:h-[70vh] sm:min-h-120 max-h-170 overflow-hidden rounded-2xl"
       aria-label="Destaque principal"
     >
       {/* Ken Burns Image */}
