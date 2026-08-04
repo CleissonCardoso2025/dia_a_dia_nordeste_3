@@ -312,9 +312,9 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {stories.map(story => (
                 <div key={story.id} className="bg-brand-grafite rounded-xl overflow-hidden border border-brand-border group">
-                  <div className="relative aspect-[9/16]">
+                  <div className="relative aspect-9/16">
                     <img src={story.capaUrl} alt={story.titulo} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute top-2 left-2">
                       <span className="px-2 py-1 rounded text-[10px] font-bold text-white shadow-sm" style={{ backgroundColor: story.corCategoria }}>
                         {story.categoria}
