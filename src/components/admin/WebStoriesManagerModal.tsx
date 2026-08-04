@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase, insertWebStory, deleteWebStory } from '@/lib/supabase';
 import type { WebStory, StorySlide, Categoria } from '@/types';
-import { Plus, Trash2, X, PlaySquare, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash2, X, PlaySquare, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 
 interface WebStoriesManagerModalProps {
   isOpen: boolean;
@@ -15,6 +15,7 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
 
   const [mostrarForm, setMostrarForm] = useState(false);
   const [salvando, setSalvando] = useState(false);
+  const [uploadingState, setUploadingState] = useState<{ capa: boolean, slides: Record<number, boolean> }>({ capa: false, slides: {} });
   
   const [form, setForm] = useState<{
     titulo: string;
@@ -100,6 +101,49 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
     setSalvando(false);
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'capa' | 'slide', index?: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (type === 'capa') {
+      setUploadingState(prev => ({ ...prev, capa: true }));
+    } else if (index !== undefined) {
+      setUploadingState(prev => ({ ...prev, slides: { ...prev.slides, [index]: true } }));
+    }
+
+    try {
+      const fileExt = file.name.split('.').pop() || 'jpg';
+      const fileName = `webstories/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('imagens')
+        .upload(fileName, file, { cacheControl: '3600', upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabase.storage
+        .from('imagens')
+        .getPublicUrl(fileName);
+
+      if (publicUrlData?.publicUrl) {
+        if (type === 'capa') {
+          setForm(prev => ({ ...prev, capaUrl: publicUrlData.publicUrl }));
+        } else if (index !== undefined) {
+          updateSlide(index, 'imagemUrl', publicUrlData.publicUrl);
+        }
+      }
+    } catch (err: unknown) {
+      const errorObj = err as { message?: string };
+      alert('Erro ao enviar imagem: ' + (errorObj.message || 'Falha no upload'));
+    } finally {
+      if (type === 'capa') {
+        setUploadingState(prev => ({ ...prev, capa: false }));
+      } else if (index !== undefined) {
+        setUploadingState(prev => ({ ...prev, slides: { ...prev.slides, [index]: false } }));
+      }
+    }
+  };
+
   const handleDelete = async (id: string) => {
     if (!confirm('Tem certeza que deseja excluir este Story?')) return;
     
@@ -182,17 +226,30 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-brand-muted mb-1">URL da Imagem de Capa *</label>
-                  <input
-                    type="url"
-                    required
-                    value={form.capaUrl}
-                    onChange={e => setForm({ ...form, capaUrl: e.target.value })}
-                    className="w-full bg-brand-surface border border-brand-border rounded-lg px-4 py-2 text-brand-creme focus:outline-none focus:border-brand-laranja"
-                    placeholder="https://..."
-                  />
+                  <label className="block text-xs font-semibold text-brand-muted mb-1">Imagem de Capa *</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="url"
+                      required
+                      value={form.capaUrl}
+                      onChange={e => setForm({ ...form, capaUrl: e.target.value })}
+                      className="flex-1 bg-brand-surface border border-brand-border rounded-lg px-4 py-2 text-brand-creme focus:outline-none focus:border-brand-laranja"
+                      placeholder="URL da imagem (https://...)"
+                    />
+                    <label className="flex items-center gap-2 bg-brand-grafite border border-brand-border hover:border-brand-laranja text-brand-creme px-4 py-2 rounded-lg cursor-pointer transition-colors shrink-0">
+                      {uploadingState.capa ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+                      <span className="text-sm font-bold">{uploadingState.capa ? 'Enviando...' : 'Upload'}</span>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={e => handleFileUpload(e, 'capa')}
+                        disabled={uploadingState.capa}
+                      />
+                    </label>
+                  </div>
                   {form.capaUrl && (
-                    <div className="mt-2 w-32 h-48 rounded-lg overflow-hidden border border-brand-border">
+                    <div className="mt-2 w-32 h-48 rounded-lg overflow-hidden border border-brand-border relative group">
                       <img src={form.capaUrl} alt="Capa preview" className="w-full h-full object-cover" />
                     </div>
                   )}
@@ -232,18 +289,33 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                           <div className="md:col-span-3">
                             <label className="block text-xs font-semibold text-brand-muted mb-1">Imagem URL *</label>
-                            <input
-                              type="url"
-                              required
-                              value={slide.imagemUrl}
-                              onChange={e => updateSlide(index, 'imagemUrl', e.target.value)}
-                              className="w-full bg-brand-grafite border border-brand-border rounded-lg px-3 py-1.5 text-sm text-brand-creme"
-                            />
+                            
+                            <div className="flex gap-2">
+                              <input
+                                type="url"
+                                required
+                                value={slide.imagemUrl}
+                                onChange={e => updateSlide(index, 'imagemUrl', e.target.value)}
+                                className="w-full bg-brand-grafite border border-brand-border rounded-lg px-3 py-1.5 text-sm text-brand-creme"
+                                placeholder="URL da imagem..."
+                              />
+                              <label className="flex items-center justify-center bg-brand-grafite border border-brand-border hover:border-brand-laranja text-brand-creme px-2 py-1.5 rounded-lg cursor-pointer transition-colors shrink-0" title="Fazer Upload">
+                                {uploadingState.slides[index] ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+                                <input 
+                                  type="file" 
+                                  accept="image/*" 
+                                  className="hidden" 
+                                  onChange={e => handleFileUpload(e, 'slide', index)}
+                                  disabled={uploadingState.slides[index]}
+                                />
+                              </label>
+                            </div>
+
                             {slide.imagemUrl ? (
                               <img src={slide.imagemUrl} className="mt-2 w-full h-32 object-cover rounded-lg border border-brand-border" />
                             ) : (
-                              <div className="mt-2 w-full h-32 bg-brand-grafite rounded-lg border border-brand-border flex items-center justify-center text-brand-muted">
-                                <ImageIcon size={24} />
+                              <div className="mt-2 w-full h-32 bg-brand-grafite rounded-lg border border-brand-border flex items-center justify-center text-brand-muted relative">
+                                {uploadingState.slides[index] ? <Loader2 size={24} className="animate-spin text-brand-laranja" /> : <ImageIcon size={24} />}
                               </div>
                             )}
                           </div>
