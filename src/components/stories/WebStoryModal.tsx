@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Share2, ChevronLeft, ChevronRight, ExternalLink, Check, Copy } from 'lucide-react';
-import type { WebStory } from '@/types';
+import type { WebStory, StorySlide } from '@/types';
 
 interface WebStoryModalProps {
   story: WebStory | null;
@@ -21,7 +21,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
   const isPausedRef = useRef(paused);
   isPausedRef.current = paused;
 
-  const slides = useMemo(() => {
+  const slides: StorySlide[] = useMemo(() => {
     if (!story) return [];
     try {
       return Array.isArray(story.slides) ? story.slides : (typeof story.slides === 'string' ? JSON.parse(story.slides) : []);
