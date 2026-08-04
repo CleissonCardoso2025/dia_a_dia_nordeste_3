@@ -6,18 +6,20 @@
    Tokens de design — Tailwind v4 @theme
 ───────────────────────────────────────────── */
 @theme {
-  /* Cores da marca */
-  --color-brand-grafite:      #1A1F2B;
+  /* Cores da marca dinâmicas (Light/Dark via CSS vars) */
+  --color-brand-grafite:      var(--theme-bg);
+  --color-brand-creme:        var(--theme-text);
+  --color-brand-surface:      var(--theme-surface);
+  --color-brand-border:       var(--theme-border);
+  --color-brand-muted:        var(--theme-muted);
+
+  /* Cores estáticas da marca */
   --color-brand-laranja:      #D9491F;
   --color-brand-laranja-light: #F26540;
   --color-brand-laranja-dark:  #B33A18;
   --color-brand-verde:        #1E5C4E;
   --color-brand-verde-light:  #267A67;
   --color-brand-verde-dark:   #164438;
-  --color-brand-creme:        #F0E4C8;
-  --color-brand-muted:        #8896A5;
-  --color-brand-surface:      #232838;
-  --color-brand-border:       #2E3547;
 
   /* Fontes */
   --font-titulo: "Baloo 2", sans-serif;
@@ -61,7 +63,25 @@
 ───────────────────────────────────────────── */
 @layer base {
   :root {
+    color-scheme: light;
+    
+    /* Variações Light Mode (Padrão) */
+    --theme-bg: #F8FAFC;
+    --theme-text: #0F172A;
+    --theme-surface: #FFFFFF;
+    --theme-border: #E2E8F0;
+    --theme-muted: #64748B;
+  }
+
+  .dark {
     color-scheme: dark;
+    
+    /* Variações Dark Mode */
+    --theme-bg: #1A1F2B;
+    --theme-text: #F0E4C8;
+    --theme-surface: #232838;
+    --theme-border: #2E3547;
+    --theme-muted: #8896A5;
   }
 
   html {
