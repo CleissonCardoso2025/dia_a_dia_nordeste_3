@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { FileText, Eye, PlusCircle, LogOut, TrendingUp } from 'lucide-react';
@@ -20,6 +20,9 @@ interface DashboardProps {
 export default function Dashboard({ onLogout }: DashboardProps) {
   const [noticias, setNoticias] = useState<Partial<Noticia>[]>([]);
   const [loading, setLoading] = useState(true);
+  const [totalNoticias, setTotalNoticias] = useState(0);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const noticiasPorPagina = 10;
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isWebStoriesModalOpen, setIsWebStoriesModalOpen] = useState(false);
@@ -42,17 +45,25 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [testandoWebhook, setTestandoWebhook] = useState(false);
   const [webhookResultadoTeste, setWebhookResultadoTeste] = useState<{ ok: boolean; msg: string } | null>(null);
 
-  useEffect(() => {
-    supabase
+  const fetchNoticias = useCallback(async () => {
+    setLoading(true);
+    const from = (paginaAtual - 1) * noticiasPorPagina;
+    const to = from + noticiasPorPagina - 1;
+
+    const { data, count } = await supabase
       .from('noticias')
-      .select('id,titulo,slug,data_publicacao,views,categorias(nome,cor_hex)')
+      .select('id,titulo,slug,data_publicacao,views,categorias(nome,cor_hex)', { count: 'exact' })
       .order('data_publicacao', { ascending: false })
-      .limit(20)
-      .then(({ data }) => {
-        if (data) setNoticias(data as unknown as Partial<Noticia>[]);
-        setLoading(false);
-      });
-  }, []);
+      .range(from, to);
+
+    if (data) setNoticias(data as unknown as Partial<Noticia>[]);
+    if (count !== null) setTotalNoticias(count);
+    setLoading(false);
+  }, [paginaAtual]);
+
+  useEffect(() => {
+    fetchNoticias();
+  }, [fetchNoticias]);
 
   const salvarConfiguracoesTV = () => {
     const config = { tempoPorSlide, mostrarQrCode, fonteNoticias };
@@ -642,6 +653,29 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             </table>
           )}
         </div>
+
+        {/* Paginação */}
+        {totalNoticias > noticiasPorPagina && (
+          <div className="flex items-center justify-between border border-brand-border bg-brand-surface p-4 rounded-xl mt-4">
+            <button
+              onClick={() => setPaginaAtual(p => Math.max(1, p - 1))}
+              disabled={paginaAtual === 1}
+              className="px-4 py-2 bg-brand-grafite text-brand-creme text-sm font-semibold rounded-lg disabled:opacity-50 hover:bg-brand-laranja hover:text-white transition-colors cursor-pointer"
+            >
+              Anterior
+            </button>
+            <span className="text-brand-creme text-sm font-medium">
+              Página {paginaAtual} de {Math.ceil(totalNoticias / noticiasPorPagina)}
+            </span>
+            <button
+              onClick={() => setPaginaAtual(p => Math.min(Math.ceil(totalNoticias / noticiasPorPagina), p + 1))}
+              disabled={paginaAtual === Math.ceil(totalNoticias / noticiasPorPagina)}
+              className="px-4 py-2 bg-brand-grafite text-brand-creme text-sm font-semibold rounded-lg disabled:opacity-50 hover:bg-brand-laranja hover:text-white transition-colors cursor-pointer"
+            >
+              Próxima
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Modal de Gestão de Banners & Relatório de Audiência */}
