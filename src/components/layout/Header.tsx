@@ -110,23 +110,6 @@ export default function Header() {
             {menuAberto ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
-        {/* Mobile Category Bar */}
-        <div className="sm:hidden flex overflow-x-auto gap-2 py-2 px-4">
-          {categorias.map(cat => (
-            <NavLink
-              key={cat.id}
-              to={`/categoria/${cat.slug}`}
-              onClick={() => setMenuAberto(false)}
-              className={({ isActive }) =>
-                `whitespace-nowrap rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-                  isActive ? 'bg-brand-laranja text-white' : 'text-brand-muted hover:bg-brand-surface hover:text-brand-creme'
-                }`}
-              style={({ isActive }) => (isActive ? { backgroundColor: cat.cor_hex } : {})}
-            >
-              {cat.nome}
-            </NavLink>
-          ))}
-        </div>
       </div>
 
 
