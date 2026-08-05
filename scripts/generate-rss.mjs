@@ -15,7 +15,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import { loadEnv } from 'vite';
-import { readFileSync, existsSync } from 'fs';
+
 
 // Tenta carregar variáveis manualmente caso o Docker/Dokploy as oculte
 const envFiles = ['../.env', '../.env.production'];
