@@ -25,6 +25,7 @@ export default function ArticleEditor() {
   const [loading, setLoading] = useState(false);
   const [salvando, setSalvando] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [modoImagem, setModoImagem] = useState<'upload' | 'url'>('upload');
 
   // Redes Sociais selecionadas para o Webhook do n8n
@@ -72,8 +73,7 @@ export default function ArticleEditor() {
     }));
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    let file = e.target.files?.[0];
+  const processFile = async (file: File | undefined | null) => {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
@@ -89,15 +89,15 @@ export default function ArticleEditor() {
     setUploading(true);
     try {
       // Converte para WebP antes do upload
-      file = await convertToWebP(file);
+      const finalFile = await convertToWebP(file);
 
-      const fileExt = file.name.split('.').pop() || 'webp';
+      const fileExt = finalFile.name.split('.').pop() || 'webp';
       const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
       const filePath = `noticias/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('imagens')
-        .upload(filePath, file, { cacheControl: '3600', upsert: true });
+        .upload(filePath, finalFile, { cacheControl: '3600', upsert: true });
 
       if (uploadError) throw uploadError;
 
@@ -117,6 +117,29 @@ export default function ArticleEditor() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await processFile(e.target.files?.[0]);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      await processFile(e.dataTransfer.files[0]);
+    }
+  };
+
   const toggleRede = (rede: RedeSocialDestino) => {
     setDestinosRedes(prev =>
       prev.includes(rede) ? prev.filter(r => r !== rede) : [...prev, rede]
@@ -129,10 +152,13 @@ export default function ArticleEditor() {
 
     const dataPublicacao = form.data_publicacao || new Date().toISOString();
 
-    const payload = {
+    const payload: Partial<Noticia> & { fts?: any } = {
       ...form,
       data_publicacao: dataPublicacao,
     };
+
+    // Remove campos que não podem ser atualizados diretamente (gerados pelo banco)
+    delete payload.fts;
 
     let error;
     if (isEdicao) {
@@ -291,7 +317,16 @@ export default function ArticleEditor() {
           {/* Opção 1: Upload de Arquivo */}
           {modoImagem === 'upload' ? (
             <div className="space-y-3">
-              <label className="relative flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-brand-border hover:border-brand-laranja rounded-xl cursor-pointer bg-brand-grafite/50 hover:bg-brand-grafite transition-all group">
+              <label 
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`relative flex flex-col items-center justify-center w-full h-36 border-2 border-dashed rounded-xl cursor-pointer transition-all group ${
+                  isDragging 
+                    ? 'border-brand-laranja bg-brand-laranja/10' 
+                    : 'border-brand-border hover:border-brand-laranja bg-brand-grafite/50 hover:bg-brand-grafite'
+                }`}
+              >
                 <input
                   type="file"
                   accept="image/*"
