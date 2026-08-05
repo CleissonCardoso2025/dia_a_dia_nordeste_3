@@ -72,7 +72,7 @@ export default function CityTabsSection({
         <button 
           onClick={() => scroll('left')}
           aria-label="Rolar para esquerda"
-          className="absolute left-0 top-1/2 -translate-y-1/2 -mt-1 z-20 h-8 w-8 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme shadow-lg opacity-0 group-hover:opacity-100 transition-all hidden sm:flex hover:bg-brand-laranja hover:text-white hover:border-brand-laranja cursor-pointer"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -mt-1 z-20 h-8 w-8 items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme shadow-lg opacity-0 group-hover:opacity-100 transition-all hidden sm:flex hover:bg-brand-laranja hover:text-white hover:border-brand-laranja cursor-pointer"
         >
           <ChevronLeft size={16} />
         </button>
@@ -112,7 +112,7 @@ export default function CityTabsSection({
         <button 
           onClick={() => scroll('right')}
           aria-label="Rolar para direita"
-          className="absolute right-0 top-1/2 -translate-y-1/2 -mt-1 z-20 h-8 w-8 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme shadow-lg opacity-0 group-hover:opacity-100 transition-all hidden sm:flex hover:bg-brand-laranja hover:text-white hover:border-brand-laranja cursor-pointer"
+          className="absolute right-0 top-1/2 -translate-y-1/2 -mt-1 z-20 h-8 w-8 items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme shadow-lg opacity-0 group-hover:opacity-100 transition-all hidden sm:flex hover:bg-brand-laranja hover:text-white hover:border-brand-laranja cursor-pointer"
         >
           <ChevronRight size={16} />
         </button>
