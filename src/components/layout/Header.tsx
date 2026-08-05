@@ -49,10 +49,10 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 bg-brand-grafite ${
         scrolled
-          ? 'bg-brand-grafite/95 backdrop-blur-md shadow-lg'
-          : 'bg-brand-grafite'
+          ? 'shadow-lg border-b border-brand-border'
+          : ''
       }`}
     >
       {/* Topo: logo + busca + ações */}
