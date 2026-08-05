@@ -304,7 +304,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
                   </button>
                 </div>
                 
-                <div className="flex-1 overflow-y-auto p-5 text-brand-creme prose prose-invert max-w-none">
+                <div className="flex-1 overflow-y-auto p-5 text-brand-creme prose dark:prose-invert max-w-none">
                   {/<[a-z][\s\S]*>/i.test(story.corpo) ? (
                     <div dangerouslySetInnerHTML={{ __html: story.corpo }} />
                   ) : (
