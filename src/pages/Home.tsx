@@ -52,7 +52,7 @@ export default function Home() {
           </div>
 
           {/* Sidebar */}
-          <div className="hidden lg:block w-72 shrink-0" id="mais-acessadas">
+          <div className="w-full lg:w-72 shrink-0 mt-8 lg:mt-0" id="mais-acessadas">
             <div className="sticky top-20">
               <Sidebar />
             </div>

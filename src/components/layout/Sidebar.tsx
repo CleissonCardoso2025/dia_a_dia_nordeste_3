@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Eye, TrendingUp, Clock, MessageCircle } from 'lucide-react';
+import { Eye, TrendingUp, Clock, MessageCircle, Instagram } from 'lucide-react';
 import { BannerPlaceholder } from '@/components/ui/Banner';
 import { getMaisAcessadas, getNoticias } from '@/lib/supabase';
 import { sidebarContainerVariants, sidebarItemVariants } from '@/animations/variants';
@@ -121,6 +121,28 @@ export default function Sidebar() {
           className="block w-full rounded-full bg-white py-2 text-center text-sm font-bold text-[#128C7E] hover:bg-white/90 transition-colors"
         >
           Entrar no Grupo →
+        </a>
+      </motion.div>
+
+      {/* ── CTA Instagram ── */}
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        className="rounded-xl bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] p-4 text-white shadow-lg border border-white/10"
+      >
+        <div className="flex items-center gap-2 mb-2">
+          <Instagram size={20} />
+          <span className="font-titulo font-bold text-base">Siga no Instagram</span>
+        </div>
+        <p className="text-sm text-white/90 mb-3">
+          Acompanhe nossos bastidores e notícias exclusivas no nosso perfil.
+        </p>
+        <a
+          href="https://instagram.com/diaadianordeste.ba"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full rounded-full bg-white py-2 text-center text-sm font-bold text-[#E1306C] hover:bg-white/90 transition-colors"
+        >
+          @diaadianordeste.ba →
         </a>
       </motion.div>
 
