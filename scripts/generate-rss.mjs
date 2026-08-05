@@ -124,54 +124,27 @@ async function main() {
       console.log(`[rss] ✅ Feeds de ${categorias.length} municípios gerados em public/rss-[municipio].xml`);
     }
 
-    // 4. Feed de Web Stories
-    const MOCK_STORIES = [
-      {
-        titulo: 'Avanços na Saúde do Nordeste: Novas Unidades Móveis',
-        categoria: 'Saúde',
-        capaUrl: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80',
-        slug: 'avancos-saude-nordeste',
-        data_publicacao: '2026-08-01T14:00:00Z',
-        resumo: 'Caravanas de Saúde Chegam ao Sertão e Telemedicina Integrada no SUS.',
-        conteudo: '<h2>Caravanas de Saúde Chegam ao Sertão</h2><p>Novos veículos equipados oferecem exames e consultas especializadas diretamente nas comunidades rurais do Semiárido.</p><h2>Telemedicina Integrada no SUS</h2><p>Pacientes agora contam com atendimento médico especializado via videoconferência em postos de saúde de todo o interior.</p>',
-      },
-      {
-        titulo: 'Escolas em Tempo Integral Batem Recordes de Matrículas',
-        categoria: 'Educação',
-        capaUrl: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
-        slug: 'escolas-tempo-integral-recorde',
-        data_publicacao: '2026-08-01T12:30:00Z',
-        resumo: 'Revolução no Ensino Público e Laboratórios Digitais de Robótica.',
-        conteudo: '<h2>Revolução no Ensino Público</h2><p>O modelo de escola em tempo integral expande e já atende 65% dos estudantes da rede pública no Semiárido.</p><h2>Laboratórios Digitais e Robótica</h2><p>Estudantes desenvolvem projetos tecnológicos para solucionar desafios do clima e da agricultura regional.</p>',
-      },
-      {
-        titulo: 'Atletas do Nordeste Conquistam Ouros em Campeonatos Nacionais',
-        categoria: 'Esportes',
-        capaUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
-        slug: 'atletas-nordeste-ouros',
-        data_publicacao: '2026-08-01T10:15:00Z',
-        resumo: 'Pódio no Atletismo e Artes Martiais no Sertão Baiano.',
-        conteudo: '<h2>Pódio no Atletismo e Artes Martiais</h2><p>Jovens promessas do desporto nordestino trazem medalhas de ouro em torneios nacionais de judô e atletismo.</p>',
-      },
-      {
-        titulo: 'Patrimônio Vivo: A Arte do Couro e do Forró no Sertão',
-        categoria: 'Cultura',
-        capaUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80',
-        slug: 'patrimonio-vivo-couro-forro',
-        data_publicacao: '2026-08-01T09:00:00Z',
-        resumo: 'Cultura Sertaneja Rumo ao Reconhecimento Global.',
-        conteudo: '<h2>Cultura Sertaneja Rumo ao Reconhecimento Global</h2><p>Mestres da xilogravura, artesanato em couro e repentistas ganham feira de arte internacional.</p>',
-      },
-    ];
+    // 4. Feed de Web Stories (buscando do Supabase)
+    const { data: webStories, error: wsError } = await supabase
+      .from('web_stories')
+      .select('*')
+      .order('criadoEm', { ascending: false })
+      .limit(20);
 
-    const noticiasWebStories = MOCK_STORIES.map(s => ({
+    if (wsError) {
+      console.error('[rss] Erro ao buscar Web Stories do Supabase:', wsError);
+    }
+
+    const listaWebStories = webStories || [];
+
+    const noticiasWebStories = listaWebStories.map(s => ({
       titulo: `[Web Story] ${s.titulo}`,
-      slug: s.slug,
-      data_publicacao: s.data_publicacao,
-      resumo: s.resumo,
-      conteudo: s.conteudo,
+      slug: s.id, // O ID é usado no lugar do slug pois Web Stories não tem página individual
+      data_publicacao: s.criadoEm,
+      resumo: s.corpo || 'Confira nosso Web Story.',
+      conteudo: `<p><img src="${s.capaUrl}" /></p><p>${s.corpo || ''}</p>`,
       imagem_url: s.capaUrl,
-      categorias: { nome: s.categoria, slug: 'web-stories' },
+      categorias: { nome: s.categoria || 'Web Stories', slug: 'web-stories' },
     }));
 
     const rssWebStories = gerarRssFeed(
