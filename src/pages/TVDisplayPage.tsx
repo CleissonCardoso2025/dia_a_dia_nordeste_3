@@ -8,45 +8,7 @@ import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-// Mocks padrão para garantir exibição impecável mesmo sem dados do banco
-const MOCK_TV_NOTICIAS: Partial<Noticia>[] = [
-  {
-    id: 'tv-1',
-    titulo: 'Grande Seca Impacta Mais de 10 Milhões de Nordestinos em 2025',
-    resumo: 'Especialistas alertam para o maior período de estiagem dos últimos 50 anos. Governo federal anuncia pacote emergencial de R$ 2 bilhões para combater os efeitos da crise hídrica.',
-    slug: 'seca-impacta-nordestinos-2025',
-    imagem_url: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1400&q=80',
-    data_publicacao: new Date().toISOString(),
-    categorias: { id: '1', nome: 'Ambiente', slug: 'ambiente', cor_hex: '#059669' },
-  },
-  {
-    id: 'tv-2',
-    titulo: 'Festival de Música do Nordeste Reúne Artistas de Todo o Brasil',
-    resumo: 'O maior festival de música regional do país acontece em Fortaleza reunindo grandes nomes do forró, axé e música popular nordestina.',
-    slug: 'festival-musica-nordeste-2025',
-    imagem_url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1400&q=80',
-    data_publicacao: new Date().toISOString(),
-    categorias: { id: '3', nome: 'Cultura', slug: 'cultura', cor_hex: '#8B5CF6' },
-  },
-  {
-    id: 'tv-3',
-    titulo: 'Economia do Nordeste Cresce e Atrai Novos Investimentos em Energia',
-    resumo: 'Com o potencial eólico e solar, a região Nordeste se consolida como o principal polo de energias renováveis do país, atraindo bilhões em investimentos.',
-    slug: 'economia-nordeste-energia-renovavel',
-    imagem_url: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1400&q=80',
-    data_publicacao: new Date().toISOString(),
-    categorias: { id: '4', nome: 'Economia', slug: 'economia', cor_hex: '#1E5C4E' },
-  },
-  {
-    id: 'tv-4',
-    titulo: 'Novos Projetos de Esporte e Inclusão Social em Municípios do Semiárido',
-    resumo: 'Iniciativas esportivas locais movimentam milhares de jovens, promovendo cidadania, saúde e descobrindo novos talentos regionais.',
-    slug: 'esporte-inclusao-semiarido',
-    imagem_url: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1400&q=80',
-    data_publicacao: new Date().toISOString(),
-    categorias: { id: '5', nome: 'Esportes', slug: 'esportes', cor_hex: '#D9491F' },
-  },
-];
+// Mocks removidos
 
 export default function TVDisplayPage() {
   const { categoria } = useParams<{ categoria?: string }>();
@@ -91,20 +53,12 @@ export default function TVDisplayPage() {
           if (data && data.length > 0) resultData = data as unknown as Partial<Noticia>[];
         } else {
           const { data } = await getNoticias(15);
-          if (data && data.length > 0) resultData = data as unknown as Partial<Noticia>[];
+          if (data && data.length > 0) {
+            resultData = data as unknown as Partial<Noticia>[];
+          }
         }
       } catch (err) {
         console.error('Erro ao carregar notícias no Modo TV:', err);
-      }
-
-      // Se não houver dados no banco, usa os mocks filtrados se houver categoria
-      if (resultData.length === 0) {
-        if (categoria) {
-          const filtrados = MOCK_TV_NOTICIAS.filter(n => n.categorias?.slug === categoria);
-          resultData = filtrados.length > 0 ? filtrados : MOCK_TV_NOTICIAS;
-        } else {
-          resultData = MOCK_TV_NOTICIAS;
-        }
       }
 
       setNoticias(resultData);
@@ -158,10 +112,11 @@ export default function TVDisplayPage() {
     }
   };
 
-  const noticiaAtual = noticias[indexAtual] || MOCK_TV_NOTICIAS[0];
+  const noticiaAtual = noticias[indexAtual];
 
   // URL absoluta da notícia para o QR Code
   const urlNoticia = useMemo(() => {
+    if (!noticiaAtual) return '';
     const origin = window.location.origin;
     const catSlug = noticiaAtual.categorias?.slug ?? 'geral';
     const notSlug = noticiaAtual.slug ?? '';
@@ -170,6 +125,15 @@ export default function TVDisplayPage() {
 
   // Gerar QR Code via API pública do QRServer
   const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=ffffff&bgcolor=1e5c4e&data=${encodeURIComponent(urlNoticia)}`;
+
+  if (noticias.length === 0) return (
+    <div className="flex h-screen items-center justify-center bg-black text-white">
+      <div className="flex flex-col items-center gap-4">
+        <Radio size={48} className="text-brand-laranja animate-pulse" />
+        <h1 className="text-2xl font-titulo font-bold">Aguardando notícias...</h1>
+      </div>
+    </div>
+  );
 
   const palavrasTitulo = (noticiaAtual.titulo ?? '').split(' ');
 

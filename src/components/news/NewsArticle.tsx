@@ -12,33 +12,10 @@ import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-const MOCK_NOTICIA: Partial<Noticia> = {
-  id: '1',
-  titulo: 'Grande Seca Impacta Mais de 10 Milhões de Nordestinos em 2025',
-  resumo: 'Especialistas alertam para o maior período de estiagem dos últimos 50 anos.',
-  conteudo: `
-    <p>A região Nordeste do Brasil enfrenta em 2025 o maior período de estiagem dos últimos 50 anos, afetando diretamente mais de 10 milhões de pessoas em estados como Ceará, Rio Grande do Norte, Paraíba, Pernambuco e Bahia.</p>
-    <p>De acordo com dados da Agência Nacional de Águas (ANA), os reservatórios da região estão operando com apenas 22% da capacidade total, o menor índice desde 1998. A situação tem gerado desabastecimento de água em centenas de municípios.</p>
-    <h2>Resposta do Governo Federal</h2>
-    <p>O Ministério da Integração Regional anunciou um pacote emergencial de R$ 2 bilhões para combater os efeitos da crise hídrica. Os recursos serão destinados à construção de cisternas, perfuração de poços artesianos e distribuição de água por caminhão-pipa.</p>
-    <blockquote>
-      "Estamos mobilizando todos os recursos disponíveis para garantir que nenhuma família nordestina fique sem acesso à água", afirmou o ministro durante coletiva de imprensa.
-    </blockquote>
-    <h2>Impacto na Agricultura</h2>
-    <p>A seca também está devastando a produção agrícola da região. Pequenos agricultores relatam perdas de até 80% nas suas colheitas de milho, feijão e algodão. A pecuária também é duramente afetada, com milhares de cabeças de gado morrendo por falta de pastagem e água.</p>
-  `,
-  imagem_url: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&q=80',
-  data_publicacao: new Date().toISOString(),
-  views: 12450,
-  categorias: { id: '1', nome: 'Ambiente', slug: 'ambiente', cor_hex: '#059669' },
-  autores: { id: '1', nome: 'Redação Dia a Dia Nordeste', foto_url: null, bio: null },
-  meta_title: 'Grande Seca Impacta Nordestinos em 2025 — Dia a Dia Nordeste',
-  meta_description: 'Especialistas alertam para o maior período de estiagem dos últimos 50 anos no Nordeste Brasileiro.',
-};
-
+// Mock removido
 export default function NewsArticle() {
   const { slugNoticia } = useParams<{ slugNoticia: string }>();
-  const [noticia, setNoticia] = useState<Partial<Noticia>>(MOCK_NOTICIA);
+  const [noticia, setNoticia] = useState<Partial<Noticia> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -96,6 +73,14 @@ export default function NewsArticle() {
       alert('Link copiado!');
     }
   };
+
+  if (loading) {
+    return <div className="py-20 text-center text-brand-muted">Carregando notícia...</div>;
+  }
+
+  if (!noticia) {
+    return <div className="py-20 text-center text-brand-muted">Notícia não encontrada.</div>;
+  }
 
   return (
     <>

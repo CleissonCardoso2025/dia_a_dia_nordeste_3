@@ -8,39 +8,10 @@ import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-// Mock hero para desenvolvimento
-const MOCK_DESTAQUES: Partial<Noticia>[] = [
-  {
-    id: '1',
-    titulo: 'Grande Seca Impacta Mais de 10 Milhões de Nordestinos em 2025',
-    resumo: 'Especialistas alertam para o maior período de estiagem dos últimos 50 anos. Governo federal anuncia pacote emergencial de R$ 2 bilhões para combater os efeitos da crise hídrica.',
-    slug: 'seca-impacta-nordestinos-2025',
-    imagem_url: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1400&q=80',
-    data_publicacao: new Date().toISOString(),
-    categorias: { id: '1', nome: 'Ambiente', slug: 'ambiente', cor_hex: '#059669' },
-  },
-  {
-    id: '2',
-    titulo: 'Festival de Música do Nordeste Reúne Artistas de Todo o Brasil',
-    resumo: 'O maior festival de música regional do país acontece em Fortaleza reunindo grandes nomes do forró, axé e música popular nordestina.',
-    slug: 'festival-musica-nordeste-2025',
-    imagem_url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1400&q=80',
-    data_publicacao: new Date().toISOString(),
-    categorias: { id: '3', nome: 'Cultura', slug: 'cultura', cor_hex: '#8B5CF6' },
-  },
-  {
-    id: '3',
-    titulo: 'Economia do Nordeste Cresce e Atrai Novos Investimentos em Energia',
-    resumo: 'Com o potencial eólico e solar, a região Nordeste se consolida como o principal polo de energias renováveis do país, atraindo bilhões em investimentos.',
-    slug: 'economia-nordeste-energia-renovavel',
-    imagem_url: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1400&q=80',
-    data_publicacao: new Date().toISOString(),
-    categorias: { id: '4', nome: 'Economia', slug: 'economia', cor_hex: '#1E5C4E' },
-  },
-];
+// Mock removido
 
 export default function Hero() {
-  const [destaques, setDestaques] = useState<Partial<Noticia>[]>(MOCK_DESTAQUES);
+  const [destaques, setDestaques] = useState<Partial<Noticia>[]>([]);
   const [atual, setAtual] = useState(0);
 
   useEffect(() => {
@@ -48,6 +19,7 @@ export default function Hero() {
       if (data && data.length > 0) {
         setDestaques(data as unknown as Partial<Noticia>[]);
       }
+
     });
   }, []);
 
@@ -59,9 +31,11 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, [destaques.length]);
 
+  if (destaques.length === 0) return null;
+
   const noticia = destaques[atual];
 
-  const words = (noticia.titulo ?? '').split(' ');
+  const words = (noticia?.titulo ?? '').split(' ');
 
   return (
     <section
