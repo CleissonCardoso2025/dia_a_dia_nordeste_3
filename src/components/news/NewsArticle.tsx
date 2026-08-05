@@ -30,6 +30,14 @@ export default function NewsArticle() {
     });
   }, [slugNoticia]);
 
+  if (loading) {
+    return <div className="py-20 text-center text-brand-muted">Carregando notícia...</div>;
+  }
+
+  if (!noticia) {
+    return <div className="py-20 text-center text-brand-muted">Notícia não encontrada.</div>;
+  }
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -73,14 +81,6 @@ export default function NewsArticle() {
       alert('Link copiado!');
     }
   };
-
-  if (loading) {
-    return <div className="py-20 text-center text-brand-muted">Carregando notícia...</div>;
-  }
-
-  if (!noticia) {
-    return <div className="py-20 text-center text-brand-muted">Notícia não encontrada.</div>;
-  }
 
   return (
     <>
