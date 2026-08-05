@@ -30,7 +30,7 @@ export default function Banner({ banner, className = '' }: BannerProps) {
           alt={banner.titulo || 'Publicidade'}
           className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.01]"
         />
-        <span className="absolute bottom-1 right-2 rounded bg-black/60 px-1.5 py-0.5 text-[9px] font-bold text-white/70 uppercase backdrop-blur-xs">
+        <span className="hidden sm:block absolute bottom-1 right-2 rounded bg-black/60 px-1.5 py-0.5 text-[9px] font-bold text-white/70 uppercase backdrop-blur-xs">
           Publicidade
         </span>
       </a>
