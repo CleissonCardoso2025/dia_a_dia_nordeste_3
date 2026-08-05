@@ -143,14 +143,16 @@ export default function Footer() {
 
             <div className="mt-4 p-3 rounded-lg bg-brand-grafite border border-brand-border">
               <p className="text-xs text-brand-muted mb-2">
-                📢 Tem uma pauta ou sugestão?
+                📢 Quer ficar por dentro de tudo?
               </p>
-              <Link
-                to="/contato"
-                className="text-xs font-semibold text-brand-laranja hover:underline"
+              <a
+                href="https://chat.whatsapp.com/Ko4YLTu3q1a0rctFu3ki08"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-semibold text-[#25D366] hover:underline"
               >
-                Fale com a nossa redação →
-              </Link>
+                Entre no grupo do WhatsApp →
+              </a>
             </div>
           </div>
         </div>
