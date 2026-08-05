@@ -48,7 +48,7 @@ export default function Home() {
           </div>
 
           {/* Sidebar */}
-          <div className="block lg:hidden w-full shrink-0">
+          <div className="hidden lg:block w-72 shrink-0">
             <div className="sticky top-20">
               <Sidebar />
             </div>
