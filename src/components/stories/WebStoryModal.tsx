@@ -24,9 +24,25 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
   const slides: StorySlide[] = useMemo(() => {
     if (!story) return [];
     try {
-      return Array.isArray(story.slides) ? story.slides : (typeof story.slides === 'string' ? JSON.parse(story.slides) : []);
+      let parsed = Array.isArray(story.slides) ? story.slides : (typeof story.slides === 'string' ? JSON.parse(story.slides) : []);
+      if (!Array.isArray(parsed)) parsed = [];
+      
+      if (parsed.length === 0) {
+        parsed = [{
+          id: story.id + '-capa',
+          imagemUrl: story.capaUrl,
+          titulo: story.titulo,
+          texto: ''
+        }];
+      }
+      return parsed;
     } catch {
-      return [];
+      return [{
+        id: story.id + '-capa',
+        imagemUrl: story.capaUrl,
+        titulo: story.titulo,
+        texto: ''
+      }];
     }
   }, [story]);
 
