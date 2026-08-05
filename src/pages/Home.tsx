@@ -25,7 +25,7 @@ export default function Home() {
         className="mx-auto max-w-7xl px-4 py-6 space-y-10"
       >
         {/* ── 1ª SEÇÃO: HERO DE DESTAQUES (Apenas matérias marcadas com destaque = true pelo admin) ── */}
-        <section aria-label="Notícias em Destaque">
+        <section aria-label="Notícias em Destaque" id="destaques">
           <Hero />
         </section>
 
@@ -38,17 +38,21 @@ export default function Home() {
           <div className="flex-1 min-w-0 space-y-10">
 
             {/* ── 2ª SEÇÃO: SEÇÃO SECUNDÁRIA COM ABAS DOS MUNICÍPIOS DO SEMIÁRIDO NORDESTE II ── */}
-            <CityTabsSection />
+            <div id="municipios">
+              <CityTabsSection />
+            </div>
 
             {/* ── 3ª SEÇÃO: WEB STORIES POR CATEGORIAS (Saúde, Educação, Esportes, Cultura, Economia, Tecnologia) ── */}
-            <WebStoriesSection />
+            <div id="stories">
+              <WebStoriesSection />
+            </div>
 
             {/* Banner publicitário de meio */}
             <BannerPlaceholder posicao="middle" />
           </div>
 
           {/* Sidebar */}
-          <div className="hidden lg:block w-72 shrink-0">
+          <div className="hidden lg:block w-72 shrink-0" id="mais-acessadas">
             <div className="sticky top-20">
               <Sidebar />
             </div>

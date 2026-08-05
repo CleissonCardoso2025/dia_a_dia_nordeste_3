@@ -1,25 +1,34 @@
 import { Link } from 'react-router-dom';
-import { MessageCircle, Mail, Globe, Share2, Play, Radio } from 'lucide-react';
+import { MessageCircle, Mail, Instagram, Share2 } from 'lucide-react';
 
 const SECOES = [
-  { nome: 'Início / Destaques', href: '/' },
-  { nome: 'Notícias por Município', href: '/' },
-  { nome: 'Web Stories', href: '/' },
-  { nome: 'Mais Acessadas', href: '/' },
+  { nome: 'Início / Destaques', href: '/#destaques' },
+  { nome: 'Notícias por Município', href: '/#municipios' },
+  { nome: 'Web Stories', href: '/#stories' },
+  { nome: 'Mais Acessadas', href: '/#mais-acessadas' },
   { nome: 'Pesquisar Notícias', href: '/busca' },
   { nome: 'Feed RSS 2.0', href: '/rss' },
 ];
 
 const REDES = [
-  { icon: <Globe size={18} />, href: '#', label: 'Instagram' },
-  { icon: <Share2 size={18} />, href: '#', label: 'Facebook' },
-  { icon: <Radio size={18} />, href: '#', label: 'Twitter / X' },
-  { icon: <Play size={18} />, href: '#', label: 'YouTube' },
-  { icon: <MessageCircle size={18} />, href: 'https://wa.me/5500000000000', label: 'WhatsApp' },
+  { icon: <Instagram size={18} />, href: 'https://instagram.com/diaadianordeste.ba', label: 'Instagram' },
+  { icon: <Share2 size={18} />, href: '#', label: 'Compartilhar' },
 ];
 
 export default function Footer() {
   const ano = new Date().getFullYear();
+
+  const handleShare = (e: React.MouseEvent, label: string) => {
+    if (label === 'Compartilhar') {
+      e.preventDefault();
+      if (navigator.share) {
+        navigator.share({
+          title: 'Dia a Dia Nordeste',
+          url: window.location.origin
+        });
+      }
+    }
+  };
 
   return (
     <footer className="bg-brand-surface border-t border-brand-border mt-12">
@@ -44,8 +53,9 @@ export default function Footer() {
                 <a
                   key={rede.label}
                   href={rede.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={(e) => handleShare(e, rede.label)}
+                  target={rede.label !== 'Compartilhar' ? "_blank" : undefined}
+                  rel={rede.label !== 'Compartilhar' ? "noopener noreferrer" : undefined}
                   aria-label={rede.label}
                   className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-muted hover:border-brand-laranja hover:text-brand-laranja transition-colors"
                 >
@@ -63,12 +73,21 @@ export default function Footer() {
             <ul className="space-y-2">
               {SECOES.map(secao => (
                 <li key={secao.nome}>
-                  <Link
-                    to={secao.href}
-                    className="text-sm text-brand-muted hover:text-brand-laranja transition-colors"
-                  >
-                    {secao.nome}
-                  </Link>
+                  {secao.href.startsWith('/#') ? (
+                    <a
+                      href={secao.href}
+                      className="text-sm text-brand-muted hover:text-brand-laranja transition-colors"
+                    >
+                      {secao.nome}
+                    </a>
+                  ) : (
+                    <Link
+                      to={secao.href}
+                      className="text-sm text-brand-muted hover:text-brand-laranja transition-colors"
+                    >
+                      {secao.nome}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -112,12 +131,6 @@ export default function Footer() {
                   redacao@diaadianordeste.com.br
                 </a>
               </li>
-              <li className="flex items-center gap-2 text-sm text-brand-muted">
-                <MessageCircle size={14} className="text-brand-laranja shrink-0" />
-                <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer" className="hover:text-brand-laranja transition-colors">
-                  (00) 00000-0000
-                </a>
-              </li>
             </ul>
 
             <div className="mt-4 p-3 rounded-lg bg-brand-grafite border border-brand-border">
@@ -139,7 +152,7 @@ export default function Footer() {
         {/* Rodapé final */}
         <div className="mt-8 pt-6 border-t border-brand-border flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-brand-muted">
           <p>© {ano} Dia a Dia Nordeste. Todos os direitos reservados.</p>
-          <p>Feito com ❤️ no Nordeste Brasileiro</p>
+          <p>Criado por Agência Cleisson Cardoso</p>
         </div>
       </div>
     </footer>
