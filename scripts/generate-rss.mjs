@@ -14,19 +14,22 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Carrega .env se necessário
+// Carrega .env, .env.local ou .env.production se necessário
 if (!process.env.SUPABASE_URL && !process.env.VITE_SUPABASE_URL) {
-  const envPath = resolve(__dirname, '../.env');
-  if (existsSync(envPath)) {
-    const envContent = readFileSync(envPath, 'utf-8');
-    envContent.split('\n').forEach(line => {
-      const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)\s*$/);
-      if (match) {
-        const key = match[1];
-        const val = match[2].trim().replace(/^["']|["']$/g, '');
-        if (!process.env[key]) process.env[key] = val;
-      }
-    });
+  const envFiles = ['../.env', '../.env.local', '../.env.production'];
+  for (const file of envFiles) {
+    const envPath = resolve(__dirname, file);
+    if (existsSync(envPath)) {
+      const envContent = readFileSync(envPath, 'utf-8');
+      envContent.split('\n').forEach(line => {
+        const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)\s*$/);
+        if (match) {
+          const key = match[1];
+          const val = match[2].trim().replace(/^["']|["']$/g, '');
+          if (!process.env[key]) process.env[key] = val;
+        }
+      });
+    }
   }
 }
 
@@ -102,11 +105,15 @@ async function main() {
 
   try {
     // 1. Busca todas as notícias com categorias
-    const { data: noticias } = await supabase
+    const { data: noticias, error } = await supabase
       .from('noticias')
       .select('*, categorias(id,nome,slug,cor_hex)')
       .order('data_publicacao', { ascending: false })
       .limit(50);
+
+    if (error) {
+      console.error('[rss] Erro ao buscar notícias do Supabase:', error);
+    }
 
     const listaNoticias = noticias || [];
 

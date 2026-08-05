@@ -20,19 +20,22 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Tenta carregar .env local se variáveis não estiverem no ambiente
+// Tenta carregar .env, .env.local ou .env.production local se variáveis não estiverem no ambiente
 if (!process.env.SUPABASE_URL && !process.env.VITE_SUPABASE_URL) {
-  const envPath = resolve(__dirname, '../.env');
-  if (existsSync(envPath)) {
-    const envContent = readFileSync(envPath, 'utf-8');
-    envContent.split('\n').forEach(line => {
-      const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)\s*$/);
-      if (match) {
-        const key = match[1];
-        const val = match[2].trim().replace(/^["']|["']$/g, '');
-        if (!process.env[key]) process.env[key] = val;
-      }
-    });
+  const envFiles = ['../.env', '../.env.local', '../.env.production'];
+  for (const file of envFiles) {
+    const envPath = resolve(__dirname, file);
+    if (existsSync(envPath)) {
+      const envContent = readFileSync(envPath, 'utf-8');
+      envContent.split('\n').forEach(line => {
+        const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)\s*$/);
+        if (match) {
+          const key = match[1];
+          const val = match[2].trim().replace(/^["']|["']$/g, '');
+          if (!process.env[key]) process.env[key] = val;
+        }
+      });
+    }
   }
 }
 
