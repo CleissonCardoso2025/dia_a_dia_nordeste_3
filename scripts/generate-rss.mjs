@@ -110,8 +110,8 @@ async function main() {
 
     const listaNoticias = noticias || [];
 
-    // 2. RSS Geral
-    const rssGeral = gerarRssFeed(listaNoticias, 'Dia a Dia Nordeste — Feed Completo');
+    // 2. RSS Geral (Últimas 10 de todas as categorias combinadas)
+    const rssGeral = gerarRssFeed(listaNoticias.slice(0, 10), 'Dia a Dia Nordeste — Feed Completo');
     const outGeral = resolve(__dirname, '../public/rss.xml');
     writeFileSync(outGeral, rssGeral, 'utf-8');
     console.log(`[rss] ✅ Feed geral gerado em ${outGeral}`);
@@ -120,7 +120,7 @@ async function main() {
     const { data: categorias } = await supabase.from('categorias').select('*');
     if (categorias && categorias.length > 0) {
       for (const cat of categorias) {
-        const noticiasCat = listaNoticias.filter(n => n.categorias?.slug === cat.slug);
+        const noticiasCat = listaNoticias.filter(n => n.categorias?.slug === cat.slug).slice(0, 10);
         const rssCat = gerarRssFeed(
           noticiasCat,
           `Dia a Dia Nordeste — Notícias de ${cat.nome}`,
