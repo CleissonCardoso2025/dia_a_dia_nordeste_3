@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, TrendingUp, Clock, MessageCircle } from 'lucide-react';
 import { BannerPlaceholder } from '@/components/ui/Banner';
-import { getMaisAcessadas } from '@/lib/supabase';
+import { getMaisAcessadas, getNoticias } from '@/lib/supabase';
 import { sidebarContainerVariants, sidebarItemVariants } from '@/animations/variants';
 import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import type { Noticia } from '@/types';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 // Dados mock
@@ -33,12 +33,16 @@ function CounterItem({ value, trigger }: CounterItemProps) {
 
 export default function Sidebar() {
   const [maisAcessadas, setMaisAcessadas] = useState<Partial<Noticia>[]>(MOCK_MAIS_ACESSADAS);
+  const [recentes, setRecentes] = useState<Partial<Noticia>[]>([]);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sidebarRef, { once: true, margin: '-80px' });
 
   useEffect(() => {
     getMaisAcessadas(5).then(({ data }) => {
       if (data && data.length > 0) setMaisAcessadas(data as unknown as Partial<Noticia>[]);
+    });
+    getNoticias(4).then(({ data }) => {
+      if (data && data.length > 0) setRecentes(data as unknown as Partial<Noticia>[]);
     });
   }, []);
 
@@ -132,7 +136,7 @@ export default function Sidebar() {
           </h2>
         </div>
         <ul className="divide-y divide-brand-border">
-          {MOCK_MAIS_ACESSADAS.slice(0, 4).map(noticia => (
+          {(recentes.length > 0 ? recentes : MOCK_MAIS_ACESSADAS.slice(0, 4)).map(noticia => (
             <li key={noticia.id}>
               <Link
                 to={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
@@ -142,7 +146,9 @@ export default function Sidebar() {
                   {noticia.titulo}
                 </p>
                 <span className="text-xs text-brand-muted mt-1 block">
-                  há 2 horas
+                  {noticia.data_publicacao 
+                    ? formatDistanceToNow(new Date(noticia.data_publicacao), { locale: ptBR, addSuffix: true }) 
+                    : 'Recentemente'}
                 </span>
               </Link>
             </li>
