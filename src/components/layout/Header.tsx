@@ -87,19 +87,17 @@ export default function Header() {
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
 
-          {/* CTA WhatsApp Group */}
-          <motion.a
-            href="https://chat.whatsapp.com/Ko4YLTu3q1a0rctFu3ki08"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* CTA Fale Conosco */}
+          <motion.button
+            onClick={() => navigate('/contato')}
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="hidden sm:flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90 transition-opacity"
-            aria-label="Entre no nosso Grupo do WhatsApp"
+            className="hidden sm:flex items-center gap-1.5 rounded-full bg-brand-laranja px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-laranja-light transition-colors cursor-pointer border-none"
+            aria-label="Envie sua pauta através do Fale Conosco"
           >
             <MessageCircle size={14} />
-            Grupo no WhatsApp
-          </motion.a>
+            Envie sua pauta
+          </motion.button>
 
           {/* Menu mobile toggle */}
           <button

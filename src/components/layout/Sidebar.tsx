@@ -115,7 +115,7 @@ export default function Sidebar() {
           Receba as principais notícias em primeira mão no seu WhatsApp.
         </p>
         <a
-          href="https://chat.whatsapp.com/XXXXXXXXXXXXXX"
+          href="https://chat.whatsapp.com/Ko4YLTu3q1a0rctFu3ki08"
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full rounded-full bg-white py-2 text-center text-sm font-bold text-[#128C7E] hover:bg-white/90 transition-colors"
