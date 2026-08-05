@@ -15,6 +15,24 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import { loadEnv } from 'vite';
+import { readFileSync, existsSync } from 'fs';
+
+// Tenta carregar variáveis manualmente caso o Docker/Dokploy as oculte
+const envFiles = ['../.env', '../.env.production'];
+for (const file of envFiles) {
+  const envPath = resolve(__dirname, file);
+  if (existsSync(envPath)) {
+    const envContent = readFileSync(envPath, 'utf-8');
+    envContent.split('\n').forEach(line => {
+      const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)\s*$/);
+      if (match) {
+        const key = match[1];
+        const val = match[2].trim().replace(/^["']|["']$/g, '');
+        if (!process.env[key]) process.env[key] = val;
+      }
+    });
+  }
+}
 
 const env = loadEnv('', process.cwd(), '');
 
