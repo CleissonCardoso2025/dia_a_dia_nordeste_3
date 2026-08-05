@@ -54,7 +54,7 @@ export default function Hero() {
         >
           <div
             className="absolute inset-0 bg-cover bg-center animate-ken-burns"
-            style={{ backgroundImage: `url(${noticia.imagem_url})` }}
+            style={{ backgroundImage: `url('${noticia.imagem_url}')` }}
           />
         </motion.div>
       </AnimatePresence>

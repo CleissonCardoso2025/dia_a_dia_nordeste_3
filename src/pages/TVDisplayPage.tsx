@@ -223,7 +223,7 @@ export default function TVDisplayPage() {
               animate={{ scale: 1.12 }}
               transition={{ duration: tempoPorSlide, ease: 'linear' }}
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${noticiaAtual.imagem_url})` }}
+              style={{ backgroundImage: `url('${noticiaAtual.imagem_url}')` }}
             />
 
             {/* Gradiente Escuro Multicamadas para Leitura Perfeita */}
