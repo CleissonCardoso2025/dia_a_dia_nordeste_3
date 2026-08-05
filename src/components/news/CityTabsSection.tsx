@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { MapPin, Sparkles } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
+import { MapPin, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import CardGrid from '@/components/news/CardGrid';
 import { getCategorias } from '@/lib/supabase';
 import type { Categoria } from '@/types';
@@ -34,6 +34,18 @@ export default function CityTabsSection({
     });
   }, [categoriaInicialSlug]);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 300;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   if (categorias.length === 0) return null;
 
   return (
@@ -51,32 +63,62 @@ export default function CityTabsSection({
         </span>
       </div>
 
-      {/* Abas dos 18 Municípios */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-        {categorias.map((cat, index) => {
-          const isSelected = abaAtiva?.id === cat.id;
-          const isNewest = index === 0;
-          return (
-            <button
-              key={cat.id}
-              onClick={() => setAbaAtiva(cat)}
-              className={`relative shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
-                isSelected
-                  ? 'text-white shadow-lg scale-105'
-                  : 'text-brand-muted hover:text-brand-creme bg-brand-grafite border border-brand-border'
-              }`}
-              style={isSelected ? { backgroundColor: cat.cor_hex } : {}}
-            >
-              {cat.nome}
-              {isNewest && (
-                <span
-                  className="flex h-2 w-2 rounded-full bg-red-400 animate-ping"
-                  title="Município com publicação mais recente"
-                />
-              )}
-            </button>
-          );
-        })}
+      {/* Abas dos 18 Municípios com scroll customizado */}
+      <div className="relative group">
+        {/* Sombra Esquerda */}
+        <div className="absolute left-0 top-0 bottom-2 w-12 bg-linear-to-r from-brand-surface to-transparent pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block" />
+        
+        {/* Botão Esquerda */}
+        <button 
+          onClick={() => scroll('left')}
+          aria-label="Rolar para esquerda"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -mt-1 z-20 h-8 w-8 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme shadow-lg opacity-0 group-hover:opacity-100 transition-all hidden sm:flex hover:bg-brand-laranja hover:text-white hover:border-brand-laranja cursor-pointer"
+        >
+          <ChevronLeft size={16} />
+        </button>
+
+        {/* Scroll Container */}
+        <div 
+          ref={scrollRef}
+          className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none sm:px-6"
+        >
+          {categorias.map((cat, index) => {
+            const isSelected = abaAtiva?.id === cat.id;
+            const isNewest = index === 0;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setAbaAtiva(cat)}
+                className={`relative shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  isSelected
+                    ? 'text-white shadow-lg scale-105'
+                    : 'text-brand-muted hover:text-brand-creme bg-brand-grafite border border-brand-border'
+                }`}
+                style={isSelected ? { backgroundColor: cat.cor_hex } : {}}
+              >
+                {cat.nome}
+                {isNewest && (
+                  <span
+                    className="flex h-2 w-2 rounded-full bg-red-400 animate-ping"
+                    title="Município com publicação mais recente"
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Botão Direita */}
+        <button 
+          onClick={() => scroll('right')}
+          aria-label="Rolar para direita"
+          className="absolute right-0 top-1/2 -translate-y-1/2 -mt-1 z-20 h-8 w-8 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme shadow-lg opacity-0 group-hover:opacity-100 transition-all hidden sm:flex hover:bg-brand-laranja hover:text-white hover:border-brand-laranja cursor-pointer"
+        >
+          <ChevronRight size={16} />
+        </button>
+
+        {/* Sombra Direita */}
+        <div className="absolute right-0 top-0 bottom-2 w-12 bg-linear-to-l from-brand-surface to-transparent pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block" />
       </div>
 
       {/* Notícias do Município Selecionado */}
