@@ -308,24 +308,52 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
                 className="absolute inset-0 z-40 bg-brand-surface flex flex-col"
                 onClick={(e) => e.stopPropagation()} // Impede que o clique passe para a story
               >
-                <div className="flex items-center justify-between p-4 border-b border-brand-border bg-brand-surface sticky top-0 z-10">
-                  <span className="font-bold text-brand-creme truncate flex-1 mr-4">
-                    {story.titulo}
-                  </span>
+                <div className="relative h-64 shrink-0">
+                  <img
+                    src={story.capaUrl}
+                    alt={story.titulo}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-brand-surface via-brand-surface/80 to-transparent" />
+                  
+                  {/* Botão Fechar flutuante */}
                   <button
                     onClick={() => setLeituraAberta(false)}
-                    className="p-2 bg-brand-grafite text-brand-muted hover:text-brand-creme rounded-full shrink-0"
+                    className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/70 transition-colors border border-white/20 z-20"
                   >
-                    <X size={20} />
+                    <X size={16} />
                   </button>
+
+                  <div className="absolute bottom-0 left-0 right-0 p-5 space-y-2">
+                    <span
+                      className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white uppercase tracking-wider shadow-sm"
+                      style={{ backgroundColor: story.corCategoria }}
+                    >
+                      {story.categoria}
+                    </span>
+                    <h1 className="font-titulo font-black text-brand-creme text-2xl sm:text-3xl leading-tight">
+                      {story.titulo}
+                    </h1>
+                  </div>
                 </div>
                 
-                <div className="flex-1 overflow-y-auto p-5 text-brand-creme prose dark:prose-invert max-w-none">
+                <div className="flex-1 overflow-y-auto px-5 pt-2 pb-24 text-brand-creme prose dark:prose-invert prose-lg max-w-none prose-headings:font-titulo prose-headings:text-brand-creme prose-p:text-brand-muted prose-p:leading-relaxed prose-img:rounded-xl">
                   {/<[a-z][\s\S]*>/i.test(story.corpo) ? (
                     <div dangerouslySetInnerHTML={{ __html: story.corpo }} />
                   ) : (
-                    <div className="whitespace-pre-wrap font-sans text-base leading-relaxed">{story.corpo}</div>
+                    <div className="whitespace-pre-wrap font-sans text-base leading-relaxed text-brand-muted">{story.corpo}</div>
                   )}
+                </div>
+
+                {/* Botão de Compartilhar Flutuante no Leitor */}
+                <div className="absolute bottom-6 left-0 right-0 px-5 pointer-events-none flex justify-center">
+                  <button
+                    onClick={handleShare}
+                    className="pointer-events-auto flex items-center gap-2 rounded-full bg-brand-laranja py-3 px-6 text-sm font-bold text-white hover:bg-brand-laranja-dark transition-all shadow-xl active:scale-95"
+                  >
+                    <Share2 size={16} />
+                    <span>Compartilhar Matéria</span>
+                  </button>
                 </div>
               </motion.div>
             )}
