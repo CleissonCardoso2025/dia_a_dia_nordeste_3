@@ -610,8 +610,10 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               <tbody className="divide-y divide-brand-border">
                 {noticias.map(noticia => (
                   <tr key={noticia.id} className="hover:bg-brand-grafite/40 transition-colors">
-                    <td className="px-4 py-3 text-brand-creme font-medium line-clamp-1 max-w-xs">
-                      {noticia.titulo}
+                    <td className="px-4 py-3 text-brand-creme font-medium max-w-xs sm:max-w-md">
+                      <div className="truncate" title={noticia.titulo}>
+                        {noticia.titulo}
+                      </div>
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
                       {noticia.categorias && (
