@@ -17,6 +17,8 @@ export default function Home() {
       exit="exit"
       className="mx-auto max-w-7xl px-4 py-6 space-y-10"
     >
+      <h1 className="sr-only">Dia a Dia Nordeste - Portal de Notícias</h1>
+
       {/* ── 1ª SEÇÍO: HERO DE DESTAQUES ── */}
       <section aria-label="Notícias em Destaque" id="destaques">
         <Hero />
