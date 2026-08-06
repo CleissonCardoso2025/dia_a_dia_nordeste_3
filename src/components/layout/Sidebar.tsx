@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Eye, TrendingUp, Clock, MessageCircle } from 'lucide-react';
 import { BannerPlaceholder } from '@/components/ui/Banner';
+import RadioPlayer from '@/components/ui/RadioPlayer';
 import { getMaisAcessadas, getNoticias } from '@/lib/supabase';
 import { sidebarContainerVariants, sidebarItemVariants } from '@/animations/variants';
 import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
@@ -161,6 +162,9 @@ export default function Sidebar() {
           @diaadianordeste.ba →
         </a>
       </motion.div>
+
+      {/* ── Rádio Ao Vivo ── */}
+      <RadioPlayer />
 
       {/* ── Banner 300x300 ── */}
       <BannerPlaceholder posicao="sidebar" />

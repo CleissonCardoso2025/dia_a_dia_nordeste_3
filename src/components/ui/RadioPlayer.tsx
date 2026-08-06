@@ -1,0 +1,135 @@
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import { Play, Pause, Volume2, VolumeX, Radio } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+export default function RadioPlayer() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const STREAM_URL = 'https://stm11.xcast.com.br:11406/;';
+  const LOGO_URL = 'https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/imagens/galeria/1785882703082_p3mt7t1.png';
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play().then(() => {
+          setIsPlaying(true);
+        }).catch(err => {
+          console.error("Error playing audio:", err);
+          setIsPlaying(false);
+        });
+      }
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value);
+    setVolume(val);
+    if (audioRef.current) {
+      audioRef.current.volume = val;
+    }
+    if (val === 0) {
+      setIsMuted(true);
+    } else {
+      setIsMuted(false);
+    }
+  };
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      if (isMuted) {
+        audioRef.current.volume = volume > 0 ? volume : 1;
+        setIsMuted(false);
+      } else {
+        audioRef.current.volume = 0;
+        setIsMuted(true);
+      }
+    }
+  };
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      className="rounded-xl bg-linear-to-br from-slate-800 to-slate-900 p-4 text-white shadow-lg border border-white/10 relative overflow-hidden"
+    >
+      <audio ref={audioRef} src={STREAM_URL} preload="none" />
+      
+      <div className="flex items-center gap-2 mb-4">
+        <Radio className="text-brand-laranja" size={20} />
+        <span className="font-titulo font-bold text-base">Rádio Ao Vivo</span>
+      </div>
+
+      <div className="flex items-center gap-4 mb-4">
+        <div className="w-16 h-16 rounded-full overflow-hidden bg-white/10 p-1 shrink-0 shadow-inner flex items-center justify-center">
+          <img src={LOGO_URL} alt="Rádio Canabrava" className="w-full h-full object-contain rounded-full bg-white" />
+        </div>
+        
+        <div className="flex-1">
+          <h3 className="font-bold text-sm text-white">Rádio Canabrava</h3>
+          <p className="text-xs text-brand-muted mb-2">Conectado com você</p>
+          
+          {/* VU / Equalizer */}
+          <div className="flex items-end gap-1 h-6">
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <motion.div
+                key={i}
+                className="w-1.5 bg-brand-laranja rounded-t-sm"
+                animate={
+                  isPlaying
+                    ? { height: ["20%", "100%", "40%", "80%", "30%"] }
+                    : { height: "15%" }
+                }
+                transition={{
+                  repeat: Infinity,
+                  duration: 0.6 + i * 0.15,
+                  repeatType: "mirror",
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3 bg-black/40 rounded-full p-2 border border-white/5">
+        <button
+          onClick={togglePlay}
+          className="w-10 h-10 rounded-full bg-brand-laranja flex items-center justify-center hover:bg-brand-laranja-light transition-colors shrink-0"
+          aria-label={isPlaying ? "Pausar rádio" : "Tocar rádio"}
+        >
+          {isPlaying ? (
+            <Pause size={18} className="text-white fill-white" />
+          ) : (
+            <Play size={18} className="text-white fill-white ml-1" />
+          )}
+        </button>
+
+        <button 
+          onClick={toggleMute} 
+          className="text-white/80 hover:text-brand-laranja transition-colors"
+          aria-label="Mutar/Desmutar"
+        >
+          {isMuted || volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
+        </button>
+        
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={isMuted ? 0 : volume}
+          onChange={handleVolumeChange}
+          className="flex-1 h-1.5 bg-white/20 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-laranja cursor-pointer"
+          aria-label="Volume"
+        />
+      </div>
+    </motion.div>
+  );
+}
