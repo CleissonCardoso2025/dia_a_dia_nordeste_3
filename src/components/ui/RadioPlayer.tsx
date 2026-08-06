@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Radio } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Radio, Instagram, Globe, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function RadioPlayer() {
@@ -11,7 +11,7 @@ export default function RadioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const STREAM_URL = 'https://stm11.xcast.com.br:11406/;';
-  const LOGO_URL = 'https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/imagens/galeria/1785882703082_p3mt7t1.png';
+  const LOGO_URL = 'https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/imagens/galeria/1786059035334_uzrk66y.webp';
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -64,6 +64,18 @@ export default function RadioPlayer() {
       <div className="flex items-center gap-2 mb-4">
         <Radio className="text-brand-laranja" size={20} />
         <span className="font-titulo font-bold text-base">Rádio Ao Vivo</span>
+        
+        <div className="ml-auto flex items-center gap-2.5">
+          <a href="https://canabravafm.com.br/" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" title="Site da Rádio">
+            <Globe size={15} />
+          </a>
+          <a href="https://www.instagram.com/canabravafm104/" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#E1306C] transition-colors" title="Instagram">
+            <Instagram size={15} />
+          </a>
+          <a href="https://wa.me/5575998111049" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#25D366] transition-colors" title="WhatsApp">
+            <MessageCircle size={15} />
+          </a>
+        </div>
       </div>
 
       <div className="flex items-center gap-4 mb-4">
@@ -73,7 +85,7 @@ export default function RadioPlayer() {
         
         <div className="flex-1">
           <h3 className="font-bold text-sm text-white">Rádio Canabrava</h3>
-          <p className="text-xs text-brand-muted mb-2">Conectado com você</p>
+          <p className="text-xs text-brand-muted mb-2">A rádio mais feliz da cidade!</p>
           
           {/* VU / Equalizer */}
           <div className="flex items-end gap-1 h-6">
