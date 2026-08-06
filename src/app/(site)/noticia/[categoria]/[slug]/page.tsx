@@ -8,6 +8,7 @@ import { ptBR } from 'date-fns/locale';
 import CityTabsSection from '@/components/news/CityTabsSection';
 import WebStoriesSection from '@/components/stories/WebStoriesSection';
 import ScrollProgress from '@/components/ui/ScrollProgress';
+import Sidebar from '@/components/layout/Sidebar';
 import ShareButton from './ShareButton';
 import ArticleViewTracker from './ArticleViewTracker';
 
@@ -82,8 +83,10 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
       {/* Tracker Client Component for views */}
       <ArticleViewTracker noticiaId={noticia.id} />
       
-      <article className="max-w-3xl mx-auto mt-6">
-        {/* Breadcrumb */}
+      <div className="flex flex-col lg:flex-row gap-8 mt-6">
+        <div className="flex-1 min-w-0">
+          <article className="max-w-3xl mx-auto">
+            {/* Breadcrumb */}
         <nav aria-label="Navegação estrutural" className="flex items-center gap-1 text-xs text-brand-muted mb-6">
           <Link href="/" className="hover:text-brand-laranja">Início</Link>
           <ChevronRight size={12} />
@@ -176,7 +179,16 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
 
         {/* Seção de Web Stories por categorias */}
         <WebStoriesSection />
-      </article>
+          </article>
+        </div>
+
+        {/* Sidebar */}
+        <div className="w-full lg:w-72 shrink-0 mt-8 lg:mt-0">
+          <div className="sticky top-20">
+            <Sidebar />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

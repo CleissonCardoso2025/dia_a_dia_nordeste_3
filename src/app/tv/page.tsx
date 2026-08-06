@@ -237,10 +237,10 @@ function TVDisplayContent() {
             />
 
             {/* Conteúdo Informativo em Primeiro Plano */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-14 lg:p-20 z-20 flex flex-col lg:flex-row items-end justify-between gap-8 max-w-7xl mx-auto">
+            <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-14 lg:p-20 z-20 flex flex-col lg:flex-row items-end justify-between gap-12">
               
               {/* Lado Esquerdo: Manchete e Resumo */}
-              <div className="flex-1 space-y-4 max-w-4xl">
+              <div className="flex-1 space-y-6">
                 {/* Badge da Categoria */}
                 {noticiaAtual.categorias && (
                   <span
@@ -276,7 +276,7 @@ function TVDisplayContent() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
-                  className="text-white/85 text-lg sm:text-xl lg:text-2xl font-light leading-relaxed max-w-3xl line-clamp-3 drop-shadow-md"
+                  className="text-white/85 text-lg sm:text-xl lg:text-2xl font-light leading-relaxed pr-8 line-clamp-3 drop-shadow-md"
                 >
                   {noticiaAtual.resumo}
                 </motion.p>

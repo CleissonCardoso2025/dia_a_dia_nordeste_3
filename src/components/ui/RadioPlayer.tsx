@@ -1,65 +1,20 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { Play, Pause, Volume2, VolumeX, Radio, Globe, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useRadio } from '@/contexts/RadioContext';
 
 export default function RadioPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const { isPlaying, volume, isMuted, togglePlay, handleVolumeChange, toggleMute } = useRadio();
 
-  const STREAM_URL = 'https://stm11.xcast.com.br:11406/;';
   const LOGO_URL = 'https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/imagens/galeria/1786059035334_uzrk66y.webp';
-
-  const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(err => {
-          console.error("Error playing audio:", err);
-          setIsPlaying(false);
-        });
-      }
-    }
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value);
-    setVolume(val);
-    if (audioRef.current) {
-      audioRef.current.volume = val;
-    }
-    if (val === 0) {
-      setIsMuted(true);
-    } else {
-      setIsMuted(false);
-    }
-  };
-
-  const toggleMute = () => {
-    if (audioRef.current) {
-      if (isMuted) {
-        audioRef.current.volume = volume > 0 ? volume : 1;
-        setIsMuted(false);
-      } else {
-        audioRef.current.volume = 0;
-        setIsMuted(true);
-      }
-    }
-  };
 
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
       className="rounded-xl bg-linear-to-br from-slate-800 to-slate-900 p-4 text-white shadow-lg border border-white/10 relative overflow-hidden"
     >
-      <audio ref={audioRef} src={STREAM_URL} preload="none" />
       
       <div className="flex items-center gap-2 mb-4">
         <Radio className="text-brand-laranja" size={20} />
