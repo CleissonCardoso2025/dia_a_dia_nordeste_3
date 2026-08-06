@@ -161,7 +161,7 @@ export async function verificarEAlertarBannersExpirados() {
           visualizacoes: views,
           cliques: cliques,
           ctr: ctr,
-          mensagem: `⚠️ AVISO PRÉVIO DE VEICULAÇÃO: O banner "${banner.titulo || 'Anúncio'}" do cliente ${banner.anunciante || 'Anunciante'} vencerá em aproximadamente ${horasRestantes}h (em ${new Date(banner.data_fim).toLocaleString('pt-BR')}). Acesse o portal para realizar o print / prova de veiculação antes que seja desativado automaticamente.`
+          mensagem: `⚠️ AVISO PRÉVIO DE VEICULAÇÍO: O banner "${banner.titulo || 'Anúncio'}" do cliente ${banner.anunciante || 'Anunciante'} vencerá em aproximadamente ${horasRestantes}h (em ${new Date(banner.data_fim).toLocaleString('pt-BR')}). Acesse o portal para realizar o print / prova de veiculação antes que seja desativado automaticamente.`
         });
 
         if (res.success) {

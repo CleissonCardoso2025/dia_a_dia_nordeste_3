@@ -10,8 +10,8 @@ export default function PrivacidadePage() {
   return (
     <>
       <SEOHead
-        title="PolÃ­tica de Privacidade â€” Dia a Dia Nordeste"
-        description="InformaÃ§Ãµes sobre privacidade, cookies e conformidade com a LGPD (Lei Geral de ProteÃ§Ã£o de Dados) no Dia a Dia Nordeste."
+        title="Política de Privacidade — Dia a Dia Nordeste"
+        description="Informações sobre privacidade, cookies e conformidade com a LGPD (Lei Geral de Proteção de Dados) no Dia a Dia Nordeste."
       />
 
       <motion.div
@@ -23,9 +23,9 @@ export default function PrivacidadePage() {
       >
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 text-xs text-brand-muted">
-          <Link href="/" className="hover:text-brand-laranja">InÃ­cio</Link>
+          <Link href="/" className="hover:text-brand-laranja">Início</Link>
           <ChevronRight size={12} />
-          <span className="text-brand-creme">PolÃ­tica de Privacidade</span>
+          <span className="text-brand-creme">Política de Privacidade</span>
         </nav>
 
         {/* Hero */}
@@ -35,14 +35,14 @@ export default function PrivacidadePage() {
             <span className="text-xs font-bold uppercase tracking-wider">Conformidade LGPD</span>
           </div>
           <h1 className="font-titulo font-black text-brand-creme text-3xl">
-            PolÃ­tica de Privacidade
+            Política de Privacidade
           </h1>
           <p className="text-brand-muted text-sm leading-relaxed">
-            Esta polÃ­tica explica como o portal <strong className="text-brand-creme">Dia a Dia Nordeste</strong> coleta, utiliza e protege os seus dados pessoais em conformidade com a Lei Geral de ProteÃ§Ã£o de Dados (Lei nÂº 13.709/2018 - LGPD).
+            Esta política explica como o portal <strong className="text-brand-creme">Dia a Dia Nordeste</strong> coleta, utiliza e protege os seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).
           </p>
         </div>
 
-        {/* SeÃ§Ãµes da PolÃ­tica */}
+        {/* Seções da Política */}
         <div className="space-y-6">
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="flex items-center gap-2 text-brand-creme font-titulo font-bold text-lg">
@@ -50,7 +50,7 @@ export default function PrivacidadePage() {
               1. Coleta de Dados
             </div>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Coletamos informaÃ§Ãµes estatÃ­sticas anÃ´nimas de navegaÃ§Ã£o (ex: visualizaÃ§Ãµes de pÃ¡gina, tipo de navegador, localizaÃ§Ã£o aproximada por cidade) para aprimorar a experiÃªncia de leitura. Dados pessoais como nome e e-mail sÃ³ sÃ£o armazenados quando vocÃª preenche voluntariamente nossos formulÃ¡rios de contato ou pauta.
+              Coletamos informações estatísticas anônimas de navegação (ex: visualizações de página, tipo de navegador, localização aproximada por cidade) para aprimorar a experiência de leitura. Dados pessoais como nome e e-mail só são armazenados quando você preenche voluntariamente nossos formulários de contato ou pauta.
             </p>
           </div>
 
@@ -60,7 +60,7 @@ export default function PrivacidadePage() {
               2. Uso de Cookies
             </div>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Utilizamos cookies estritamente necessÃ¡rios e analÃ­ticos para lembrar preferÃªncias de navegaÃ§Ã£o e gerar relatÃ³rios agregados. VocÃª pode desativar o uso de cookies a qualquer momento nas configuraÃ§Ãµes do seu navegador.
+              Utilizamos cookies estritamente necessários e analíticos para lembrar preferências de navegação e gerar relatórios agregados. Você pode desativar o uso de cookies a qualquer momento nas configurações do seu navegador.
             </p>
           </div>
 
@@ -70,7 +70,7 @@ export default function PrivacidadePage() {
               3. Seus Direitos (LGPD)
             </div>
             <p className="text-xs text-brand-muted leading-relaxed">
-              De acordo com a LGPD, vocÃª tem o direito de solicitar a confirmaÃ§Ã£o do tratamento de seus dados, acesso aos dados armazenados, correÃ§Ã£o de dados incompletos ou a eliminaÃ§Ã£o dos seus dados cadastrais de nossos sistemas.
+              De acordo com a LGPD, você tem o direito de solicitar a confirmação do tratamento de seus dados, acesso aos dados armazenados, correção de dados incompletos ou a eliminação dos seus dados cadastrais de nossos sistemas.
             </p>
           </div>
 
@@ -79,7 +79,7 @@ export default function PrivacidadePage() {
               4. Contato do Encarregado de Dados (DPO)
             </h3>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Para exercer seus direitos ou esclarecer dÃºvidas sobre tratamento de dados, envie uma mensagem para{' '}
+              Para exercer seus direitos ou esclarecer dúvidas sobre tratamento de dados, envie uma mensagem para{' '}
               <a href="mailto:redacao@diaadianordeste.com.br" className="text-brand-laranja underline">
                 redacao@diaadianordeste.com.br
               </a>.

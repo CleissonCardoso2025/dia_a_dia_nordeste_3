@@ -283,7 +283,7 @@ export default function BannerManagerModal({ isOpen, onClose }: BannerManagerMod
           </div>
         </div>
       ) : (
-        /* ── PAINEL PRINCIPAL DE GESTÃO DE BANNERS ── */
+        /* ── PAINEL PRINCIPAL DE GESTÍO DE BANNERS ── */
         <div className="w-full max-w-4xl bg-brand-surface border border-brand-border text-brand-creme rounded-3xl p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto relative">
           <button
             onClick={onClose}
@@ -372,7 +372,7 @@ export default function BannerManagerModal({ isOpen, onClose }: BannerManagerMod
                 </div>
               </div>
 
-              {/* PROGRAMAÇÃO DE DATAS */}
+              {/* PROGRAMAÇÍO DE DATAS */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-surface/40 p-3 rounded-xl border border-brand-border">
                 <div>
                   <label className="text-xs font-semibold text-brand-creme mb-1 flex items-center gap-1.5">

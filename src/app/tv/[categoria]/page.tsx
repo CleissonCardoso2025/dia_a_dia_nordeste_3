@@ -201,7 +201,7 @@ function TVDisplayContent() {
         </div>
       </header>
 
-      {/* ── CONTEÚDO PRINCIPAL COM ANIMAÇÃO DE KEN BURNS ── */}
+      {/* ── CONTEÚDO PRINCIPAL COM ANIMAÇÍO DE KEN BURNS ── */}
       {loading ? (
         <div className="flex h-full w-full items-center justify-center">
           <div className="flex flex-col items-center gap-3">

@@ -16,7 +16,7 @@ function TVDisplayContent() {
   const { categoria } = useParams<{ categoria?: string }>();
   const searchParams = useSearchParams();
 
-  // Ler configuraÃ§Ãµes salvas no admin ou da URL
+  // Ler configurações salvas no admin ou da URL
   const savedConfigRaw = localStorage.getItem('tv_signage_config');
   const savedConfig = savedConfigRaw ? JSON.parse(savedConfigRaw) : {};
 
@@ -34,13 +34,13 @@ function TVDisplayContent() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [horarioAtual, setHorarioAtual] = useState(new Date());
 
-  // Atualizar relÃ³gio a cada segundo
+  // Atualizar relógio a cada segundo
   useEffect(() => {
     const clockTimer = setInterval(() => setHorarioAtual(new Date()), 1000);
     return () => clearInterval(clockTimer);
   }, []);
 
-  // Carregar notÃ­cias conforme rota ou parÃ¢metro
+  // Carregar notícias conforme rota ou parâmetro
   useEffect(() => {
     setLoading(true);
     async function carregarDados() {
@@ -60,7 +60,7 @@ function TVDisplayContent() {
           }
         }
       } catch (err) {
-        console.error('Erro ao carregar notÃ­cias no Modo TV:', err);
+        console.error('Erro ao carregar notícias no Modo TV:', err);
       }
 
       setNoticias(resultData);
@@ -71,7 +71,7 @@ function TVDisplayContent() {
     carregarDados();
   }, [categoria, fonteParam]);
 
-  // Timer de progresso e transiÃ§Ã£o automÃ¡tica
+  // Timer de progresso e transição automática
   useEffect(() => {
     if (isPausado || noticias.length === 0) return;
 
@@ -92,7 +92,7 @@ function TVDisplayContent() {
     return () => clearInterval(timer);
   }, [isPausado, tempoPorSlide, noticias.length, indexAtual]);
 
-  // Reset do progresso ao trocar de Ã­ndice manualmente
+  // Reset do progresso ao trocar de índice manualmente
   const proximaNoticia = () => {
     setIndexAtual((i) => (i + 1) % noticias.length);
     setProgresso(0);
@@ -116,7 +116,7 @@ function TVDisplayContent() {
 
   const noticiaAtual = noticias[indexAtual];
 
-  // URL absoluta da notÃ­cia para o QR Code
+  // URL absoluta da notícia para o QR Code
   const urlNoticia = useMemo(() => {
     if (!noticiaAtual) return '';
     const origin = window.location.origin;
@@ -125,14 +125,14 @@ function TVDisplayContent() {
     return `${origin}/noticia/${catSlug}/${notSlug}`;
   }, [noticiaAtual]);
 
-  // Gerar QR Code via API pÃºblica do QRServer
+  // Gerar QR Code via API pública do QRServer
   const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=ffffff&bgcolor=1e5c4e&data=${encodeURIComponent(urlNoticia)}`;
 
   if (noticias.length === 0) return (
     <div className="flex h-screen items-center justify-center bg-black text-white">
       <div className="flex flex-col items-center gap-4">
         <Radio size={48} className="text-brand-laranja animate-pulse" />
-        <h1 className="text-2xl font-titulo font-bold">Aguardando notÃ­cias...</h1>
+        <h1 className="text-2xl font-titulo font-bold">Aguardando notícias...</h1>
       </div>
     </div>
   );
@@ -141,7 +141,7 @@ function TVDisplayContent() {
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black text-white font-sans select-none">
-      {/* â”€â”€ BARRA DE PROGRESSO DE TEMPO â”€â”€ */}
+      {/* ── BARRA DE PROGRESSO DE TEMPO ── */}
       <div className="absolute top-0 left-0 right-0 z-40 h-1.5 bg-white/10">
         <motion.div
           className="h-full bg-brand-laranja shadow-[0_0_12px_#D9491F]"
@@ -150,7 +150,7 @@ function TVDisplayContent() {
         />
       </div>
 
-      {/* â”€â”€ CABEÃ‡ALHO SUPERIOR FIXO (MARCA + CLIMA/HORA + CANAL) â”€â”€ */}
+      {/* ── CABEÇALHO SUPERIOR FIXO (MARCA + CLIMA/HORA + CANAL) ── */}
       <header className="absolute top-4 left-6 right-6 z-30 flex items-center justify-between pointer-events-none">
         {/* Logo Dia a Dia Nordeste + Badge do Canal */}
         <div className="flex items-center gap-4 bg-black/50 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-white/10 pointer-events-auto">
@@ -168,7 +168,7 @@ function TVDisplayContent() {
           </div>
         </div>
 
-        {/* RelÃ³gio em Tempo Real & Controles */}
+        {/* Relógio em Tempo Real & Controles */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3 bg-black/50 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-white/10 text-right pointer-events-auto">
             <Clock className="h-5 w-5 text-brand-laranja" />
@@ -182,11 +182,11 @@ function TVDisplayContent() {
             </div>
           </div>
 
-          {/* BotÃµes do sistema (Fullscreen e Pause) */}
+          {/* Botões do sistema (Fullscreen e Pause) */}
           <button
             onClick={() => setIsPausado(!isPausado)}
             className="h-11 w-11 rounded-2xl bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/70 transition-all pointer-events-auto"
-            title={isPausado ? 'Continuar RotaÃ§Ã£o' : 'Pausar'}
+            title={isPausado ? 'Continuar Rotação' : 'Pausar'}
           >
             {isPausado ? <Play size={18} className="text-brand-laranja fill-brand-laranja" /> : <Pause size={18} />}
           </button>
@@ -201,12 +201,12 @@ function TVDisplayContent() {
         </div>
       </header>
 
-      {/* â”€â”€ CONTEÃšDO PRINCIPAL COM ANIMAÃ‡ÃƒO DE KEN BURNS â”€â”€ */}
+      {/* ── CONTEÚDO PRINCIPAL COM ANIMAÇÍO DE KEN BURNS ── */}
       {loading ? (
         <div className="flex h-full w-full items-center justify-center">
           <div className="flex flex-col items-center gap-3">
             <div className="h-12 w-12 rounded-full border-4 border-brand-laranja border-t-transparent animate-spin" />
-            <p className="text-sm font-semibold tracking-wider uppercase text-white/70">Carregando feed de notÃ­cias...</p>
+            <p className="text-sm font-semibold tracking-wider uppercase text-white/70">Carregando feed de notícias...</p>
           </div>
         </div>
       ) : (
@@ -236,7 +236,7 @@ function TVDisplayContent() {
               className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-black/30"
             />
 
-            {/* ConteÃºdo Informativo em Primeiro Plano */}
+            {/* Conteúdo Informativo em Primeiro Plano */}
             <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-14 lg:p-20 z-20 flex flex-col lg:flex-row items-end justify-between gap-8 max-w-7xl mx-auto">
               
               {/* Lado Esquerdo: Manchete e Resumo */}
@@ -251,7 +251,7 @@ function TVDisplayContent() {
                   </span>
                 )}
 
-                {/* Manchete com revelaÃ§Ã£o palavra por palavra */}
+                {/* Manchete com revelação palavra por palavra */}
                 <motion.h1
                   key={`title-${indexAtual}`}
                   variants={heroContainerVariants}
@@ -270,7 +270,7 @@ function TVDisplayContent() {
                   ))}
                 </motion.h1>
 
-                {/* Resumo/SubtÃ­tulo */}
+                {/* Resumo/Subtítulo */}
                 <motion.p
                   key={`resumo-${indexAtual}`}
                   initial={{ opacity: 0, y: 16 }}
@@ -293,7 +293,7 @@ function TVDisplayContent() {
                   <div className="bg-white p-2 rounded-2xl shadow-inner">
                     <img
                       src={qrCodeImageUrl}
-                      alt="Leia a matÃ©ria completa no celular"
+                      alt="Leia a matéria completa no celular"
                       className="w-28 h-28 sm:w-32 sm:h-32 object-contain rounded-xl"
                     />
                   </div>
@@ -302,7 +302,7 @@ function TVDisplayContent() {
                     <span>Leia no Celular</span>
                   </div>
                   <p className="text-[10px] text-brand-muted max-w-32.5 leading-tight">
-                    Aponte a cÃ¢mera para abrir esta notÃ­cia no portal
+                    Aponte a câmera para abrir esta notícia no portal
                   </p>
                 </motion.div>
               )}
@@ -311,7 +311,7 @@ function TVDisplayContent() {
         </AnimatePresence>
       )}
 
-      {/* â”€â”€ NAVIGATORS LATERAIS (OCULTOS ATÃ‰ PASSAR O MOUSE) â”€â”€ */}
+      {/* ── NAVIGATORS LATERAIS (OCULTOS ATÉ PASSAR O MOUSE) ── */}
       <div className="absolute inset-y-0 left-4 z-30 flex items-center opacity-0 hover:opacity-100 transition-opacity">
         <button
           onClick={anteriorNoticia}
@@ -330,9 +330,9 @@ function TVDisplayContent() {
         </button>
       </div>
 
-      {/* RodapÃ© contador de notÃ­cias */}
+      {/* Rodapé contador de notícias */}
       <div className="absolute bottom-4 left-8 z-30 text-xs text-white/50 font-mono">
-        Exibindo {indexAtual + 1} de {noticias.length} notÃ­cias
+        Exibindo {indexAtual + 1} de {noticias.length} notícias
       </div>
     </div>
   );

@@ -80,12 +80,12 @@ export default function ArticleEditor() {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert('Por favor, selecione um arquivo de imagem vÃ¡lido (JPG, PNG, WEBP, etc).');
+      alert('Por favor, selecione um arquivo de imagem válido (JPG, PNG, WEBP, etc).');
       return;
     }
 
     if (file.size > 10 * 1024 * 1024) {
-      alert('A imagem Ã© muito grande. Escolha uma imagem de atÃ© 10MB.');
+      alert('A imagem é muito grande. Escolha uma imagem de até 10MB.');
       return;
     }
 
@@ -114,7 +114,7 @@ export default function ArticleEditor() {
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
       console.error('Erro no upload:', err);
-      alert('Erro ao enviar imagem: ' + (errorObj.message || 'Falha de conexÃ£o com o armazenamento.'));
+      alert('Erro ao enviar imagem: ' + (errorObj.message || 'Falha de conexão com o armazenamento.'));
     } finally {
       setUploading(false);
     }
@@ -160,7 +160,7 @@ export default function ArticleEditor() {
       data_publicacao: dataPublicacao,
     };
 
-    // Remove campos que nÃ£o podem ser atualizados diretamente (gerados pelo banco)
+    // Remove campos que não podem ser atualizados diretamente (gerados pelo banco)
     delete payload.fts;
 
     let error;
@@ -172,9 +172,9 @@ export default function ArticleEditor() {
 
     setSalvando(false);
     if (error) {
-      alert('Erro ao salvar notÃ­cia: ' + error.message);
+      alert('Erro ao salvar notícia: ' + error.message);
     } else {
-      // Disparar Webhook de notÃ­cias se houver redes sociais selecionadas
+      // Disparar Webhook de notícias se houver redes sociais selecionadas
       if (destinosRedes.length > 0) {
         const catEncontrada = categorias.find(c => c.id === form.categoria_id);
         const catSlug = catEncontrada?.slug || 'geral';
@@ -192,7 +192,7 @@ export default function ArticleEditor() {
           categoria: catNome,
           imagem_url: form.imagem_url || null,
           data_publicacao: dataPublicacao,
-        }).catch(err => console.error('[Webhook NotÃ­cia] Erro ao disparar:', err));
+        }).catch(err => console.error('[Webhook Notícia] Erro ao disparar:', err));
       }
 
       router.push('/admin');
@@ -200,7 +200,7 @@ export default function ArticleEditor() {
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-brand-grafite flex items-center justify-center text-brand-muted">Carregando notÃ­cia...</div>;
+    return <div className="min-h-screen bg-brand-grafite flex items-center justify-center text-brand-muted">Carregando notícia...</div>;
   }
 
   const secoesEditoriais = categorias.filter(c => c.tipo === 'editorial');
@@ -214,27 +214,27 @@ export default function ArticleEditor() {
           Voltar ao Painel
         </Link>
         <h1 className="font-titulo font-bold text-brand-creme">
-          {isEdicao ? 'Editar NotÃ­cia' : 'Nova NotÃ­cia'}
+          {isEdicao ? 'Editar Notícia' : 'Nova Notícia'}
         </h1>
       </header>
 
       <form onSubmit={handleSalvar} className="max-w-3xl mx-auto px-6 py-8 space-y-6">
-        {/* TÃ­tulo */}
+        {/* Título */}
         <div>
-          <label className="block text-xs font-semibold text-brand-muted mb-1">TÃ­tulo da MatÃ©ria *</label>
+          <label className="block text-xs font-semibold text-brand-muted mb-1">Título da Matéria *</label>
           <input
             type="text"
             value={form.titulo}
             onChange={e => handleChange('titulo', e.target.value)}
             required
             className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme focus:outline-none focus:border-brand-laranja transition-colors"
-            placeholder="Ex: Novo investimento em infraestrutura no SemiÃ¡rido Nordeste II"
+            placeholder="Ex: Novo investimento em infraestrutura no Semiárido Nordeste II"
           />
         </div>
 
         {/* Slug */}
         <div>
-          <label className="block text-xs font-semibold text-brand-muted mb-1">Slug (URL amigÃ¡vel)</label>
+          <label className="block text-xs font-semibold text-brand-muted mb-1">Slug (URL amigável)</label>
           <input
             type="text"
             value={form.slug}
@@ -244,23 +244,23 @@ export default function ArticleEditor() {
           />
         </div>
 
-        {/* Categoria / SeÃ§Ã£o + Destaque */}
+        {/* Categoria / Seção + Destaque */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-brand-muted mb-1">SeÃ§Ã£o / Categoria *</label>
+            <label className="block text-xs font-semibold text-brand-muted mb-1">Seção / Categoria *</label>
             <select
               value={form.categoria_id}
               onChange={e => handleChange('categoria_id', e.target.value)}
               required
               className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme focus:outline-none focus:border-brand-laranja transition-colors"
             >
-              <option value="">Selecionar seÃ§Ã£o ou municÃ­pio...</option>
-              <optgroup label="ðŸ“Œ SeÃ§Ãµes e Editoriais do Portal">
+              <option value="">Selecionar seção ou município...</option>
+              <optgroup label="ðŸ“Œ Seções e Editoriais do Portal">
                 {secoesEditoriais.map(cat => (
                   <option key={cat.id} value={cat.id}>{cat.nome}</option>
                 ))}
               </optgroup>
-              <optgroup label="ðŸ™ï¸ MunicÃ­pios do SemiÃ¡rido">
+              <optgroup label="ðŸ™️ Municípios do Semiárido">
                 {municipiosRegiao.map(cat => (
                   <option key={cat.id} value={cat.id}>{cat.nome}</option>
                 ))}
@@ -275,17 +275,17 @@ export default function ArticleEditor() {
                 onChange={e => handleChange('destaque', e.target.checked)}
                 className="accent-brand-laranja h-4 w-4 rounded"
               />
-              â­ Destaque / Manchete Principal
+              ⭐ Destaque / Manchete Principal
             </label>
           </div>
         </div>
 
-        {/* â”€â”€ CAMPO DE IMAGEM COM UPLOAD & LINK â”€â”€ */}
+        {/* ── CAMPO DE IMAGEM COM UPLOAD & LINK ── */}
         <div className="rounded-xl bg-brand-surface border border-brand-border p-5 space-y-4">
           <div className="flex items-center justify-between">
             <label className="text-xs font-bold text-brand-creme flex items-center gap-2">
               <ImageIcon size={16} className="text-brand-laranja" />
-              Imagem de Capa da NotÃ­cia
+              Imagem de Capa da Notícia
             </label>
 
             {/* Abas: Upload vs URL */}
@@ -317,7 +317,7 @@ export default function ArticleEditor() {
             </div>
           </div>
 
-          {/* OpÃ§Ã£o 1: Upload de Arquivo */}
+          {/* Opção 1: Upload de Arquivo */}
           {modoImagem === 'upload' ? (
             <div className="space-y-3">
               <label 
@@ -350,7 +350,7 @@ export default function ArticleEditor() {
                         Clique aqui para escolher uma imagem
                       </p>
                       <p className="text-xs text-brand-muted mt-1">
-                        Formatos aceitos: JPG, PNG, WEBP (MÃ¡x: 10MB)
+                        Formatos aceitos: JPG, PNG, WEBP (Máx: 10MB)
                       </p>
                     </>
                   )}
@@ -358,14 +358,14 @@ export default function ArticleEditor() {
               </label>
             </div>
           ) : (
-            /* OpÃ§Ã£o 2: URL Externa */
+            /* Opção 2: URL Externa */
             <div className="space-y-2">
               <input
                 type="url"
                 value={form.imagem_url ?? ''}
                 onChange={e => handleChange('imagem_url', e.target.value)}
                 className="w-full rounded-lg bg-brand-grafite border border-brand-border px-3 py-2.5 text-brand-creme focus:outline-none focus:border-brand-laranja transition-colors text-sm"
-                placeholder="Cole o endereÃ§o da imagem (ex: https://site.com/foto.jpg)"
+                placeholder="Cole o endereço da imagem (ex: https://site.com/foto.jpg)"
               />
             </div>
           )}
@@ -393,7 +393,7 @@ export default function ArticleEditor() {
               </div>
               <div className="absolute bottom-2 left-2 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] text-brand-creme flex items-center gap-1">
                 <Check size={12} className="text-green-400" />
-                Imagem pronta para publicaÃ§Ã£o
+                Imagem pronta para publicação
               </div>
             </div>
           )}
@@ -401,33 +401,33 @@ export default function ArticleEditor() {
 
         {/* Resumo */}
         <div>
-          <label className="block text-xs font-semibold text-brand-muted mb-1">Resumo da NotÃ­cia *</label>
+          <label className="block text-xs font-semibold text-brand-muted mb-1">Resumo da Notícia *</label>
           <textarea
             value={form.resumo}
             onChange={e => handleChange('resumo', e.target.value)}
             required
             rows={3}
             className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme focus:outline-none focus:border-brand-laranja transition-colors resize-none"
-            placeholder="Escreva um breve resumo da notÃ­cia (serÃ¡ exibido nos cards e no modo TV)"
+            placeholder="Escreva um breve resumo da notícia (será exibido nos cards e no modo TV)"
           />
         </div>
 
-        {/* ConteÃºdo */}
+        {/* Conteúdo */}
         <div>
-          <label className="block text-xs font-semibold text-brand-muted mb-1">ConteÃºdo Completo (HTML ou Texto) *</label>
+          <label className="block text-xs font-semibold text-brand-muted mb-1">Conteúdo Completo (HTML ou Texto) *</label>
           <textarea
             value={form.conteudo}
             onChange={e => handleChange('conteudo', e.target.value)}
             required
             rows={12}
             className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme font-mono text-sm focus:outline-none focus:border-brand-laranja transition-colors resize-y"
-            placeholder="<p>Escreva aqui a matÃ©ria completa...</p>"
+            placeholder="<p>Escreva aqui a matéria completa...</p>"
           />
         </div>
 
-        {/* SEO AvanÃ§ado */}
+        {/* SEO Avançado */}
         <details className="rounded-xl bg-brand-surface border border-brand-border p-4">
-          <summary className="cursor-pointer text-sm font-semibold text-brand-muted">âš™ï¸ SEO AvanÃ§ado (Opcional)</summary>
+          <summary className="cursor-pointer text-sm font-semibold text-brand-muted">âš™️ SEO Avançado (Opcional)</summary>
           <div className="mt-4 space-y-4">
             <div>
               <label className="block text-xs font-semibold text-brand-muted mb-1">Meta Title</label>
@@ -437,7 +437,7 @@ export default function ArticleEditor() {
                 onChange={e => handleChange('meta_title', e.target.value)}
                 maxLength={70}
                 className="w-full rounded-lg bg-brand-grafite border border-brand-border px-3 py-2.5 text-brand-creme focus:outline-none focus:border-brand-laranja transition-colors"
-                placeholder="TÃ­tulo SEO (mÃ¡x 70 caracteres)"
+                placeholder="Título SEO (máx 70 caracteres)"
               />
             </div>
             <div>
@@ -448,13 +448,13 @@ export default function ArticleEditor() {
                 rows={2}
                 maxLength={160}
                 className="w-full rounded-lg bg-brand-grafite border border-brand-border px-3 py-2.5 text-brand-creme focus:outline-none focus:border-brand-laranja transition-colors resize-none"
-                placeholder="DescriÃ§Ã£o SEO (mÃ¡x 160 caracteres)"
+                placeholder="Descrição SEO (máx 160 caracteres)"
               />
             </div>
           </div>
         </details>
 
-        {/* â”€â”€ SEÃ‡ÃƒO PUBLICAR NAS REDES SOCIAIS (WEBHOOK N8N) â”€â”€ */}
+        {/* ── SEÇÍO PUBLICAR NAS REDES SOCIAIS (WEBHOOK N8N) ── */}
         <div className="rounded-xl bg-brand-surface border border-brand-border p-5 space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-border pb-2.5">
             <label className="text-xs font-bold text-brand-creme flex items-center gap-2">
@@ -469,7 +469,7 @@ export default function ArticleEditor() {
               >
                 Selecionar Todos
               </button>
-              <span className="text-brand-muted">â€¢</span>
+              <span className="text-brand-muted">”¢</span>
               <button
                 type="button"
                 onClick={() => setDestinosRedes([])}
@@ -481,7 +481,7 @@ export default function ArticleEditor() {
           </div>
 
           <p className="text-[11px] text-brand-muted">
-            Selecione as redes sociais para onde o payload completo da notÃ­cia serÃ¡ enviado automaticamente ao salvar:
+            Selecione as redes sociais para onde o payload completo da notícia será enviado automaticamente ao salvar:
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -515,7 +515,7 @@ export default function ArticleEditor() {
           </div>
         </div>
 
-        {/* BotÃ£o Salvar */}
+        {/* Botão Salvar */}
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-brand-border">
           <Link
             href="/admin"
@@ -533,7 +533,7 @@ export default function ArticleEditor() {
             ) : (
               <>
                 <Save size={16} />
-                {isEdicao ? 'Salvar AlteraÃ§Ãµes' : 'Publicar NotÃ­cia'}
+                {isEdicao ? 'Salvar Alterações' : 'Publicar Notícia'}
               </>
             )}
           </button>

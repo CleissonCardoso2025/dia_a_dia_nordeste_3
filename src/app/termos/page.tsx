@@ -10,8 +10,8 @@ export default function TermosPage() {
   return (
     <>
       <SEOHead
-        title="Termos de Uso â€” Dia a Dia Nordeste"
-        description="Termos e condiÃ§Ãµes de uso, direitos autorais e regras de navegaÃ§Ã£o do portal Dia a Dia Nordeste."
+        title="Termos de Uso — Dia a Dia Nordeste"
+        description="Termos e condições de uso, direitos autorais e regras de navegação do portal Dia a Dia Nordeste."
       />
 
       <motion.div
@@ -23,7 +23,7 @@ export default function TermosPage() {
       >
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 text-xs text-brand-muted">
-          <Link href="/" className="hover:text-brand-laranja">InÃ­cio</Link>
+          <Link href="/" className="hover:text-brand-laranja">Início</Link>
           <ChevronRight size={12} />
           <span className="text-brand-creme">Termos de Uso</span>
         </nav>
@@ -38,11 +38,11 @@ export default function TermosPage() {
             Termos de Uso
           </h1>
           <p className="text-brand-muted text-sm leading-relaxed">
-            Ao acessar e utilizar o portal <strong className="text-brand-creme">Dia a Dia Nordeste</strong>, vocÃª concorda expressamente com os termos e condiÃ§Ãµes descritos abaixo.
+            Ao acessar e utilizar o portal <strong className="text-brand-creme">Dia a Dia Nordeste</strong>, você concorda expressamente com os termos e condições descritos abaixo.
           </p>
         </div>
 
-        {/* ClÃ¡usulas */}
+        {/* Cláusulas */}
         <div className="space-y-6">
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="flex items-center gap-2 text-brand-creme font-titulo font-bold text-lg">
@@ -50,7 +50,7 @@ export default function TermosPage() {
               1. Propriedade Intelectual
             </div>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Todo o conteÃºdo publicado neste portal â€” incluindo textos, fotografias, artes, logotipos e layout â€” Ã© protegido pela legislaÃ§Ã£o de direitos autorais. Ã‰ proibida a reproduÃ§Ã£o total ou parcial sem autorizaÃ§Ã£o prÃ©via por escrito ou citaÃ§Ã£o expressa com link ativo para a fonte original.
+              Todo o conteúdo publicado neste portal — incluindo textos, fotografias, artes, logotipos e layout — é protegido pela legislação de direitos autorais. É proibida a reprodução total ou parcial sem autorização prévia por escrito ou citação expressa com link ativo para a fonte original.
             </p>
           </div>
 
@@ -60,16 +60,16 @@ export default function TermosPage() {
               2. Responsabilidade sobre Links Externos
             </div>
             <p className="text-xs text-brand-muted leading-relaxed">
-              O portal pode conter links para sites de terceiros ou parceiros comerciais. O Dia a Dia Nordeste nÃ£o se responsabiliza pelo conteÃºdo, polÃ­ticas de privacidade ou prÃ¡ticas de portais externos.
+              O portal pode conter links para sites de terceiros ou parceiros comerciais. O Dia a Dia Nordeste não se responsabiliza pelo conteúdo, políticas de privacidade ou práticas de portais externos.
             </p>
           </div>
 
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <h3 className="font-titulo font-bold text-brand-creme text-lg">
-              3. ModificaÃ§Ãµes nos Termos
+              3. Modificações nos Termos
             </h3>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Reservamo-nos o direito de alterar estes Termos de Uso a qualquer momento para adequaÃ§Ã£o legislativa ou melhoria dos serviÃ§os. Recomendamos a consulta periÃ³dica desta pÃ¡gina.
+              Reservamo-nos o direito de alterar estes Termos de Uso a qualquer momento para adequação legislativa ou melhoria dos serviços. Recomendamos a consulta periódica desta página.
             </p>
           </div>
         </div>

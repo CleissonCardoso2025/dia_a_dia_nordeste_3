@@ -454,7 +454,7 @@ export default function ArticleEditor() {
           </div>
         </details>
 
-        {/* ── SEÇÃO PUBLICAR NAS REDES SOCIAIS (WEBHOOK N8N) ── */}
+        {/* ── SEÇÍO PUBLICAR NAS REDES SOCIAIS (WEBHOOK N8N) ── */}
         <div className="rounded-xl bg-brand-surface border border-brand-border p-5 space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-border pb-2.5">
             <label className="text-xs font-bold text-brand-creme flex items-center gap-2">

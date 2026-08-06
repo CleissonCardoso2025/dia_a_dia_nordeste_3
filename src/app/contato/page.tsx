@@ -9,10 +9,10 @@ import { pageVariants } from '@/animations/variants';
 import { sendWebhookPayload } from '@/lib/webhook';
 
 const MUNICIPIOS = [
-  'Adustina', 'Antas', 'BanzaÃª', 'CÃ­cero Dantas', 'CipÃ³',
-  'Coronel JoÃ£o SÃ¡', 'Euclides da Cunha', 'FÃ¡tima', 'HeliÃ³polis', 'Jeremoabo',
+  'Adustina', 'Antas', 'Banzaê', 'Cícero Dantas', 'Cipó',
+  'Coronel João Sá', 'Euclides da Cunha', 'Fátima', 'Heliópolis', 'Jeremoabo',
   'Nova Soure', 'Novo Triunfo', 'Paripiranga', 'Pedro Alexandre', 'Ribeira do Amparo',
-  'Ribeira do Pombal', 'Santa BrÃ­gida', 'SÃ­tio do Quinto', 'Outro municÃ­pio'
+  'Ribeira do Pombal', 'Santa Brígida', 'Sítio do Quinto', 'Outro município'
 ];
 
 export default function ContatoPage() {
@@ -45,8 +45,8 @@ export default function ContatoPage() {
   return (
     <>
       <SEOHead
-        title="Fale Conosco â€” Dia a Dia Nordeste"
-        description="Entre em contato com a redaÃ§Ã£o do Dia a Dia Nordeste. Envie sugestÃµes de pauta, fotos, informaÃ§Ãµes e dÃºvidas."
+        title="Fale Conosco — Dia a Dia Nordeste"
+        description="Entre em contato com a redação do Dia a Dia Nordeste. Envie sugestões de pauta, fotos, informações e dúvidas."
       />
 
       <motion.div
@@ -58,7 +58,7 @@ export default function ContatoPage() {
       >
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 text-xs text-brand-muted">
-          <Link href="/" className="hover:text-brand-laranja">InÃ­cio</Link>
+          <Link href="/" className="hover:text-brand-laranja">Início</Link>
           <ChevronRight size={12} />
           <span className="text-brand-creme">Fale Conosco</span>
         </nav>
@@ -73,20 +73,20 @@ export default function ContatoPage() {
             Fale Conosco & Envie Sua Pauta
           </h1>
           <p className="text-brand-muted text-sm leading-relaxed">
-            Tem uma notÃ­cia, denÃºncia ou sugestÃ£o de matÃ©ria da sua cidade no SemiÃ¡rido Nordeste II? Fale diretamente com a nossa equipe de redaÃ§Ã£o!
+            Tem uma notícia, denúncia ou sugestão de matéria da sua cidade no Semiárido Nordeste II? Fale diretamente com a nossa equipe de redação!
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* InformaÃ§Ãµes de Contato Direto */}
+          {/* Informações de Contato Direto */}
           <div className="space-y-4 md:col-span-1">
             <div className="rounded-xl bg-brand-surface border border-brand-border p-5 space-y-3">
               <div className="flex items-center gap-2 text-brand-laranja">
                 <MessageCircle size={18} />
-                <h3 className="font-titulo font-bold text-brand-creme text-sm">WhatsApp da RedaÃ§Ã£o</h3>
+                <h3 className="font-titulo font-bold text-brand-creme text-sm">WhatsApp da Redação</h3>
               </div>
               <p className="text-xs text-brand-muted">
-                Atendimento rÃ¡pido para envio de pautas, fotos e vÃ­deos.
+                Atendimento rápido para envio de pautas, fotos e vídeos.
               </p>
               <a
                 href="https://wa.me/5500000000000"
@@ -117,15 +117,15 @@ export default function ContatoPage() {
             <div className="rounded-xl bg-brand-surface border border-brand-border p-5 space-y-2">
               <div className="flex items-center gap-2 text-brand-laranja">
                 <MapPin size={18} />
-                <h3 className="font-titulo font-bold text-brand-creme text-sm">RegiÃ£o de AtuaÃ§Ã£o</h3>
+                <h3 className="font-titulo font-bold text-brand-creme text-sm">Região de Atuação</h3>
               </div>
               <p className="text-xs text-brand-muted leading-relaxed">
-                SemiÃ¡rido Nordeste II â€” Estado da Bahia.
+                Semiárido Nordeste II — Estado da Bahia.
               </p>
             </div>
           </div>
 
-          {/* FormulÃ¡rio de Mensagem */}
+          {/* Formulário de Mensagem */}
           <div className="md:col-span-2 rounded-2xl bg-brand-surface border border-brand-border p-6 space-y-4">
             <h2 className="font-titulo font-bold text-brand-creme text-xl">
               Envie uma Mensagem
@@ -136,7 +136,7 @@ export default function ContatoPage() {
                 <CheckCircle2 size={40} className="text-green-400 mx-auto" />
                 <h3 className="font-titulo font-bold text-white text-lg">Mensagem Enviada!</h3>
                 <p className="text-xs text-brand-muted">
-                  Obrigado pelo contato! Nossa equipe de redaÃ§Ã£o analisarÃ¡ sua mensagem em breve.
+                  Obrigado pelo contato! Nossa equipe de redação analisará sua mensagem em breve.
                 </p>
                 <button
                   onClick={() => setEnviado(false)}
@@ -175,7 +175,7 @@ export default function ContatoPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-brand-creme mb-1">MunicÃ­pio</label>
+                    <label className="block text-xs font-semibold text-brand-creme mb-1">Município</label>
                     <select
                       value={cidade}
                       onChange={e => setCidade(e.target.value)}
@@ -195,7 +195,7 @@ export default function ContatoPage() {
                       required
                       value={assunto}
                       onChange={e => setAssunto(e.target.value)}
-                      placeholder="SugestÃ£o de pauta, denÃºncia..."
+                      placeholder="Sugestão de pauta, denúncia..."
                       className="w-full rounded-lg bg-brand-grafite border border-brand-border px-3 py-2 text-sm text-brand-creme focus:border-brand-laranja outline-none"
                     />
                   </div>
@@ -221,7 +221,7 @@ export default function ContatoPage() {
                   {enviando ? (
                     <>
                       <Loader2 size={15} className="animate-spin" />
-                      Enviando para a redaÃ§Ã£o...
+                      Enviando para a redação...
                     </>
                   ) : (
                     <>

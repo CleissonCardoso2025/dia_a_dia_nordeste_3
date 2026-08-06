@@ -28,7 +28,7 @@ export default function Dashboard() {
   const [isWebStoriesModalOpen, setIsWebStoriesModalOpen] = useState(false);
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
 
-  // ConfiguraÃ§Ãµes do Digital Signage (Modo TV)
+  // Configurações do Digital Signage (Modo TV)
   const savedConfigRaw = localStorage.getItem('tv_signage_config');
   const savedConfig = savedConfigRaw ? JSON.parse(savedConfigRaw) : {};
 
@@ -38,7 +38,7 @@ export default function Dashboard() {
   const [copiadoSlug, setCopiadoSlug] = useState<string | null>(null);
   const [salvoSucesso, setSalvoSucesso] = useState(false);
 
-  // Estado dos Webhooks n8n (FormulÃ¡rios + NotÃ­cias/Redes)
+  // Estado dos Webhooks n8n (Formulários + Notícias/Redes)
   const [webhookUrlInput, setWebhookUrlInput] = useState(getWebhookUrl());
   const [newsWebhookUrlInput, setNewsWebhookUrlInput] = useState(getNewsWebhookUrl());
   const [webhookSalvoSucesso, setWebhookSalvoSucesso] = useState(false);
@@ -88,7 +88,7 @@ export default function Dashboard() {
 
   const testarWebhook = async () => {
     if (!webhookUrlInput.trim()) {
-      alert('Por favor, informe a URL do Webhook de FormulÃ¡rios do n8n.');
+      alert('Por favor, informe a URL do Webhook de Formulários do n8n.');
       return;
     }
 
@@ -97,23 +97,23 @@ export default function Dashboard() {
     setWebhookResultadoTeste(null);
 
     const res = await sendWebhookPayload('teste', {
-      mensagem: 'Teste de integraÃ§Ã£o de formulÃ¡rios enviado pelo Painel Admin',
+      mensagem: 'Teste de integração de formulários enviado pelo Painel Admin',
       data_teste: new Date().toLocaleString('pt-BR'),
       status: 'sucesso',
     });
 
     setTestandoWebhook(false);
     if (res.success) {
-      setWebhookResultadoTeste({ ok: true, msg: 'Payload de teste de formulÃ¡rios disparado com sucesso para o n8n!' });
+      setWebhookResultadoTeste({ ok: true, msg: 'Payload de teste de formulários disparado com sucesso para o n8n!' });
     } else {
-      setWebhookResultadoTeste({ ok: false, msg: `Erro: ${res.error || 'Falha de conexÃ£o com o n8n'}` });
+      setWebhookResultadoTeste({ ok: false, msg: `Erro: ${res.error || 'Falha de conexão com o n8n'}` });
     }
   };
 
   const testarNewsWebhook = async () => {
     const targetUrl = newsWebhookUrlInput.trim() || webhookUrlInput.trim();
     if (!targetUrl) {
-      alert('Por favor, informe a URL do Webhook de NotÃ­cias do n8n.');
+      alert('Por favor, informe a URL do Webhook de Notícias do n8n.');
       return;
     }
 
@@ -124,9 +124,9 @@ export default function Dashboard() {
     const res = await sendNewsWebhookPayload(
       ['instagram', 'x', 'whatsapp', 'facebook'],
       {
-        manchete: 'Grande Seca Impacta Mais de 10 MilhÃµes no Nordeste',
-        resumo: 'Especialistas alertam para o maior perÃ­odo de estiagem dos Ãºltimos anos...',
-        corpo: '<p>MatÃ©ria completa de teste de publicaÃ§Ã£o de notÃ­cia para redes sociais...</p>',
+        manchete: 'Grande Seca Impacta Mais de 10 Milhões no Nordeste',
+        resumo: 'Especialistas alertam para o maior período de estiagem dos últimos anos...',
+        corpo: '<p>Matéria completa de teste de publicação de notícia para redes sociais...</p>',
         slug: 'seca-impacta-nordeste-teste',
         url_materia: `${window.location.origin}/noticia/ambiente/seca-impacta-nordeste-teste`,
         categoria: 'Meio Ambiente',
@@ -138,9 +138,9 @@ export default function Dashboard() {
 
     setTestandoWebhook(false);
     if (res.success) {
-      setWebhookResultadoTeste({ ok: true, msg: 'Payload de TESTE DE NOTÃCIA disparado com sucesso para o n8n!' });
+      setWebhookResultadoTeste({ ok: true, msg: 'Payload de TESTE DE NOTÍCIA disparado com sucesso para o n8n!' });
     } else {
-      setWebhookResultadoTeste({ ok: false, msg: `Erro no Webhook de NotÃ­cia: ${res.error || 'Falha de conexÃ£o'}` });
+      setWebhookResultadoTeste({ ok: false, msg: `Erro no Webhook de Notícia: ${res.error || 'Falha de conexão'}` });
     }
   };
 
@@ -156,8 +156,8 @@ export default function Dashboard() {
 
     const res = await sendWebhookPayload('banner_expirado', {
       id: 'sample-banner-uuid-12345',
-      titulo: 'Campanha Supermercado Arco-Ãris - Ofertas de VerÃ£o',
-      anunciante: 'Grupo Arco-Ãris Ltda',
+      titulo: 'Campanha Supermercado Arco-Íris - Ofertas de Verão',
+      anunciante: 'Grupo Arco-Íris Ltda',
       posicao: 'sidebar',
       link_destino: 'https://supermercadoarcoiris.com.br/promocao',
       data_inicio: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -165,14 +165,14 @@ export default function Dashboard() {
       visualizacoes: 14850,
       cliques: 842,
       ctr: '5.67%',
-      mensagem: 'ATENÃ‡ÃƒO: O banner publicitÃ¡rio "Campanha Supermercado Arco-Ãris - Ofertas de VerÃ£o" atingiu a data de tÃ©rmino e foi removido da exibiÃ§Ã£o pÃºblica.'
+      mensagem: 'ATENÇÍO: O banner publicitário "Campanha Supermercado Arco-Íris - Ofertas de Verão" atingiu a data de término e foi removido da exibição pública.'
     });
 
     setTestandoWebhook(false);
     if (res.success) {
       setWebhookResultadoTeste({ ok: true, msg: 'Payload de TESTE DE BANNER EXPIRADO disparado com sucesso para o n8n!' });
     } else {
-      setWebhookResultadoTeste({ ok: false, msg: `Erro ao testar Webhook: ${res.error || 'Falha de conexÃ£o'}` });
+      setWebhookResultadoTeste({ ok: false, msg: `Erro ao testar Webhook: ${res.error || 'Falha de conexão'}` });
     }
   };
 
@@ -190,8 +190,8 @@ export default function Dashboard() {
 
     const res = await sendWebhookPayload('banner_pre_expiracao', {
       id: 'sample-banner-uuid-99999',
-      titulo: 'Campanha ConcessionÃ¡ria - Ofertas Especiais',
-      anunciante: 'Auto Bahia VeÃ­culos',
+      titulo: 'Campanha Concessionária - Ofertas Especiais',
+      anunciante: 'Auto Bahia Veículos',
       posicao: 'header',
       link_destino: 'https://autobahia.com.br',
       data_inicio: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
@@ -200,14 +200,14 @@ export default function Dashboard() {
       visualizacoes: 28400,
       cliques: 1250,
       ctr: '4.40%',
-      mensagem: 'âš ï¸ AVISO PRÃ‰VIO DE VEICULAÃ‡ÃƒO: O banner "Campanha ConcessionÃ¡ria - Ofertas Especiais" do cliente Auto Bahia VeÃ­culos vencerÃ¡ em 24h. Acesse o portal para tirar a prova de veiculaÃ§Ã£o (print) antes que saia do ar.'
+      mensagem: '⚠️ AVISO PRÉVIO DE VEICULAÇÍO: O banner "Campanha Concessionária - Ofertas Especiais" do cliente Auto Bahia Veículos vencerá em 24h. Acesse o portal para tirar a prova de veiculação (print) antes que saia do ar.'
     });
 
     setTestandoWebhook(false);
     if (res.success) {
-      setWebhookResultadoTeste({ ok: true, msg: 'Payload de TESTE PRÃ‰VIO (24h ANTES DO VENCIMENTO) disparado com sucesso para o n8n!' });
+      setWebhookResultadoTeste({ ok: true, msg: 'Payload de TESTE PRÉVIO (24h ANTES DO VENCIMENTO) disparado com sucesso para o n8n!' });
     } else {
-      setWebhookResultadoTeste({ ok: false, msg: `Erro ao testar Webhook: ${res.error || 'Falha de conexÃ£o'}` });
+      setWebhookResultadoTeste({ ok: false, msg: `Erro ao testar Webhook: ${res.error || 'Falha de conexão'}` });
     }
   };
 
@@ -217,7 +217,7 @@ export default function Dashboard() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir esta notÃ­cia?')) return;
+    if (!confirm('Tem certeza que deseja excluir esta notícia?')) return;
     await supabase.from('noticias').delete().eq('id', id);
     setNoticias(prev => prev.filter(n => n.id !== id));
   };
@@ -225,10 +225,10 @@ export default function Dashboard() {
   const canaisTV = [
     { nome: 'ðŸ“º Geral / Destaques Principal', slug: 'geral', path: '/tv', cor: '#D9491F' },
     { nome: 'âš½ Esporte', slug: 'esportes', path: '/tv/esportes', cor: '#059669' },
-    { nome: 'ðŸ¥ SaÃºde', slug: 'saude', path: '/tv/saude', cor: '#0284C7' },
+    { nome: 'ðŸ¥ Saúde', slug: 'saude', path: '/tv/saude', cor: '#0284C7' },
     { nome: 'ðŸ’¼ Economia', slug: 'economia', path: '/tv/economia', cor: '#1E5C4E' },
     { nome: 'ðŸŽ­ Cultura', slug: 'cultura', path: '/tv/cultura', cor: '#8B5CF6' },
-    { nome: 'ðŸŽ“ EducaÃ§Ã£o', slug: 'educacao', path: '/tv/educacao', cor: '#D97706' },
+    { nome: 'ðŸŽ“ Educação', slug: 'educacao', path: '/tv/educacao', cor: '#D97706' },
     { nome: 'ðŸ’» Tecnologia', slug: 'tecnologia', path: '/tv/tecnologia', cor: '#6366F1' },
   ];
 
@@ -260,9 +260,9 @@ export default function Dashboard() {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { label: 'Total de NotÃ­cias', value: noticias.length, icon: <FileText size={20} />, color: '#D9491F' },
-            { label: 'VisualizaÃ§Ãµes totais', value: noticias.reduce((acc, n) => acc + (n.views ?? 0), 0).toLocaleString('pt-BR'), icon: <Eye size={20} />, color: '#1E5C4E' },
-            { label: 'Mais acessada hoje', value: 'â€”', icon: <TrendingUp size={20} />, color: '#8B5CF6' },
+            { label: 'Total de Notícias', value: noticias.length, icon: <FileText size={20} />, color: '#D9491F' },
+            { label: 'Visualizações totais', value: noticias.reduce((acc, n) => acc + (n.views ?? 0), 0).toLocaleString('pt-BR'), icon: <Eye size={20} />, color: '#1E5C4E' },
+            { label: 'Mais acessada hoje', value: '—', icon: <TrendingUp size={20} />, color: '#8B5CF6' },
           ].map(stat => (
             <div key={stat.label} className="rounded-xl bg-brand-surface border border-brand-border p-4 flex items-center gap-4">
               <div className="h-10 w-10 rounded-full flex items-center justify-center" style={{ backgroundColor: stat.color + '20', color: stat.color }}>
@@ -276,7 +276,7 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* â”€â”€ SEÃ‡ÃƒO DIGITAL SIGNAGE / MODO TV â”€â”€ */}
+        {/* ── SEÇÍO DIGITAL SIGNAGE / MODO TV ── */}
         <section className="rounded-2xl bg-brand-surface border border-brand-border p-6 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-4">
             <div className="flex items-center gap-3">
@@ -288,7 +288,7 @@ export default function Dashboard() {
                   Digital Signage / Modo TV & Canais
                 </h2>
                 <p className="text-xs text-brand-muted">
-                  Configure o modo de exibiÃ§Ã£o contÃ­nua para Smart TVs, recepÃ§Ãµes e monitores da instituiÃ§Ã£o
+                  Configure o modo de exibição contínua para Smart TVs, recepções e monitores da instituição
                 </p>
               </div>
             </div>
@@ -303,20 +303,20 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          {/* Form de ConfiguraÃ§Ãµes BÃ¡sicas */}
+          {/* Form de Configurações Básicas */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-brand-grafite/50 p-4 rounded-xl border border-brand-border">
             {/* Config 1: Tempo */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-brand-creme flex items-center gap-1.5">
                 <Settings size={14} className="text-brand-laranja" />
-                1. Tempo por NotÃ­cia
+                1. Tempo por Notícia
               </label>
               <select
                 value={tempoPorSlide}
                 onChange={(e) => setTempoPorSlide(Number(e.target.value))}
                 className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2 text-xs font-medium text-brand-creme focus:border-brand-laranja outline-none"
               >
-                <option value={5}>5 Segundos (RÃ¡pido)</option>
+                <option value={5}>5 Segundos (Rápido)</option>
                 <option value={8}>8 Segundos</option>
                 <option value={10}>10 Segundos (Recomendado)</option>
                 <option value={15}>15 Segundos</option>
@@ -337,7 +337,7 @@ export default function Dashboard() {
                 className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2 text-xs font-medium text-brand-creme focus:border-brand-laranja outline-none"
               >
                 <option value="true">Sim - Exibir QR Code para celular</option>
-                <option value="false">NÃ£o - Ocultar QR Code</option>
+                <option value="false">Não - Ocultar QR Code</option>
               </select>
             </div>
 
@@ -345,35 +345,35 @@ export default function Dashboard() {
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-brand-creme flex items-center gap-1.5">
                 <Monitor size={14} className="text-brand-laranja" />
-                3. Fonte de NotÃ­cias PadrÃ£o
+                3. Fonte de Notícias Padrão
               </label>
               <select
                 value={fonteNoticias}
                 onChange={(e) => setFonteNoticias(e.target.value)}
                 className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2 text-xs font-medium text-brand-creme focus:border-brand-laranja outline-none"
               >
-                <option value="destaques">Apenas MatÃ©rias em Destaque</option>
-                <option value="ultimas">Ãšltimas NotÃ­cias Publicadas</option>
+                <option value="destaques">Apenas Matérias em Destaque</option>
+                <option value="ultimas">Últimas Notícias Publicadas</option>
               </select>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-2">
             <span className="text-xs text-brand-muted">
-              {salvoSucesso ? 'âœ… ConfiguraÃ§Ãµes salvas com sucesso!' : 'Salva as preferÃªncias no navegador da TV.'}
+              {salvoSucesso ? 'âœ… Configurações salvas com sucesso!' : 'Salva as preferências no navegador da TV.'}
             </span>
             <button
               onClick={salvarConfiguracoesTV}
               className="rounded-lg bg-brand-verde px-4 py-2 text-xs font-bold text-white hover:opacity-90 transition-opacity cursor-pointer"
             >
-              Salvar PreferÃªncias da TV
+              Salvar Preferências da TV
             </button>
           </div>
 
           {/* Gerador de Canais / Feeds Personalizados por TV */}
           <div className="space-y-3 pt-4 border-t border-brand-border">
             <h3 className="text-sm font-bold text-brand-creme">
-              ðŸ“º Links de Canais por SeÃ§Ã£o / Departamento (Para Smart TVs especÃ­ficas):
+              ðŸ“º Links de Canais por Seção / Departamento (Para Smart TVs específicas):
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {canaisTV.map((canal) => {
@@ -420,7 +420,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* â”€â”€ SEÃ‡ÃƒO INTEGRACAO N8N / WEBHOOK â”€â”€ */}
+        {/* ── SEÇÍO INTEGRACAO N8N / WEBHOOK ── */}
         <section className="rounded-2xl bg-brand-surface border border-brand-border p-6 space-y-6">
           <div className="flex items-center justify-between border-b border-brand-border pb-4">
             <div className="flex items-center gap-3">
@@ -429,10 +429,10 @@ export default function Dashboard() {
               </div>
               <div>
                 <h2 className="font-titulo font-bold text-brand-creme text-lg">
-                  AutomaÃ§Ã£o & Webhooks n8n
+                  Automação & Webhooks n8n
                 </h2>
                 <p className="text-xs text-brand-muted">
-                  Configure o envio automÃ¡tico de contatos, pautas e publicaÃ§Ã£o de notÃ­cias diretamente para o n8n
+                  Configure o envio automático de contatos, pautas e publicação de notícias diretamente para o n8n
                 </p>
               </div>
             </div>
@@ -447,11 +447,11 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Webhook 1: FormulÃ¡rios */}
+            {/* Webhook 1: Formulários */}
             <div className="rounded-xl bg-brand-grafite/50 p-4 border border-brand-border space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-brand-creme flex items-center gap-1.5">
-                  ðŸ“© Webhook de FormulÃ¡rios (Fale Conosco / Anuncie)
+                  ðŸ“© Webhook de Formulários (Fale Conosco / Anuncie)
                 </span>
               </div>
               <input
@@ -469,7 +469,7 @@ export default function Dashboard() {
                   className="flex items-center justify-center gap-1.5 w-full rounded-lg bg-purple-600/30 border border-purple-500/30 py-2 text-[11px] font-bold text-purple-300 hover:bg-purple-600 hover:text-white transition-colors cursor-pointer"
                 >
                   {testandoWebhook ? <Loader2 size={13} className="animate-spin" /> : <Zap size={13} />}
-                  FormulÃ¡rios
+                  Formulários
                 </button>
 
                 <button
@@ -477,10 +477,10 @@ export default function Dashboard() {
                   onClick={testarBannerPreExpiracaoWebhook}
                   disabled={testandoWebhook}
                   className="flex items-center justify-center gap-1.5 w-full rounded-lg bg-yellow-600/20 border border-yellow-500/30 py-2 text-[11px] font-bold text-yellow-300 hover:bg-yellow-600 hover:text-white transition-colors cursor-pointer"
-                  title="Alerta 24 horas antes da expiraÃ§Ã£o"
+                  title="Alerta 24 horas antes da expiração"
                 >
                   {testandoWebhook ? <Loader2 size={13} className="animate-spin" /> : <Zap size={13} />}
-                  Alerta PrÃ©vio 24h
+                  Alerta Prévio 24h
                 </button>
 
                 <button
@@ -495,11 +495,11 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Webhook 2: NotÃ­cias & Redes Sociais */}
+            {/* Webhook 2: Notícias & Redes Sociais */}
             <div className="rounded-xl bg-brand-grafite/50 p-4 border border-brand-border space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-brand-creme flex items-center gap-1.5">
-                  ðŸš€ Webhook de NotÃ­cias & Redes Sociais (n8n)
+                  ðŸš€ Webhook de Notícias & Redes Sociais (n8n)
                 </span>
               </div>
               <input
@@ -516,14 +516,14 @@ export default function Dashboard() {
                 className="flex items-center justify-center gap-1.5 w-full rounded-lg bg-brand-laranja/20 border border-brand-laranja/40 py-2 text-xs font-bold text-brand-laranja hover:bg-brand-laranja hover:text-white transition-colors cursor-pointer"
               >
                 {testandoWebhook ? <Loader2 size={13} className="animate-spin" /> : <Zap size={13} />}
-                Testar Webhook de NotÃ­cia (Sample)
+                Testar Webhook de Notícia (Sample)
               </button>
             </div>
           </div>
 
           {webhookSalvoSucesso && (
             <p className="text-xs text-green-400 font-semibold">
-              âœ… ConfiguraÃ§Ãµes de Webhook salvas com sucesso!
+              âœ… Configurações de Webhook salvas com sucesso!
             </p>
           )}
 
@@ -540,16 +540,16 @@ export default function Dashboard() {
           )}
         </section>
 
-        {/* AÃ§Ãµes das NotÃ­cias */}
+        {/* Ações das Notícias */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h2 className="font-titulo font-bold text-brand-creme text-lg">NotÃ­cias do Portal</h2>
+          <h2 className="font-titulo font-bold text-brand-creme text-lg">Notícias do Portal</h2>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsCategoryModalOpen(true)}
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
               <Tag size={15} className="text-brand-laranja" />
-              GestÃ£o de Categorias
+              Gestão de Categorias
             </button>
 
             <button
@@ -557,7 +557,7 @@ export default function Dashboard() {
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
               <ImageIcon size={15} className="text-brand-laranja" />
-              Upload de MÃ­dia
+              Upload de Mídia
             </button>
 
             <button
@@ -565,7 +565,7 @@ export default function Dashboard() {
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
               <PlaySquare size={15} className="text-brand-laranja" />
-              GestÃ£o de Web Stories
+              Gestão de Web Stories
             </button>
 
             <button
@@ -573,7 +573,7 @@ export default function Dashboard() {
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
               <Megaphone size={15} className="text-brand-laranja" />
-              GestÃ£o de Banners (GIF) & RelatÃ³rios
+              Gestão de Banners (GIF) & Relatórios
             </button>
 
             <Link
@@ -581,7 +581,7 @@ export default function Dashboard() {
               className="flex items-center gap-1.5 rounded-full bg-brand-laranja px-4 py-2 text-xs font-bold text-white hover:bg-brand-laranja-dark transition-colors shadow-md"
             >
               <PlusCircle size={15} />
-              Nova NotÃ­cia
+              Nova Notícia
             </Link>
           </div>
         </div>
@@ -592,19 +592,19 @@ export default function Dashboard() {
             <div className="p-8 text-center text-brand-muted text-sm">Carregando...</div>
           ) : noticias.length === 0 ? (
             <div className="p-8 text-center text-brand-muted text-sm">
-              Nenhuma notÃ­cia publicada ainda.
+              Nenhuma notícia publicada ainda.
               <br />
-              <Link href="/admin/nova" className="text-brand-laranja hover:underline mt-2 inline-block">Publicar primeira notÃ­cia â†’</Link>
+              <Link href="/admin/nova" className="text-brand-laranja hover:underline mt-2 inline-block">Publicar primeira notícia â†’</Link>
             </div>
           ) : (
             <table className="w-full text-sm">
               <thead className="border-b border-brand-border">
                 <tr>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-brand-muted">TÃ­tulo</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-brand-muted">Título</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold text-brand-muted hidden sm:table-cell">Categoria</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold text-brand-muted hidden md:table-cell">Data</th>
                   <th className="text-right px-4 py-3 text-xs font-semibold text-brand-muted hidden md:table-cell">Views</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-brand-muted">AÃ§Ãµes</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-brand-muted">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-brand-border">
@@ -628,7 +628,7 @@ export default function Dashboard() {
                     <td className="px-4 py-3 text-brand-muted text-xs hidden md:table-cell">
                       {noticia.data_publicacao
                         ? format(new Date(noticia.data_publicacao), "dd/MM/yyyy", { locale: ptBR })
-                        : 'â€”'}
+                        : '—'}
                     </td>
                     <td className="px-4 py-3 text-brand-muted text-xs text-right hidden md:table-cell">
                       {noticia.views?.toLocaleString('pt-BR') ?? 0}
@@ -656,7 +656,7 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* PaginaÃ§Ã£o */}
+        {/* Paginação */}
         {totalNoticias > noticiasPorPagina && (
           <div className="flex items-center justify-between border border-brand-border bg-brand-surface p-4 rounded-xl mt-4">
             <button
@@ -667,38 +667,38 @@ export default function Dashboard() {
               Anterior
             </button>
             <span className="text-brand-creme text-sm font-medium">
-              PÃ¡gina {paginaAtual} de {Math.ceil(totalNoticias / noticiasPorPagina)}
+              Página {paginaAtual} de {Math.ceil(totalNoticias / noticiasPorPagina)}
             </span>
             <button
               onClick={() => setPaginaAtual(p => Math.min(Math.ceil(totalNoticias / noticiasPorPagina), p + 1))}
               disabled={paginaAtual === Math.ceil(totalNoticias / noticiasPorPagina)}
               className="px-4 py-2 bg-brand-grafite text-brand-creme text-sm font-semibold rounded-lg disabled:opacity-50 hover:bg-brand-laranja hover:text-white transition-colors cursor-pointer"
             >
-              PrÃ³xima
+              Próxima
             </button>
           </div>
         )}
       </div>
 
-      {/* Modal de GestÃ£o de Banners & RelatÃ³rio de AudiÃªncia */}
+      {/* Modal de Gestão de Banners & Relatório de Audiência */}
       <BannerManagerModal
         isOpen={isBannerModalOpen}
         onClose={() => setIsBannerModalOpen(false)}
       />
 
-      {/* Modal de GestÃ£o de Categorias */}
+      {/* Modal de Gestão de Categorias */}
       <CategoryManagerModal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
       />
 
-      {/* Modal de GestÃ£o de Web Stories */}
+      {/* Modal de Gestão de Web Stories */}
       <WebStoriesManagerModal
         isOpen={isWebStoriesModalOpen}
         onClose={() => setIsWebStoriesModalOpen(false)}
       />
 
-      {/* Modal de GestÃ£o de MÃ­dias (Upload Avulso) */}
+      {/* Modal de Gestão de Mídias (Upload Avulso) */}
       <MediaManagerModal
         isOpen={isMediaModalOpen}
         onClose={() => setIsMediaModalOpen(false)}

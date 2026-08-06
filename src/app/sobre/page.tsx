@@ -7,18 +7,18 @@ import SEOHead from '@/components/ui/SEOHead';
 import { pageVariants } from '@/animations/variants';
 
 const MUNICIPIOS_SEMIARIDO = [
-  'Adustina', 'Antas', 'BanzaÃª', 'CÃ­cero Dantas', 'CipÃ³',
-  'Coronel JoÃ£o SÃ¡', 'Euclides da Cunha', 'FÃ¡tima', 'HeliÃ³polis', 'Jeremoabo',
+  'Adustina', 'Antas', 'Banzaê', 'Cícero Dantas', 'Cipó',
+  'Coronel João Sá', 'Euclides da Cunha', 'Fátima', 'Heliópolis', 'Jeremoabo',
   'Nova Soure', 'Novo Triunfo', 'Paripiranga', 'Pedro Alexandre', 'Ribeira do Amparo',
-  'Ribeira do Pombal', 'Santa BrÃ­gida', 'SÃ­tio do Quinto'
+  'Ribeira do Pombal', 'Santa Brígida', 'Sítio do Quinto'
 ];
 
 export default function SobrePage() {
   return (
     <>
       <SEOHead
-        title="Sobre o Portal â€” Dia a Dia Nordeste"
-        description="ConheÃ§a o portal Dia a Dia Nordeste: jornalismo regional focado no territÃ³rio do SemiÃ¡rido Nordeste II da Bahia. Conectando o SemiÃ¡rido."
+        title="Sobre o Portal — Dia a Dia Nordeste"
+        description="Conheça o portal Dia a Dia Nordeste: jornalismo regional focado no território do Semiárido Nordeste II da Bahia. Conectando o Semiárido."
       />
 
       <motion.div
@@ -30,34 +30,34 @@ export default function SobrePage() {
       >
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 text-xs text-brand-muted">
-          <Link href="/" className="hover:text-brand-laranja">InÃ­cio</Link>
+          <Link href="/" className="hover:text-brand-laranja">Início</Link>
           <ChevronRight size={12} />
           <span className="text-brand-creme">Sobre o Portal</span>
         </nav>
 
-        {/* Hero da PÃ¡gina */}
+        {/* Hero da Página */}
         <div className="rounded-2xl bg-linear-to-r from-brand-surface to-brand-grafite border border-brand-border p-8 text-center space-y-4">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-laranja/15 text-brand-laranja text-xs font-bold uppercase tracking-wider">
             <Sparkles size={13} />
-            Conectando o SemiÃ¡rido
+            Conectando o Semiárido
           </span>
           <h1 className="font-titulo font-black text-brand-creme text-3xl sm:text-4xl">
             Sobre o Dia a Dia Nordeste
           </h1>
           <p className="text-brand-muted text-base max-w-2xl mx-auto leading-relaxed">
-            O veÃ­culo de comunicaÃ§Ã£o independente totalmente dedicado Ã s notÃ­cias, cultura, economia e acontecimentos dos 18 municÃ­pios do territÃ³rio do <strong className="text-brand-creme">SemiÃ¡rido Nordeste II da Bahia</strong>.
+            O veículo de comunicação independente totalmente dedicado às notícias, cultura, economia e acontecimentos dos 18 municípios do território do <strong className="text-brand-creme">Semiárido Nordeste II da Bahia</strong>.
           </p>
         </div>
 
-        {/* Nossa MissÃ£o, VisÃ£o e Valores */}
+        {/* Nossa Missão, Visão e Valores */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="h-10 w-10 rounded-lg bg-brand-laranja/20 text-brand-laranja flex items-center justify-center">
               <Target size={22} />
             </div>
-            <h3 className="font-titulo font-bold text-brand-creme text-lg">Nossa MissÃ£o</h3>
+            <h3 className="font-titulo font-bold text-brand-creme text-lg">Nossa Missão</h3>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Levar informaÃ§Ã£o Ã¡gil, precisa e imparcial para a populaÃ§Ã£o sertaneja, dando voz Ã s demandas e conquistas do nosso territÃ³rio.
+              Levar informação ágil, precisa e imparcial para a população sertaneja, dando voz às demandas e conquistas do nosso território.
             </p>
           </div>
 
@@ -65,9 +65,9 @@ export default function SobrePage() {
             <div className="h-10 w-10 rounded-lg bg-brand-laranja/20 text-brand-laranja flex items-center justify-center">
               <Eye size={22} />
             </div>
-            <h3 className="font-titulo font-bold text-brand-creme text-lg">Nossa VisÃ£o</h3>
+            <h3 className="font-titulo font-bold text-brand-creme text-lg">Nossa Visão</h3>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Ser o principal portal de referÃªncia jornalÃ­stica do SemiÃ¡rido Baiano, integrando tecnologia, transparÃªncia e valorizaÃ§Ã£o cultural.
+              Ser o principal portal de referência jornalística do Semiárido Baiano, integrando tecnologia, transparência e valorização cultural.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ export default function SobrePage() {
             </div>
             <h3 className="font-titulo font-bold text-brand-creme text-lg">Nossos Valores</h3>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Compromisso com a verdade, independÃªncia editorial, respeito ao leitor, combate Ã s fake news e valorizaÃ§Ã£o da identidade nordestina.
+              Compromisso com a verdade, independência editorial, respeito ao leitor, combate às fake news e valorização da identidade nordestina.
             </p>
           </div>
         </div>
@@ -88,10 +88,10 @@ export default function SobrePage() {
             <MapPin size={22} className="text-brand-laranja" />
             <div>
               <h2 className="font-titulo font-bold text-brand-creme text-xl">
-                Cobertura no SemiÃ¡rido Nordeste II
+                Cobertura no Semiárido Nordeste II
               </h2>
               <p className="text-xs text-brand-muted">
-                Marcando presenÃ§a diÃ¡ria em 18 municÃ­pios baianos
+                Marcando presença diária em 18 municípios baianos
               </p>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function SobrePage() {
             </h2>
           </div>
           <p className="text-sm text-brand-muted leading-relaxed">
-            Nossa equipe trabalha com checagem rigorosa de informaÃ§Ãµes para garantir que cada matÃ©ria retrate com precisÃ£o o dia a dia das nossas cidades. Acreditamos que o acesso Ã  informaÃ§Ã£o de qualidade Ã© um direito fundamental para o desenvolvimento social e econÃ´mico do SemiÃ¡rido.
+            Nossa equipe trabalha com checagem rigorosa de informações para garantir que cada matéria retrate com precisão o dia a dia das nossas cidades. Acreditamos que o acesso à informação de qualidade é um direito fundamental para o desenvolvimento social e econômico do Semiárido.
           </p>
         </div>
       </motion.div>

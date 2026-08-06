@@ -10,8 +10,8 @@ export default function PoliticaEditorialPage() {
   return (
     <>
       <SEOHead
-        title="PolÃ­tica Editorial â€” Dia a Dia Nordeste"
-        description="Diretrizes Ã©ticas, compromisso com a verdade, checagem de fatos e conduta jornalÃ­stica do portal Dia a Dia Nordeste."
+        title="Política Editorial — Dia a Dia Nordeste"
+        description="Diretrizes éticas, compromisso com a verdade, checagem de fatos e conduta jornalística do portal Dia a Dia Nordeste."
       />
 
       <motion.div
@@ -23,26 +23,26 @@ export default function PoliticaEditorialPage() {
       >
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 text-xs text-brand-muted">
-          <Link href="/" className="hover:text-brand-laranja">InÃ­cio</Link>
+          <Link href="/" className="hover:text-brand-laranja">Início</Link>
           <ChevronRight size={12} />
-          <span className="text-brand-creme">PolÃ­tica Editorial</span>
+          <span className="text-brand-creme">Política Editorial</span>
         </nav>
 
         {/* Hero */}
         <div className="rounded-2xl bg-brand-surface border border-brand-border p-8 space-y-3">
           <div className="flex items-center gap-2 text-brand-laranja">
             <ShieldCheck size={24} />
-            <span className="text-xs font-bold uppercase tracking-wider">CÃ³digo de Ã‰tica</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Código de Ética</span>
           </div>
           <h1 className="font-titulo font-black text-brand-creme text-3xl">
-            PolÃ­tica Editorial
+            Política Editorial
           </h1>
           <p className="text-brand-muted text-sm leading-relaxed">
-            O portal <strong className="text-brand-creme">Dia a Dia Nordeste</strong> pauta sua atuaÃ§Ã£o na independÃªncia, na precisÃ£o dos fatos e no respeito intransigente ao pÃºblico leitor do SemiÃ¡rido Baiano.
+            O portal <strong className="text-brand-creme">Dia a Dia Nordeste</strong> pauta sua atuação na independência, na precisão dos fatos e no respeito intransigente ao público leitor do Semiárido Baiano.
           </p>
         </div>
 
-        {/* Pilares da AtuaÃ§Ã£o */}
+        {/* Pilares da Atuação */}
         <div className="space-y-6">
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="flex items-center gap-2 text-brand-creme font-titulo font-bold text-lg">
@@ -50,47 +50,47 @@ export default function PoliticaEditorialPage() {
               1. Veracidade e Checagem de Fatos (Fact-Checking)
             </div>
             <p className="text-xs text-brand-muted leading-relaxed pl-7">
-              Toda notÃ­cia publicada passa por processo prÃ©vio de verificaÃ§Ã£o e cruzamento de fontes oficiais. NÃ£o publicamos rumores, boatos ou especulaÃ§Ãµes sem confirmaÃ§Ã£o documental ou apuraÃ§Ã£o direta de campo.
+              Toda notícia publicada passa por processo prévio de verificação e cruzamento de fontes oficiais. Não publicamos rumores, boatos ou especulações sem confirmação documental ou apuração direta de campo.
             </p>
           </div>
 
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="flex items-center gap-2 text-brand-creme font-titulo font-bold text-lg">
               <CheckCircle2 size={20} className="text-brand-laranja shrink-0" />
-              2. IndependÃªncia PartidÃ¡ria e IsenÃ§Ã£o
+              2. Independência Partidária e Isenção
             </div>
             <p className="text-xs text-brand-muted leading-relaxed pl-7">
-              O portal nÃ£o mantÃ©m vÃ­nculos subordinados a partidos polÃ­ticos, coligaÃ§Ãµes ou grupos de interesse econÃ´mico. A cobertura polÃ­tica Ã© pautada pelo interesse pÃºblico e pela equidade de tratamento entre os atores envolvidos.
+              O portal não mantém vínculos subordinados a partidos políticos, coligações ou grupos de interesse econômico. A cobertura política é pautada pelo interesse público e pela equidade de tratamento entre os atores envolvidos.
             </p>
           </div>
 
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="flex items-center gap-2 text-brand-creme font-titulo font-bold text-lg">
               <CheckCircle2 size={20} className="text-brand-laranja shrink-0" />
-              3. Direito de Resposta e CorreÃ§Ãµes
+              3. Direito de Resposta e Correções
             </div>
             <p className="text-xs text-brand-muted leading-relaxed pl-7">
-              Garantimos o direito de resposta a pessoas ou entidades citadas em nossas matÃ©rias. Eventuais incorreÃ§Ãµes fÃ¡ticas serÃ£o corrigidas com transparÃªncia e rapidez no prÃ³prio texto com aviso ostensivo ao leitor.
+              Garantimos o direito de resposta a pessoas ou entidades citadas em nossas matérias. Eventuais incorreções fáticas serão corrigidas com transparência e rapidez no próprio texto com aviso ostensivo ao leitor.
             </p>
           </div>
 
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="flex items-center gap-2 text-brand-creme font-titulo font-bold text-lg">
               <AlertTriangle size={20} className="text-brand-laranja shrink-0" />
-              4. TransparÃªncia na Publicidade
+              4. Transparência na Publicidade
             </div>
             <p className="text-xs text-brand-muted leading-relaxed pl-7">
-              ConteÃºdos patrocinados, publieditoriais e banners de anunciantes sÃ£o claramente identificados como "Publicidade" ou "Patrocinado", mantendo separaÃ§Ã£o estrita da redaÃ§Ã£o jornalÃ­stica.
+              Conteúdos patrocinados, publieditoriais e banners de anunciantes são claramente identificados como "Publicidade" ou "Patrocinado", mantendo separação estrita da redação jornalística.
             </p>
           </div>
 
           <div className="rounded-xl bg-brand-surface border border-brand-border p-6 space-y-3">
             <div className="flex items-center gap-2 text-brand-creme font-titulo font-bold text-lg">
               <FileText size={20} className="text-brand-laranja shrink-0" />
-              5. ProteÃ§Ã£o Ã s Fontes
+              5. Proteção às Fontes
             </div>
             <p className="text-xs text-brand-muted leading-relaxed pl-7">
-              Respeitamos o sigilo da fonte garantido pela ConstituiÃ§Ã£o Federal quando a seguranÃ§a ou integridade do informante exigir sigilo sob relevante interesse pÃºblico.
+              Respeitamos o sigilo da fonte garantido pela Constituição Federal quando a segurança ou integridade do informante exigir sigilo sob relevante interesse público.
             </p>
           </div>
         </div>

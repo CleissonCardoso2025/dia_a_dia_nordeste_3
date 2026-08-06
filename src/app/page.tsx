@@ -17,7 +17,7 @@ export default function Home() {
       exit="exit"
       className="mx-auto max-w-7xl px-4 py-6 space-y-10"
     >
-      {/* ── 1ª SEÇÃO: HERO DE DESTAQUES ── */}
+      {/* ── 1ª SEÇÍO: HERO DE DESTAQUES ── */}
       <section aria-label="Notícias em Destaque" id="destaques">
         <Hero />
       </section>
@@ -30,12 +30,12 @@ export default function Home() {
         {/* Coluna principal */}
         <div className="flex-1 min-w-0 space-y-10">
           
-          {/* ── 2ª SEÇÃO: SEÇÃO SECUNDÁRIA COM ABAS DOS MUNICÍPIOS DO SEMIÁRIDO NORDESTE II ── */}
+          {/* ── 2ª SEÇÍO: SEÇÍO SECUNDÁRIA COM ABAS DOS MUNICÍPIOS DO SEMIÁRIDO NORDESTE II ── */}
           <div id="municipios">
             <CityTabsSection />
           </div>
 
-          {/* ── 3ª SEÇÃO: WEB STORIES POR CATEGORIAS ── */}
+          {/* ── 3ª SEÇÍO: WEB STORIES POR CATEGORIAS ── */}
           <div id="stories">
             <WebStoriesSection />
           </div>

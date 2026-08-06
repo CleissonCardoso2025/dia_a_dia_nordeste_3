@@ -33,7 +33,7 @@ export default function RssPage() {
     });
   }, []);
 
-  // NotÃ­cias das Web Stories quando selecionado
+  // Notícias das Web Stories quando selecionado
   const noticiasWebStories: Partial<Noticia>[] = MOCK_STORIES.map(s => ({
     id: s.id,
     titulo: `[Web Story] ${s.titulo}`,
@@ -44,10 +44,10 @@ export default function RssPage() {
       .map(slide => `<h3>${slide.titulo}</h3><p>${slide.texto}</p>${slide.imagemUrl ? `<p><img src="${slide.imagemUrl}" alt="${slide.titulo}" /></p>` : ''}`)
       .join('<hr/>'),
     imagem_url: s.capaUrl,
-    categorias: { id: s.id, nome: `Web Story â€” ${s.categoria}`, slug: 'web-stories', cor_hex: s.corCategoria },
+    categorias: { id: s.id, nome: `Web Story — ${s.categoria}`, slug: 'web-stories', cor_hex: s.corCategoria },
   }));
 
-  // NotÃ­cias filtradas por cidade/categoria ou Web Stories
+  // Notícias filtradas por cidade/categoria ou Web Stories
   const noticiasFiltradas = isWebStories
     ? noticiasWebStories
     : categoriaSelecionada
@@ -88,8 +88,8 @@ export default function RssPage() {
   return (
     <>
       <SEOHead
-        title="Central de Feeds RSS 2.0 â€” Dia a Dia Nordeste"
-        description="Feeds RSS 2.0 com notÃ­cias completas, tÃ­tulos, imagens e opÃ§Ã£o de seleÃ§Ã£o por municÃ­pio do SemiÃ¡rido Nordeste II."
+        title="Central de Feeds RSS 2.0 — Dia a Dia Nordeste"
+        description="Feeds RSS 2.0 com notícias completas, títulos, imagens e opção de seleção por município do Semiárido Nordeste II."
       />
 
       <motion.div
@@ -101,7 +101,7 @@ export default function RssPage() {
       >
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 text-xs text-brand-muted">
-          <Link href="/" className="hover:text-brand-laranja">InÃ­cio</Link>
+          <Link href="/" className="hover:text-brand-laranja">Início</Link>
           <ChevronRight size={12} />
           <span className="text-brand-creme">Feed RSS</span>
         </nav>
@@ -119,25 +119,25 @@ export default function RssPage() {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-grafite border border-brand-border text-xs font-semibold text-brand-creme hover:border-brand-laranja transition-colors"
               >
                 {modoXml ? <Eye size={14} /> : <Code size={14} />}
-                {modoXml ? 'Ver Leitor de NotÃ­cias' : 'Ver CÃ³digo XML'}
+                {modoXml ? 'Ver Leitor de Notícias' : 'Ver Código XML'}
               </button>
             </div>
           </div>
 
           <h1 className="font-titulo font-black text-brand-creme text-3xl">
-            Central de Feeds RSS por MunicÃ­pio
+            Central de Feeds RSS por Município
           </h1>
           <p className="text-brand-muted text-sm leading-relaxed">
-            Acompanhe as matÃ©rias do <strong className="text-brand-creme">Dia a Dia Nordeste</strong> em qualquer leitor de RSS (Feedly, Inoreader, Thunderbird). O feed inclui <strong className="text-brand-creme">tÃ­tulo, imagem em alta resoluÃ§Ã£o e o texto completo da notÃ­cia</strong>.
+            Acompanhe as matérias do <strong className="text-brand-creme">Dia a Dia Nordeste</strong> em qualquer leitor de RSS (Feedly, Inoreader, Thunderbird). O feed inclui <strong className="text-brand-creme">título, imagem em alta resolução e o texto completo da notícia</strong>.
           </p>
         </div>
 
-        {/* Seletor de MunicÃ­pios / SeÃ§Ã£o do RSS */}
+        {/* Seletor de Municípios / Seção do RSS */}
         <div className="rounded-2xl bg-brand-surface border border-brand-border p-6 space-y-4">
           <div className="flex items-center gap-2 border-b border-brand-border pb-3">
             <MapPin size={20} className="text-brand-laranja shrink-0" />
             <h2 className="font-titulo font-bold text-brand-creme text-lg">
-              Escolha a SeÃ§Ã£o ou MunicÃ­pio do Feed
+              Escolha a Seção ou Município do Feed
             </h2>
           </div>
 
@@ -153,10 +153,10 @@ export default function RssPage() {
                   : 'bg-brand-grafite text-brand-muted hover:text-brand-creme border border-brand-border'
               }`}
             >
-              ðŸŒ Todas as NotÃ­cias
+              ðŸŒ Todas as Notícias
             </button>
 
-            {/* OpÃ§Ã£o do Feed de Web Stories */}
+            {/* Opção do Feed de Web Stories */}
             <button
               onClick={() => {
                 setCategoriaSelecionada(null);
@@ -194,7 +194,7 @@ export default function RssPage() {
             })}
           </div>
 
-          {/* Barra de AÃ§Ãµes do Feed Selecionado */}
+          {/* Barra de Ações do Feed Selecionado */}
           <div className="mt-4 p-4 rounded-xl bg-brand-grafite border border-brand-border flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 min-w-0 w-full sm:w-auto">
               <Sparkles size={16} className="text-brand-laranja shrink-0" />
@@ -223,13 +223,13 @@ export default function RssPage() {
           </div>
         </div>
 
-        {/* ConteÃºdo do Feed: CÃ³digo XML ou PrÃ©-visualizaÃ§Ã£o das NotÃ­cias */}
+        {/* Conteúdo do Feed: Código XML ou Pré-visualização das Notícias */}
         {modoXml ? (
           <div className="rounded-2xl bg-brand-surface border border-brand-border p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-titulo font-bold text-brand-creme text-base flex items-center gap-2">
                 <Code size={18} className="text-brand-laranja" />
-                CÃ³digo XML do Feed RSS 2.0
+                Código XML do Feed RSS 2.0
               </h3>
               <span className="text-xs text-brand-muted font-mono">application/rss+xml</span>
             </div>
@@ -242,11 +242,11 @@ export default function RssPage() {
             <div className="flex items-center justify-between border-b border-brand-border pb-3">
               <h3 className="font-titulo font-bold text-brand-creme text-xl">
                 {categoriaSelecionada
-                  ? `MatÃ©rias do Feed: ${categoriaSelecionada.nome}`
-                  : 'Todas as MatÃ©rias do Feed RSS'}
+                  ? `Matérias do Feed: ${categoriaSelecionada.nome}`
+                  : 'Todas as Matérias do Feed RSS'}
               </h3>
               <span className="text-xs text-brand-muted">
-                {noticiasFiltradas.length} matÃ©rias no feed
+                {noticiasFiltradas.length} matérias no feed
               </span>
             </div>
 
@@ -256,7 +256,7 @@ export default function RssPage() {
                   key={noticia.id}
                   className="rounded-2xl bg-brand-surface border border-brand-border p-6 space-y-4 hover:border-brand-laranja/50 transition-all"
                 >
-                  {/* Topo da NotÃ­cia */}
+                  {/* Topo da Notícia */}
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     {noticia.categorias && (
                       <span
@@ -268,12 +268,12 @@ export default function RssPage() {
                     )}
                     <span className="text-xs text-brand-muted">
                       {noticia.data_publicacao
-                        ? format(new Date(noticia.data_publicacao), "d 'de' MMMM 'de' yyyy 'Ã s' HH:mm", { locale: ptBR })
+                        ? format(new Date(noticia.data_publicacao), "d 'de' MMMM 'de' yyyy 'às' HH:mm", { locale: ptBR })
                         : ''}
                     </span>
                   </div>
 
-                  {/* TÃ­tulo */}
+                  {/* Título */}
                   <h2 className="font-titulo font-bold text-brand-creme text-2xl leading-snug">
                     <Link
                       href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
@@ -294,7 +294,7 @@ export default function RssPage() {
                     </div>
                   )}
 
-                  {/* Resumo / ConteÃºdo Integral */}
+                  {/* Resumo / Conteúdo Integral */}
                   <div className="text-sm text-brand-muted leading-relaxed border-l-2 border-brand-laranja pl-4">
                     <p className="font-medium text-brand-creme mb-2">{noticia.resumo}</p>
                     <div
@@ -309,7 +309,7 @@ export default function RssPage() {
                       href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-laranja hover:underline"
                     >
-                      <span>Ler notÃ­cia completa no portal</span>
+                      <span>Ler notícia completa no portal</span>
                       <ExternalLink size={13} />
                     </Link>
                   </div>
