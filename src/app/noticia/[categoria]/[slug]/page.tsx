@@ -12,11 +12,12 @@ import ShareButton from './ShareButton';
 import ArticleViewTracker from './ArticleViewTracker';
 
 interface NoticiaPageProps {
-  params: { categoria: string; slug: string };
+  params: Promise<{ categoria: string; slug: string }>;
 }
 
 export async function generateMetadata({ params }: NoticiaPageProps): Promise<Metadata> {
-  const { data } = await getNoticiaBySlug(params.slug);
+  const resolvedParams = await params;
+  const { data } = await getNoticiaBySlug(resolvedParams.slug);
   const noticia = data as Noticia;
 
   if (!noticia) {
@@ -36,7 +37,8 @@ export async function generateMetadata({ params }: NoticiaPageProps): Promise<Me
 }
 
 export default async function NoticiaPage({ params }: NoticiaPageProps) {
-  const { data } = await getNoticiaBySlug(params.slug);
+  const resolvedParams = await params;
+  const { data } = await getNoticiaBySlug(resolvedParams.slug);
   const noticia = data as Noticia;
 
   if (!noticia) {
