@@ -1,5 +1,8 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Menu, X, MessageCircle } from 'lucide-react';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -24,8 +27,8 @@ export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [busca, setBusca] = useState('');
-  const navigate = useNavigate();
-
+  const router = useRouter();
+  const pathname = usePathname();
   useEffect(() => {
     getCategorias().then(({ data }) => {
       if (data && data.length > 0) setCategorias(data as Categoria[]);
@@ -41,7 +44,7 @@ export default function Header() {
   const handleBusca = (e: React.FormEvent) => {
     e.preventDefault();
     if (busca.trim()) {
-      navigate(`/busca?q=${encodeURIComponent(busca.trim())}`);
+      router.push(`/busca?q=${encodeURIComponent(busca.trim())}`);
       setBusca('');
       setMenuAberto(false);
     }
@@ -58,7 +61,7 @@ export default function Header() {
       {/* Topo: logo + busca + ações */}
       <div className="mx-auto max-w-7xl px-4 py-3 flex items-center gap-4">
         {/* Logo */}
-        <Link to="/" className="flex items-center shrink-0 group">
+        <Link href="/" className="flex items-center shrink-0 group">
           <img
             src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
             alt="Dia a Dia Nordeste"
@@ -89,7 +92,7 @@ export default function Header() {
 
           {/* CTA Fale Conosco */}
           <motion.button
-            onClick={() => navigate('/contato')}
+            onClick={() => router.push('/contato')}
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
             className="hidden sm:flex items-center gap-1.5 rounded-full bg-brand-laranja px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-laranja-light transition-colors cursor-pointer border-none"
@@ -158,35 +161,30 @@ export default function Header() {
 
               {/* Links de categoria */}
               <nav className="flex flex-col gap-1">
-                <NavLink
-                  to="/"
-                  end
+                <Link
+                  href="/"
                   onClick={() => setMenuAberto(false)}
-                  className={({ isActive }) =>
-                    `rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
-                      isActive ? 'bg-brand-laranja text-white' : 'text-brand-muted hover:text-brand-creme hover:bg-brand-surface'
-                    }`
-                  }
+                  className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
+                    pathname === '/' ? 'bg-brand-laranja text-white' : 'text-brand-muted hover:text-brand-creme hover:bg-brand-surface'
+                  }`}
                 >
                   🏠 Início
-                </NavLink>
-                {categorias.map(cat => (
-                  <NavLink
+                </Link>
+                {categorias.map(cat => {
+                  const isActive = pathname === `/categoria/${cat.slug}`;
+                  return (
+                  <Link
                     key={cat.id}
-                    to={`/categoria/${cat.slug}`}
+                    href={`/categoria/${cat.slug}`}
                     onClick={() => setMenuAberto(false)}
-                    className={({ isActive }) =>
-                      `rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
-                        isActive ? 'text-white' : 'text-brand-muted hover:text-brand-creme hover:bg-brand-surface'
-                      }`
-                    }
-                    style={({ isActive }) =>
-                      isActive ? { backgroundColor: cat.cor_hex } : {}
-                    }
+                    className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
+                      isActive ? 'text-white' : 'text-brand-muted hover:text-brand-creme hover:bg-brand-surface'
+                    }`}
+                    style={isActive ? { backgroundColor: cat.cor_hex } : {}}
                   >
                     {cat.nome}
-                  </NavLink>
-                ))}
+                  </Link>
+                )})}
               </nav>
 
               <div className="mt-auto">

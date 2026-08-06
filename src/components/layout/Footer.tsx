@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { MessageCircle, Mail, Share2 } from 'lucide-react';
 
 const SECOES = [
@@ -44,7 +46,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Sobre */}
           <div className="lg:col-span-1">
-            <Link to="/" className="inline-block mb-4">
+            <Link href="/" className="inline-block mb-4">
               <img
                 src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
                 alt="Dia a Dia Nordeste"
@@ -90,7 +92,7 @@ export default function Footer() {
                     </a>
                   ) : (
                     <Link
-                      to={secao.href}
+                      href={secao.href}
                       className="text-sm text-brand-muted hover:text-brand-laranja transition-colors"
                     >
                       {secao.nome}
@@ -117,7 +119,7 @@ export default function Footer() {
               ].map(link => (
                 <li key={link.href}>
                   <Link
-                    to={link.href}
+                    href={link.href}
                     className="text-sm text-brand-muted hover:text-brand-laranja transition-colors"
                   >
                     {link.label}
@@ -146,7 +148,7 @@ export default function Footer() {
                 📢 Tem uma pauta ou sugestão?
               </p>
               <Link
-                to="/contato"
+                href="/contato"
                 className="text-xs font-semibold text-brand-laranja hover:underline"
               >
                 Fale com a nossa redação →

@@ -1,6 +1,8 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import NewsCard from './NewsCard';
 import { gridContainerVariants } from '@/animations/variants';
 import type { Noticia, Categoria } from '@/types';
@@ -97,7 +99,7 @@ export default function CardGrid({ categoria, titulo, limite = 9 }: CardGridProp
           </div>
           {categoria && (
             <Link
-              to={`/categoria/${categoria.slug}`}
+              href={`/categoria/${categoria.slug}`}
               className="flex items-center gap-1 text-xs text-brand-laranja hover:underline font-semibold"
             >
               Ver tudo <ChevronRight size={14} />

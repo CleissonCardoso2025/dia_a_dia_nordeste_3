@@ -1,5 +1,7 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { heroContainerVariants, heroWordVariants, heroOverlayVariants } from '@/animations/variants';
@@ -125,7 +127,7 @@ export default function Hero() {
           </div>
 
           <Link
-            to={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
+            href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
             className="rounded-full bg-brand-laranja px-5 py-2 text-sm font-bold text-white hover:bg-brand-laranja-dark transition-colors"
           >
             Ler matéria completa →

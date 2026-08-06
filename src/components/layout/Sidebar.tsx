@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Eye, TrendingUp, Clock, MessageCircle } from 'lucide-react';
 import { BannerPlaceholder } from '@/components/ui/Banner';
@@ -70,7 +72,7 @@ export default function Sidebar() {
               className="group"
             >
               <Link
-                to={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
+                href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
                 className="flex items-start gap-3 px-4 py-3 hover:bg-brand-grafite/50 transition-colors"
               >
                 {/* Número */}
@@ -175,7 +177,7 @@ export default function Sidebar() {
           {(recentes.length > 0 ? recentes : MOCK_MAIS_ACESSADAS.slice(0, 4)).map(noticia => (
             <li key={noticia.id}>
               <Link
-                to={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
+                href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
                 className="block px-4 py-3 hover:bg-brand-grafite/50 transition-colors group"
               >
                 <p className="text-sm text-brand-creme leading-snug line-clamp-2 group-hover:text-brand-laranja transition-colors">

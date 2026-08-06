@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState, useRef } from 'react';
 import { MapPin, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import CardGrid from '@/components/news/CardGrid';

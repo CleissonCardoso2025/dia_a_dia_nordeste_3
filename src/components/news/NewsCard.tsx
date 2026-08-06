@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Clock, Eye } from 'lucide-react';
 import { cardItemVariants } from '@/animations/variants';
@@ -24,7 +24,7 @@ export default function NewsCard({ noticia, destaque = false }: NewsCardProps) {
       layoutId={`card-${noticia.id}`}
     >
       {/* Imagem */}
-      <Link to={href} className="block overflow-hidden" tabIndex={-1} aria-hidden>
+      <Link href={href} className="block overflow-hidden" tabIndex={-1} aria-hidden>
         <div className={`relative overflow-hidden ${destaque ? 'h-60' : 'h-44'} bg-brand-grafite`}>
           {noticia.imagem_url ? (
             <img
@@ -61,7 +61,7 @@ export default function NewsCard({ noticia, destaque = false }: NewsCardProps) {
 
       {/* Conteúdo textual */}
       <div className="flex flex-col flex-1 p-4">
-        <Link to={href}>
+        <Link href={href}>
           <h2
             className={`font-titulo font-bold text-brand-creme leading-snug mb-2 hover:text-brand-laranja transition-colors ${
               destaque ? 'text-xl' : 'text-base'

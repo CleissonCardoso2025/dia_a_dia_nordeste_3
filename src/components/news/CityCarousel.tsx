@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, MapPin, Clock } from 'lucide-react';
 import { getNoticiasByCategoria } from '@/lib/supabase';
@@ -115,7 +115,7 @@ export default function CityCarousel({
               whileHover={{ y: -4 }}
               className="w-72 shrink-0 rounded-xl bg-brand-surface border border-brand-border overflow-hidden flex flex-col group hover:border-brand-laranja/50 transition-all"
             >
-              <Link to={`/noticia/${categoriaSlug}/${noticia.slug}`} className="block relative h-40 overflow-hidden bg-brand-grafite">
+              <Link href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`} className="block relative h-40 overflow-hidden bg-brand-grafite">
                 {noticia.imagem_url ? (
                   <img
                     src={noticia.imagem_url}
@@ -137,7 +137,7 @@ export default function CityCarousel({
               </Link>
 
               <div className="p-4 flex flex-col flex-1 justify-between gap-2">
-                <Link to={`/noticia/${categoriaSlug}/${noticia.slug}`}>
+                <Link href={`/noticia/${categoriaSlug}/${noticia.slug}`}>
                   <h4 className="font-titulo font-bold text-brand-creme text-sm line-clamp-2 group-hover:text-brand-laranja transition-colors leading-snug">
                     {noticia.titulo}
                   </h4>
