@@ -1,2 +1,2 @@
-[start]
-cmd = "node_modules/.bin/next start -p ${PORT:-3000}"
+[phases.start]
+cmd = "npm run start"
