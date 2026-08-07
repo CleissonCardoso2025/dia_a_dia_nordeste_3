@@ -11,6 +11,7 @@ import ScrollProgress from '@/components/ui/ScrollProgress';
 import Sidebar from '@/components/layout/Sidebar';
 import ShareButton from './ShareButton';
 import ArticleViewTracker from './ArticleViewTracker';
+import { BannerPlaceholder } from '@/components/ui/Banner';
 
 interface NoticiaPageProps {
   params: Promise<{ categoria: string; slug: string }>;
@@ -96,6 +97,10 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
       <ScrollProgress />
       {/* Tracker Client Component for views */}
       <ArticleViewTracker noticiaId={noticia.id} />
+      
+      <div className="mb-6">
+        <BannerPlaceholder posicao="header" />
+      </div>
       
       <div className="flex flex-col lg:flex-row gap-8 mt-6">
         <div className="flex-1 min-w-0">
@@ -187,6 +192,10 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
           className="article-content font-corpo text-brand-creme"
           dangerouslySetInnerHTML={{ __html: noticia.conteudo ?? '' }}
         />
+
+        <div className="my-8">
+          <BannerPlaceholder posicao="footer" />
+        </div>
 
         {/* Seção com abas dos municípios abaixo da matéria */}
         <CityTabsSection categoriaInicialSlug={noticia.categorias?.slug} />

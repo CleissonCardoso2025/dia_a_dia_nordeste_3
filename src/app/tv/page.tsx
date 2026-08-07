@@ -54,7 +54,7 @@ function TVDisplayContent() {
           const { data } = await getNoticiasDestaque(10);
           if (data && data.length > 0) resultData = data as unknown as Partial<Noticia>[];
         } else {
-          const { data } = await getNoticias(15);
+          const { data } = await getNoticias(10);
           if (data && data.length > 0) {
             resultData = data as unknown as Partial<Noticia>[];
           }
@@ -126,7 +126,7 @@ function TVDisplayContent() {
   }, [noticiaAtual]);
 
   // Gerar QR Code via API pública do QRServer
-  const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=ffffff&bgcolor=1e5c4e&data=${encodeURIComponent(urlNoticia)}`;
+  const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=1e5c4e&bgcolor=ffffff&data=${encodeURIComponent(urlNoticia)}`;
 
   if (noticias.length === 0) return (
     <div className="flex h-screen items-center justify-center bg-black text-white">
@@ -163,7 +163,7 @@ function TVDisplayContent() {
           <div className="flex items-center gap-2">
             <Radio className="h-4 w-4 text-brand-laranja animate-pulse" />
             <span className="text-xs font-bold uppercase tracking-wider text-brand-creme">
-              {categoria ? `Canal ${categoria}` : 'Digital Signage'}
+              {categoria ? `Canal ${categoria}` : 'Conectando o semiárido'}
             </span>
           </div>
         </div>
