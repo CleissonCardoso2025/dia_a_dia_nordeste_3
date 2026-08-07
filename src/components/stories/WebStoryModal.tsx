@@ -97,7 +97,7 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
   // Compartilhamento
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const shareUrl = window.location.href;
+    const shareUrl = `${window.location.origin}/story/${story.id}`;
     const shareText = `Confira esse Web Story: ${story.titulo} no Dia a Dia Nordeste!`;
 
     if (navigator.share) {
@@ -116,13 +116,13 @@ export default function WebStoryModal({ story, onClose }: WebStoryModalProps) {
   };
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(`${window.location.origin}/story/${story.id}`);
     setCopiado(true);
     setTimeout(() => setCopiado(false), 2000);
   };
 
   const handleShareWhatsApp = () => {
-    const text = encodeURIComponent(`*${story.titulo}*\n${window.location.href}`);
+    const text = encodeURIComponent(`*${story.titulo}*\n${window.location.origin}/story/${story.id}`);
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
 

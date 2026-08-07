@@ -257,3 +257,6 @@ export async function insertMidiaAvulsa(midia: { titulo: string; url: string }) 
 export async function deleteMidiaAvulsa(id: string) {
   return supabase.from('galeria_midias').delete().eq('id', id);
 }
+export async function getWebStoryById(id: string) {
+  return supabase.from('web_stories').select('*').eq('id', id).single();
+}
