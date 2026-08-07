@@ -29,9 +29,23 @@ export async function generateMetadata({ params }: NoticiaPageProps): Promise<Me
     title: noticia.meta_title ?? noticia.titulo,
     description: noticia.meta_description ?? noticia.resumo,
     openGraph: {
-      title: noticia.titulo,
-      description: noticia.resumo,
+      title: noticia.meta_title ?? noticia.titulo,
+      description: noticia.meta_description ?? noticia.resumo,
       type: 'article',
+      siteName: 'Dia a Dia Nordeste',
+      images: noticia.imagem_url ? [
+        {
+          url: noticia.imagem_url,
+          width: 1200,
+          height: 630,
+          alt: noticia.titulo,
+        }
+      ] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: noticia.meta_title ?? noticia.titulo,
+      description: noticia.meta_description ?? noticia.resumo,
       images: noticia.imagem_url ? [noticia.imagem_url] : [],
     }
   };
