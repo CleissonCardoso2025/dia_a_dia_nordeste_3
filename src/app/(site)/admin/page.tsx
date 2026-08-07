@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
@@ -7,8 +7,9 @@ import { FileText, Eye, PlusCircle, LogOut, TrendingUp } from 'lucide-react';
 import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag, PlaySquare, Image as ImageIcon } from 'lucide-react';
+import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag, PlaySquare, Image as ImageIcon, Menu, X } from 'lucide-react';
 import { getWebhookUrl, setWebhookUrl, sendWebhookPayload, getNewsWebhookUrl, setNewsWebhookUrl, sendNewsWebhookPayload } from '@/lib/webhook';
 import CategoryManagerModal from '@/components/admin/CategoryManagerModal';
 import BannerManagerModal from '@/components/admin/BannerManagerModal';
@@ -27,6 +28,7 @@ export default function Dashboard() {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isWebStoriesModalOpen, setIsWebStoriesModalOpen] = useState(false);
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
+  const [isFabOpen, setIsFabOpen] = useState(false);
 
   // Configurações do Digital Signage (Modo TV)
   const savedConfigRaw = localStorage.getItem('tv_signage_config');
@@ -703,6 +705,69 @@ export default function Dashboard() {
         isOpen={isMediaModalOpen}
         onClose={() => setIsMediaModalOpen(false)}
       />
+
+      {/* Floating Action Button (FAB) Menu */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        <AnimatePresence>
+          {isFabOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.9 }}
+              className="flex flex-col gap-2 items-end mb-2"
+            >
+              <Link
+                href="/admin/nova"
+                onClick={() => setIsFabOpen(false)}
+                className="flex items-center gap-2 rounded-full bg-brand-surface border border-brand-laranja px-4 py-2 text-sm font-bold text-white hover:bg-brand-laranja transition-colors shadow-lg cursor-pointer"
+              >
+                Nova Notícia
+                <PlusCircle size={16} />
+              </Link>
+              
+              <button
+                onClick={() => { setIsBannerModalOpen(true); setIsFabOpen(false); }}
+                className="flex items-center gap-2 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-sm font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-lg cursor-pointer"
+              >
+                Gestão de Banners (GIF) & Relatórios
+                <Megaphone size={16} className="text-brand-laranja" />
+              </button>
+
+              <button
+                onClick={() => { setIsWebStoriesModalOpen(true); setIsFabOpen(false); }}
+                className="flex items-center gap-2 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-sm font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-lg cursor-pointer"
+              >
+                Gestão de Web Stories
+                <PlaySquare size={16} className="text-brand-laranja" />
+              </button>
+
+              <button
+                onClick={() => { setIsMediaModalOpen(true); setIsFabOpen(false); }}
+                className="flex items-center gap-2 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-sm font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-lg cursor-pointer"
+              >
+                Upload de Mídia
+                <ImageIcon size={16} className="text-brand-laranja" />
+              </button>
+
+              <button
+                onClick={() => { setIsCategoryModalOpen(true); setIsFabOpen(false); }}
+                className="flex items-center gap-2 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-sm font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-lg cursor-pointer"
+              >
+                Gestão de Categorias
+                <Tag size={16} className="text-brand-laranja" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <button
+          onClick={() => setIsFabOpen(!isFabOpen)}
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-laranja text-white shadow-xl hover:bg-brand-laranja-dark transition-all focus:outline-none focus:ring-4 focus:ring-brand-laranja/30 cursor-pointer"
+          aria-label="Menu de Ações Rápidas"
+        >
+          {isFabOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
     </div>
   );
 }

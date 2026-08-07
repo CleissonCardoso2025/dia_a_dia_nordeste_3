@@ -269,17 +269,6 @@ function TVDisplayContent() {
                     </motion.span>
                   ))}
                 </motion.h1>
-
-                {/* Resumo/Subtítulo */}
-                <motion.p
-                  key={`resumo-${indexAtual}`}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
-                  className="text-white/85 text-lg sm:text-xl lg:text-2xl font-light leading-relaxed pr-8 line-clamp-3 drop-shadow-md"
-                >
-                  {noticiaAtual.resumo}
-                </motion.p>
               </div>
 
               {/* Lado Direito: QR Code para Leitura no Celular (Se ativado) */}
