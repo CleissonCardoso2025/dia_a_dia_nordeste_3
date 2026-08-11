@@ -49,6 +49,7 @@ export default function ArticleEditor() {
     destaque: false,
     meta_title: '',
     meta_description: '',
+    views: 0,
   });
 
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function ArticleEditor() {
     }
   }, [id, isEdicao]);
 
-  const handleChange = (field: keyof Noticia, value: string | boolean) => {
+  const handleChange = (field: keyof Noticia, value: string | boolean | number) => {
     setForm(prev => ({
       ...prev,
       [field]: value,
@@ -232,16 +233,29 @@ export default function ArticleEditor() {
           />
         </div>
 
-        {/* Slug */}
-        <div>
-          <label className="block text-xs font-semibold text-brand-muted mb-1">Slug (URL amigável)</label>
-          <input
-            type="text"
-            value={form.slug}
-            onChange={e => handleChange('slug', e.target.value)}
-            className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme font-mono text-sm focus:outline-none focus:border-brand-laranja transition-colors"
-            placeholder="url-da-noticia"
-          />
+        {/* Slug e Visualizações */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-semibold text-brand-muted mb-1">Slug (URL amigável)</label>
+            <input
+              type="text"
+              value={form.slug}
+              onChange={e => handleChange('slug', e.target.value)}
+              className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme font-mono text-sm focus:outline-none focus:border-brand-laranja transition-colors"
+              placeholder="url-da-noticia"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-brand-muted mb-1">Visualizações (Iniciais)</label>
+            <input
+              type="number"
+              min="0"
+              value={form.views}
+              onChange={e => handleChange('views', parseInt(e.target.value, 10) || 0)}
+              className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme font-mono text-sm focus:outline-none focus:border-brand-laranja transition-colors"
+              placeholder="0"
+            />
+          </div>
         </div>
 
         {/* Categoria / Seção + Destaque */}

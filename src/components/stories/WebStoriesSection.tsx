@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
+import { Sparkles, ChevronLeft, ChevronRight, Zap, Play } from 'lucide-react';
 import { getCategorias, getWebStories } from '@/lib/supabase';
 import type { WebStory, Categoria } from '@/types';
 import WebStoryModal from './WebStoryModal';
@@ -151,9 +151,12 @@ export default function WebStoriesSection() {
               <h3 className="font-titulo font-bold text-white text-xs leading-snug line-clamp-3 group-hover:text-brand-creme transition-colors">
                 {story.titulo}
               </h3>
-              <p className="text-[10px] text-white/70 font-medium">
-                Toque para ver story →
-              </p>
+              <div className="pt-1 flex items-center">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-[9px] font-bold tracking-wider text-white uppercase border border-white/30 group-hover:bg-brand-laranja group-hover:border-brand-laranja transition-all duration-300 shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+                  <Play size={10} className="fill-white" />
+                  Ver Story
+                </span>
+              </div>
             </div>
           </motion.div>
         ))}

@@ -23,12 +23,14 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
     categoriaId: string;
     capaUrl: string;
     corpo: string;
+    views: number;
     slides: StorySlide[];
   }>({
     titulo: '',
     categoriaId: '',
     capaUrl: '',
     corpo: '',
+    views: 0,
     slides: [],
   });
 
@@ -92,13 +94,14 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
       corCategoria: cat.cor_hex,
       capaUrl: form.capaUrl,
       corpo: form.corpo || null,
+      views: form.views || 0,
       slides: form.slides
     });
 
     if (error) {
       alert('Erro ao salvar story: ' + error.message);
     } else {
-      setForm({ titulo: '', categoriaId: '', capaUrl: '', corpo: '', slides: [] });
+      setForm({ titulo: '', categoriaId: '', capaUrl: '', corpo: '', views: 0, slides: [] });
       setMostrarForm(false);
       carregarDados();
     }
@@ -202,7 +205,7 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
             <div className="bg-brand-grafite p-6 rounded-xl border border-brand-border mb-6">
               <h3 className="text-brand-creme font-bold mb-4">Novo Web Story</h3>
               <form onSubmit={handleSalvar} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-brand-muted mb-1">Título da Capa *</label>
                     <input
@@ -227,6 +230,17 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
                         <option key={cat.id} value={cat.id}>{cat.nome}</option>
                       ))}
                     </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-brand-muted mb-1">Visualizações</label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={form.views}
+                      onChange={e => setForm({ ...form, views: parseInt(e.target.value, 10) || 0 })}
+                      className="w-full bg-brand-surface border border-brand-border rounded-lg px-4 py-2 text-brand-creme focus:outline-none focus:border-brand-laranja"
+                      placeholder="0"
+                    />
                   </div>
                 </div>
 
