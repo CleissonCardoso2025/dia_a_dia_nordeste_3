@@ -5,9 +5,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Rss, Copy, Download, Code, Eye, Check, MapPin, Sparkles, ChevronRight, ExternalLink, Zap } from 'lucide-react';
 import SEOHead from '@/components/ui/SEOHead';
-import { getCategorias, getNoticias } from '@/lib/supabase';
+import { getCategorias, getNoticias, getWebStories } from '@/lib/supabase';
 import { gerarRssXml } from '@/lib/rss';
-import { MOCK_STORIES } from '@/data/mockStories';
 import type { Categoria, Noticia } from '@/types';
 import { pageVariants } from '@/animations/variants';
 import { format } from 'date-fns';
@@ -18,6 +17,7 @@ export default function RssPage() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState<Categoria | null>(null);
   const [isWebStories, setIsWebStories] = useState(false);
   const [noticias, setNoticias] = useState<Partial<Noticia>[]>([]);
+  const [noticiasWebStories, setNoticiasWebStories] = useState<Partial<Noticia>[]>([]);
   const [copiado, setCopiado] = useState(false);
   const [modoXml, setModoXml] = useState(false);
 
@@ -31,21 +31,26 @@ export default function RssPage() {
     getNoticias(40).then(({ data }) => {
       if (data) setNoticias(data as unknown as Partial<Noticia>[]);
     });
+
+    // Carrega web stories reais
+    getWebStories().then(({ data }) => {
+      if (data) {
+        const stories = data.map(s => ({
+          id: s.id,
+          titulo: `[Web Story] ${s.titulo}`,
+          slug: s.id,
+          data_publicacao: s.criadoEm,
+          resumo: s.corpo || 'Confira nosso Web Story.',
+          conteudo: `<p><img src="${s.capaUrl}" /></p><p>${s.corpo || ''}</p>`,
+          imagem_url: s.capaUrl,
+          categorias: { id: s.id, nome: s.categoria || 'Web Stories', slug: 'web-stories', cor_hex: s.corCategoria || '#D9491F' },
+        }));
+        setNoticiasWebStories(stories as Partial<Noticia>[]);
+      }
+    });
   }, []);
 
-  // Notícias das Web Stories quando selecionado
-  const noticiasWebStories: Partial<Noticia>[] = MOCK_STORIES.map(s => ({
-    id: s.id,
-    titulo: `[Web Story] ${s.titulo}`,
-    slug: s.id,
-    data_publicacao: s.criadoEm,
-    resumo: `Web Story com ${s.slides.length} slides interativos na categoria ${s.categoria}.`,
-    conteudo: s.slides
-      .map(slide => `<h3>${slide.titulo}</h3><p>${slide.texto}</p>${slide.imagemUrl ? `<p><img src="${slide.imagemUrl}" alt="${slide.titulo}" /></p>` : ''}`)
-      .join('<hr/>'),
-    imagem_url: s.capaUrl,
-    categorias: { id: s.id, nome: `Web Story — ${s.categoria}`, slug: 'web-stories', cor_hex: s.corCategoria },
-  }));
+
 
   // Notícias filtradas por cidade/categoria ou Web Stories
   const noticiasFiltradas = isWebStories
@@ -276,7 +281,7 @@ export default function RssPage() {
                   {/* Título */}
                   <h2 className="font-titulo font-bold text-brand-creme text-2xl leading-snug">
                     <Link
-                      href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
+                      href={noticia.categorias?.slug === 'web-stories' ? `/story/${noticia.slug}` : `/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
                       className="hover:text-brand-laranja transition-colors"
                     >
                       {noticia.titulo}
@@ -306,7 +311,7 @@ export default function RssPage() {
                   {/* Link Direto */}
                   <div className="pt-2">
                     <Link
-                      href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
+                      href={noticia.categorias?.slug === 'web-stories' ? `/story/${noticia.slug}` : `/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-laranja hover:underline"
                     >
                       <span>Ler notícia completa no portal</span>
