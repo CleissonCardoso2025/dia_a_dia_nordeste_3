@@ -86,7 +86,18 @@ export default function CityTabsSection({
         >
           {categorias.map((cat, index) => {
             const isSelected = abaAtiva?.id === cat.id;
-            const isNewest = index === 0;
+            
+            // Verifica se a última notícia do município é de hoje
+            const isToday = (timestamp?: number) => {
+              if (!timestamp) return false;
+              const hoje = new Date();
+              const dataCat = new Date(timestamp);
+              return dataCat.getDate() === hoje.getDate() &&
+                     dataCat.getMonth() === hoje.getMonth() &&
+                     dataCat.getFullYear() === hoje.getFullYear();
+            };
+            const hasNewsToday = isToday((cat as any).ultimaData);
+
             return (
               <button
                 key={cat.id}
@@ -99,10 +110,10 @@ export default function CityTabsSection({
                 style={isSelected ? { backgroundColor: cat.cor_hex } : {}}
               >
                 {cat.nome}
-                {isNewest && (
+                {hasNewsToday && (
                   <span
                     className="flex h-2 w-2 rounded-full bg-red-400 animate-ping"
-                    title="Município com publicação mais recente"
+                    title="Município com publicação hoje"
                   />
                 )}
               </button>
@@ -131,6 +142,7 @@ export default function CityTabsSection({
             titulo={`Notícias de ${abaAtiva.nome}`}
             categoria={abaAtiva}
             limite={6}
+            expandable={true}
           />
         </div>
       )}

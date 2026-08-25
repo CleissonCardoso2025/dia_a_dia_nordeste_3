@@ -10,12 +10,12 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // Helpers de query
 // ─────────────────────────────────────────────
 
-export async function getNoticias(limite = 12) {
+export async function getNoticias(limite = 12, offset = 0) {
   return supabase
     .from('noticias')
     .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
     .order('data_publicacao', { ascending: false })
-    .limit(limite);
+    .range(offset, offset + limite - 1);
 }
 
 export async function getNoticiaDestaque() {
@@ -45,13 +45,13 @@ export async function getNoticiaBySlug(slug: string) {
     .single();
 }
 
-export async function getNoticiasByCategoria(categoriaSlug: string, limite = 12) {
+export async function getNoticiasByCategoria(categoriaSlug: string, limite = 12, offset = 0) {
   return supabase
     .from('noticias')
     .select('*, categorias!inner(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
     .eq('categorias.slug', categoriaSlug)
     .order('data_publicacao', { ascending: false })
-    .limit(limite);
+    .range(offset, offset + limite - 1);
 }
 
 export async function getMaisAcessadas(limite = 5) {

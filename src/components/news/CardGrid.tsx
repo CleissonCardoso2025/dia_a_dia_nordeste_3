@@ -6,8 +6,8 @@ import Link from 'next/link';
 import NewsCard from './NewsCard';
 import { gridContainerVariants } from '@/animations/variants';
 import type { Noticia, Categoria } from '@/types';
-import { getNoticias } from '@/lib/supabase';
-import { ChevronRight } from 'lucide-react';
+import { getNoticias, getNoticiasByCategoria } from '@/lib/supabase';
+import { ChevronRight, Loader2, Plus } from 'lucide-react';
 
 // Mock data para desenvolvimento
 const MOCK_NOTICIAS: Partial<Noticia>[] = Array.from({ length: 9 }, (_, i) => ({
@@ -45,27 +45,69 @@ interface CardGridProps {
   categoria?: Categoria;
   titulo?: string;
   limite?: number;
+  expandable?: boolean;
 }
 
-export default function CardGrid({ categoria, titulo, limite = 9 }: CardGridProps) {
+export default function CardGrid({ categoria, titulo, limite = 9, expandable = false }: CardGridProps) {
   const [noticias, setNoticias] = useState<Partial<Noticia>[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  // Zera estados ao mudar de categoria
+  useEffect(() => {
+    setNoticias([]);
+    setOffset(0);
+    setHasMore(true);
+    setLoading(true);
+  }, [categoria?.id]);
 
   useEffect(() => {
-    setLoading(true);
-    getNoticias(limite).then(({ data }) => {
+    if (!loading) return; // Evita fetch duplo
+
+    const fetchInitial = async () => {
+      const fetchPromise = categoria
+        ? getNoticiasByCategoria(categoria.slug, limite, 0)
+        : getNoticias(limite, 0);
+
+      const { data } = await fetchPromise;
+
       if (data && data.length > 0) {
-        setNoticias(
-          categoria
-            ? (data as Noticia[]).filter(n => n.categoria_id === categoria.id)
-            : (data as Noticia[])
-        );
+        setNoticias(data as Noticia[]);
+        setHasMore(data.length === limite);
       } else {
         setNoticias(MOCK_NOTICIAS.slice(0, limite));
+        setHasMore(false);
       }
+      setOffset(limite);
       setLoading(false);
-    });
-  }, [categoria, limite]);
+    };
+
+    fetchInitial();
+  }, [categoria, limite, loading]);
+
+  const carregarMais = async () => {
+    if (loadingMore || !hasMore) return;
+    setLoadingMore(true);
+    
+    const qtyToFetch = 10;
+    
+    const fetchPromise = categoria
+      ? getNoticiasByCategoria(categoria.slug, qtyToFetch, offset)
+      : getNoticias(qtyToFetch, offset);
+
+    const { data } = await fetchPromise;
+
+    if (data && data.length > 0) {
+      setNoticias(prev => [...prev, ...(data as Noticia[])]);
+      setOffset(prev => prev + data.length);
+      setHasMore(data.length === qtyToFetch);
+    } else {
+      setHasMore(false);
+    }
+    setLoadingMore(false);
+  };
 
   if (loading) {
     return (
@@ -97,7 +139,7 @@ export default function CardGrid({ categoria, titulo, limite = 9 }: CardGridProp
               {titulo}
             </h2>
           </div>
-          {categoria && (
+          {categoria && !expandable && (
             <Link
               href={`/categoria/${categoria.slug}`}
               className="flex items-center gap-1 text-xs text-brand-laranja hover:underline font-semibold"
@@ -117,12 +159,34 @@ export default function CardGrid({ categoria, titulo, limite = 9 }: CardGridProp
       >
         {noticias.map((noticia, i) => (
           <NewsCard
-            key={noticia.id}
+            key={`${noticia.id}-${i}`}
             noticia={noticia}
             destaque={i === 0 && !categoria}
           />
         ))}
       </motion.div>
+
+      {expandable && hasMore && (
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={carregarMais}
+            disabled={loadingMore}
+            className="flex items-center gap-2 rounded-full border border-brand-laranja bg-transparent px-6 py-2.5 text-sm font-bold text-brand-laranja transition-colors hover:bg-brand-laranja hover:text-white disabled:opacity-50"
+          >
+            {loadingMore ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                Carregando...
+              </>
+            ) : (
+              <>
+                <Plus size={16} />
+                Ver todas
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </section>
   );
 }

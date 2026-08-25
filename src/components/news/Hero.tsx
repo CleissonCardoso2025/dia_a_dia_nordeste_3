@@ -55,7 +55,11 @@ export default function Hero() {
           className="absolute inset-0"
         >
           <div
-            className="absolute inset-0 bg-cover bg-center animate-ken-burns"
+            className="absolute inset-0 bg-cover bg-center blur-2xl opacity-40"
+            style={{ backgroundImage: `url('${noticia.imagem_url}')` }}
+          />
+          <div
+            className="absolute inset-0 bg-contain bg-no-repeat bg-center animate-ken-burns"
             style={{ backgroundImage: `url('${noticia.imagem_url}')` }}
           />
         </motion.div>
