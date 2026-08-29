@@ -225,13 +225,13 @@ export default function Dashboard() {
   };
 
   const canaisTV = [
-    { nome: 'ðŸ“º Geral / Destaques Principal', slug: 'geral', path: '/tv', cor: '#D9491F' },
-    { nome: 'âš½ Esporte', slug: 'esportes', path: '/tv/esportes', cor: '#059669' },
-    { nome: 'ðŸ¥ Saúde', slug: 'saude', path: '/tv/saude', cor: '#0284C7' },
-    { nome: 'ðŸ’¼ Economia', slug: 'economia', path: '/tv/economia', cor: '#1E5C4E' },
-    { nome: 'ðŸŽ­ Cultura', slug: 'cultura', path: '/tv/cultura', cor: '#8B5CF6' },
-    { nome: 'ðŸŽ“ Educação', slug: 'educacao', path: '/tv/educacao', cor: '#D97706' },
-    { nome: 'ðŸ’» Tecnologia', slug: 'tecnologia', path: '/tv/tecnologia', cor: '#6366F1' },
+    { nome: '📺 Geral / Destaques Principal', slug: 'geral', path: '/tv', cor: '#D9491F' },
+    { nome: '⚽ Esporte', slug: 'esportes', path: '/tv/esportes', cor: '#059669' },
+    { nome: '🏥 Saúde', slug: 'saude', path: '/tv/saude', cor: '#0284C7' },
+    { nome: '💼 Economia', slug: 'economia', path: '/tv/economia', cor: '#1E5C4E' },
+    { nome: '🎭 Cultura', slug: 'cultura', path: '/tv/cultura', cor: '#8B5CF6' },
+    { nome: '🎓 Educação', slug: 'educacao', path: '/tv/educacao', cor: '#D97706' },
+    { nome: '💻 Tecnologia', slug: 'tecnologia', path: '/tv/tecnologia', cor: '#6366F1' },
   ];
 
   return (
@@ -375,7 +375,7 @@ export default function Dashboard() {
           {/* Gerador de Canais / Feeds Personalizados por TV */}
           <div className="space-y-3 pt-4 border-t border-brand-border">
             <h3 className="text-sm font-bold text-brand-creme">
-              ðŸ“º Links de Canais por Seção / Departamento (Para Smart TVs específicas):
+              📺 Links de Canais por Seção / Departamento (Para Smart TVs específicas):
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {canaisTV.map((canal) => {
@@ -453,7 +453,7 @@ export default function Dashboard() {
             <div className="rounded-xl bg-brand-grafite/50 p-4 border border-brand-border space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-brand-creme flex items-center gap-1.5">
-                  ðŸ“© Webhook de Formulários (Fale Conosco / Anuncie)
+                  📬 Webhook de Formulários (Fale Conosco / Anuncie)
                 </span>
               </div>
               <input
@@ -501,7 +501,7 @@ export default function Dashboard() {
             <div className="rounded-xl bg-brand-grafite/50 p-4 border border-brand-border space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-brand-creme flex items-center gap-1.5">
-                  ðŸš€ Webhook de Notícias & Redes Sociais (n8n)
+                  🚀 Webhook de Notícias & Redes Sociais (n8n)
                 </span>
               </div>
               <input
