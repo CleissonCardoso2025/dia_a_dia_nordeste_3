@@ -25,22 +25,28 @@ export interface NewsWebhookPayload {
 
 // Webhook para Contatos e Formulários
 export function getWebhookUrl(): string {
+  if (typeof window === 'undefined') return '';
   const url = localStorage.getItem('n8n_webhook_url');
   return url ? url.trim() : '';
 }
 
 export function setWebhookUrl(url: string): void {
-  localStorage.setItem('n8n_webhook_url', url.trim());
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('n8n_webhook_url', url.trim());
+  }
 }
 
 // Webhook para Notícias e Redes Sociais
 export function getNewsWebhookUrl(): string {
+  if (typeof window === 'undefined') return '';
   const url = localStorage.getItem('n8n_news_webhook_url');
   return url ? url.trim() : getWebhookUrl();
 }
 
 export function setNewsWebhookUrl(url: string): void {
-  localStorage.setItem('n8n_news_webhook_url', url.trim());
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('n8n_news_webhook_url', url.trim());
+  }
 }
 
 // Disparo de formulários (Fale conosco / Anuncie)

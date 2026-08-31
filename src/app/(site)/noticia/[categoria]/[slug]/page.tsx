@@ -72,20 +72,33 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
     notFound();
   }
 
+  const catSlug = noticia.categorias?.slug ?? resolvedParams.categoria ?? 'geral';
+  const canonicalUrl = `https://diaadianordeste.com.br/noticia/${catSlug}/${noticia.slug}`;
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl,
+    },
     headline: noticia.titulo,
     description: noticia.resumo,
-    image: noticia.imagem_url,
+    image: noticia.imagem_url ? [noticia.imagem_url] : [],
     datePublished: noticia.data_publicacao,
+    ...(noticia.categorias?.nome ? { articleSection: noticia.categorias.nome } : {}),
     author: {
       '@type': 'Person',
-      name: noticia.autores?.nome,
+      name: noticia.autores?.nome || 'Redação Dia a Dia Nordeste',
     },
     publisher: {
       '@type': 'Organization',
       name: 'Dia a Dia Nordeste',
+      url: 'https://diaadianordeste.com.br',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png',
+      },
     },
   };
 

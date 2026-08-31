@@ -7,19 +7,25 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 interface BuscaPageProps {
-  searchParams: { q?: string };
+  searchParams: Promise<{ q?: string }>;
 }
 
 export async function generateMetadata({ searchParams }: BuscaPageProps): Promise<Metadata> {
-  const query = searchParams.q ?? '';
+  const resolvedParams = await searchParams;
+  const query = resolvedParams?.q ?? '';
   return {
     title: query ? `Busca: ${query}` : 'Busca',
     description: `Resultados para "${query}" no Dia a Dia Nordeste.`,
+    robots: {
+      index: false,
+      follow: true,
+    },
   };
 }
 
 export default async function SearchPage({ searchParams }: BuscaPageProps) {
-  const query = searchParams.q ?? '';
+  const resolvedParams = await searchParams;
+  const query = resolvedParams?.q ?? '';
   let resultados: SearchResult[] = [];
 
   if (query) {

@@ -17,7 +17,7 @@ function TVDisplayContent() {
   const searchParams = useSearchParams();
 
   // Ler configurações salvas no admin ou da URL
-  const savedConfigRaw = localStorage.getItem('tv_signage_config');
+  const savedConfigRaw = typeof window !== 'undefined' ? localStorage.getItem('tv_signage_config') : null;
   const savedConfig = savedConfigRaw ? JSON.parse(savedConfigRaw) : {};
 
   const tempoPorSlide = Number(searchParams.get('tempo')) || Number(savedConfig.tempoPorSlide) || 10; // segundos
