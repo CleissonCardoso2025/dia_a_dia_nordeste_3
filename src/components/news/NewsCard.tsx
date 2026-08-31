@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Clock, Eye } from 'lucide-react';
-import { cardItemVariants } from '@/animations/variants';
 import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -17,11 +16,11 @@ export default function NewsCard({ noticia, destaque = false }: NewsCardProps) {
 
   return (
     <motion.article
-      variants={cardItemVariants}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={`group relative flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface shadow-card hover:shadow-card-hover transition-shadow duration-300 ${destaque ? 'lg:col-span-2 lg:row-span-2' : ''}`}
       whileHover={{ y: -3 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      layoutId={`card-${noticia.id}`}
     >
       {/* Imagem */}
       <Link href={href} className="block overflow-hidden" tabIndex={-1} aria-hidden>
