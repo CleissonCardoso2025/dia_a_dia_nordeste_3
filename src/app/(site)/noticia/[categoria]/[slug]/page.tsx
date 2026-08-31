@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Clock, Eye, ChevronRight } from 'lucide-react';
@@ -23,15 +24,25 @@ export async function generateMetadata({ params }: NoticiaPageProps): Promise<Me
   const noticia = data as Noticia;
 
   if (!noticia) {
-    return { title: 'Notícia não encontrada' };
+    return { 
+      title: 'Notícia não encontrada',
+      robots: { index: false, follow: false }
+    };
   }
+
+  const catSlug = noticia.categorias?.slug ?? resolvedParams.categoria ?? 'geral';
+  const canonicalUrl = `https://diaadianordeste.com.br/noticia/${catSlug}/${noticia.slug}`;
 
   return {
     title: noticia.meta_title ?? noticia.titulo,
     description: noticia.meta_description ?? noticia.resumo,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: noticia.meta_title ?? noticia.titulo,
       description: noticia.meta_description ?? noticia.resumo,
+      url: canonicalUrl,
       type: 'article',
       siteName: 'Dia a Dia Nordeste',
       images: noticia.imagem_url ? [
@@ -58,7 +69,7 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
   const noticia = data as Noticia;
 
   if (!noticia) {
-    return <div className="py-20 text-center text-brand-muted">Notícia não encontrada.</div>;
+    notFound();
   }
 
   const jsonLd = {

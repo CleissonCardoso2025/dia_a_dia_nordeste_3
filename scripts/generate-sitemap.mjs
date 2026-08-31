@@ -86,52 +86,7 @@ ${urlTags}
 }
 
 async function main() {
-  console.log('[sitemap] Gerando sitemap.xml...');
-
-  const urls = [...ROTAS_ESTATICAS];
-
-  try {
-    // Categorias
-    const { data: categorias } = await supabase
-      .from('categorias')
-      .select('slug');
-
-    if (categorias) {
-      categorias.forEach(cat => {
-        urls.push({
-          loc: `/categoria/${cat.slug}`,
-          changefreq: 'hourly',
-          priority: '0.8',
-        });
-      });
-    }
-
-    // Notícias
-    const { data: noticias } = await supabase
-      .from('noticias')
-      .select('slug,categorias(slug),data_publicacao')
-      .order('data_publicacao', { ascending: false });
-
-    if (noticias) {
-      noticias.forEach(n => {
-        const catSlug = n.categorias?.slug ?? 'geral';
-        urls.push({
-          loc: `/noticia/${catSlug}/${n.slug}`,
-          lastmod: n.data_publicacao,
-          changefreq: 'weekly',
-          priority: '0.7',
-        });
-      });
-    }
-  } catch (err) {
-    console.warn('[sitemap] Aviso: não foi possível consultar o Supabase.', err.message);
-  }
-
-  const xml = gerarSitemap(urls);
-  const outPath = resolve(__dirname, '../public/sitemap.xml');
-  writeFileSync(outPath, xml, 'utf-8');
-
-  console.log(`[sitemap] ✅ Gerado com ${urls.length} URLs em ${outPath}`);
+  console.log('[sitemap] O sitemap.xml agora é gerado nativa e dinamicamente pelo Next.js App Router (src/app/sitemap.ts).');
 }
 
 main();
