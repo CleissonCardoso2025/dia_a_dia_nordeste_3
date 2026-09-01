@@ -1,4 +1,5 @@
 import type { Noticia, Categoria } from '@/types';
+import { formatArticleContent } from '@/lib/formatContent';
 
 function xmlEscape(str: string): string {
   if (!str) return '';
@@ -44,7 +45,7 @@ export function gerarRssXml(
       const linkNoticia = isWebStory ? `${baseUrl}/story/${n.slug}` : `${baseUrl}/noticia/${catSlug}/${n.slug}`;
       const imagem = n.imagem_url || '';
       const pubDate = formatRfc822Date(n.data_publicacao);
-      const conteudoCompleto = n.conteudo || n.resumo || '';
+      const conteudoCompleto = formatArticleContent(n.conteudo || n.resumo || '');
 
       return `    <item>
       <title>${xmlEscape(n.titulo || '')}</title>

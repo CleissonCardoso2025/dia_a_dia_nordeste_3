@@ -159,10 +159,14 @@
   }
 
   .article-content p {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--color-brand-muted);
-    margin-bottom: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.85;
+    color: var(--color-brand-creme);
+    margin-bottom: 1.5rem;
+  }
+
+  .article-content p:last-child {
+    margin-bottom: 0;
   }
 
   .article-content blockquote {

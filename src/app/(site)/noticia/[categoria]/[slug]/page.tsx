@@ -13,6 +13,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import ShareButton from './ShareButton';
 import ArticleViewTracker from './ArticleViewTracker';
 import { BannerPlaceholder } from '@/components/ui/Banner';
+import { formatArticleContent } from '@/lib/formatContent';
 
 interface NoticiaPageProps {
   params: Promise<{ categoria: string; slug: string }>;
@@ -214,7 +215,7 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
         {/* Conteúdo */}
         <div
           className="article-content font-corpo text-brand-creme"
-          dangerouslySetInnerHTML={{ __html: noticia.conteudo ?? '' }}
+          dangerouslySetInnerHTML={{ __html: formatArticleContent(noticia.conteudo) }}
         />
 
         <div className="my-8">

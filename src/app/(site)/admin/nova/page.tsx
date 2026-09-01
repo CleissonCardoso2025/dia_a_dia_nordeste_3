@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { supabase, getCategorias } from '@/lib/supabase';
 import { convertToWebP } from '@/lib/imageProcessor';
 import type { Categoria, Noticia } from '@/types';
-import { ArrowLeft, Save, Upload, Image as ImageIcon, Link as LinkIcon, Trash2, Check, Loader2, Share2 } from 'lucide-react';
+import { ArrowLeft, Save, Upload, Image as ImageIcon, Link as LinkIcon, Trash2, Check, Loader2, Share2, Eye, Edit3, Bold, Heading2, Quote, CornerDownLeft } from 'lucide-react';
 import { sendNewsWebhookPayload, type RedeSocialDestino } from '@/lib/webhook';
+import { formatArticleContent } from '@/lib/formatContent';
 
 function slugify(texto: string) {
   return texto
@@ -38,6 +39,33 @@ export default function ArticleEditor() {
     'whatsapp',
     'facebook',
   ]);
+
+  const [abaConteudo, setAbaConteudo] = useState<'escrever' | 'preview'>('escrever');
+
+  const inserirTexto = (antes: string, depois: string = '') => {
+    const textarea = document.getElementById('conteudo-textarea') as HTMLTextAreaElement | null;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const textoAtual = form.conteudo || '';
+    const textoSelecionado = textoAtual.substring(start, end);
+
+    const novoTexto =
+      textoAtual.substring(0, start) +
+      antes +
+      (textoSelecionado || '') +
+      depois +
+      textoAtual.substring(end);
+
+    handleChange('conteudo', novoTexto);
+
+    setTimeout(() => {
+      textarea.focus();
+      const novoCursor = start + antes.length + (textoSelecionado ? textoSelecionado.length : 0);
+      textarea.setSelectionRange(novoCursor, novoCursor);
+    }, 50);
+  };
 
   const [form, setForm] = useState<Partial<Noticia>>({
     titulo: '',
@@ -427,16 +455,117 @@ export default function ArticleEditor() {
         </div>
 
         {/* Conteúdo */}
-        <div>
-          <label className="block text-xs font-semibold text-brand-muted mb-1">Conteúdo Completo (HTML ou Texto) *</label>
-          <textarea
-            value={form.conteudo}
-            onChange={e => handleChange('conteudo', e.target.value)}
-            required
-            rows={12}
-            className="w-full rounded-lg bg-brand-surface border border-brand-border px-3 py-2.5 text-brand-creme font-mono text-sm focus:outline-none focus:border-brand-laranja transition-colors resize-y"
-            placeholder="<p>Escreva aqui a matéria completa...</p>"
-          />
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <label className="block text-xs font-semibold text-brand-muted">
+                Conteúdo da Matéria *
+              </label>
+              <p className="text-[11px] text-brand-muted/80">
+                💡 Dê 2 Enters (espaço dois) entre cada parágrafo para separar o texto perfeitamente.
+              </p>
+            </div>
+
+            {/* Alternador Escrever / Pré-visualizar */}
+            <div className="flex bg-brand-surface rounded-lg p-0.5 border border-brand-border text-xs">
+              <button
+                type="button"
+                onClick={() => setAbaConteudo('escrever')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium transition-colors ${
+                  abaConteudo === 'escrever'
+                    ? 'bg-brand-laranja text-white'
+                    : 'text-brand-muted hover:text-brand-creme'
+                }`}
+              >
+                <Edit3 size={13} />
+                Escrever
+              </button>
+              <button
+                type="button"
+                onClick={() => setAbaConteudo('preview')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium transition-colors ${
+                  abaConteudo === 'preview'
+                    ? 'bg-brand-laranja text-white'
+                    : 'text-brand-muted hover:text-brand-creme'
+                }`}
+              >
+                <Eye size={13} />
+                Pré-visualizar ({form.conteudo ? 'Formatado' : 'Vazio'})
+              </button>
+            </div>
+          </div>
+
+          {abaConteudo === 'escrever' ? (
+            <div className="space-y-2">
+              {/* Barra de Ferramentas de Formatação Rápida */}
+              <div className="flex flex-wrap items-center gap-1.5 bg-brand-surface border border-brand-border rounded-lg p-1.5 text-xs text-brand-muted">
+                <button
+                  type="button"
+                  onClick={() => inserirTexto('\n\n')}
+                  title="Inserir Novo Parágrafo (Espaço Dois)"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded bg-brand-grafite hover:bg-brand-laranja hover:text-white transition-colors border border-brand-border/60 text-brand-creme text-[11px] font-semibold"
+                >
+                  <CornerDownLeft size={12} />
+                  + Espaço Dois (Novo Parágrafo)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => inserirTexto('<strong>', '</strong>')}
+                  title="Negrito"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded bg-brand-grafite hover:bg-brand-laranja hover:text-white transition-colors border border-brand-border/60 text-brand-creme text-[11px]"
+                >
+                  <Bold size={12} />
+                  Negrito
+                </button>
+                <button
+                  type="button"
+                  onClick={() => inserirTexto('\n\n<h2>', '</h2>\n\n')}
+                  title="Subtítulo"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded bg-brand-grafite hover:bg-brand-laranja hover:text-white transition-colors border border-brand-border/60 text-brand-creme text-[11px]"
+                >
+                  <Heading2 size={12} />
+                  Subtítulo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => inserirTexto('\n\n<blockquote>', '</blockquote>\n\n')}
+                  title="Citação em destaque"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded bg-brand-grafite hover:bg-brand-laranja hover:text-white transition-colors border border-brand-border/60 text-brand-creme text-[11px]"
+                >
+                  <Quote size={12} />
+                  Citação
+                </button>
+              </div>
+
+              <textarea
+                id="conteudo-textarea"
+                value={form.conteudo}
+                onChange={e => handleChange('conteudo', e.target.value)}
+                required
+                rows={14}
+                className="w-full rounded-lg bg-brand-surface border border-brand-border px-3.5 py-3 text-brand-creme font-corpo text-sm leading-relaxed focus:outline-none focus:border-brand-laranja transition-colors resize-y"
+                placeholder="Escreva ou cole o texto da matéria aqui...&#10;&#10;Dê 2 Enters entre cada parágrafo (espaço dois) para que o leitor veja cada bloco com espaçamento limpo e elegante."
+              />
+            </div>
+          ) : (
+            /* Visualização ao Vivo de como o leitor verá */
+            <div className="rounded-lg bg-brand-surface border border-brand-border p-6 min-h-75">
+              <div className="text-xs font-bold text-brand-laranja uppercase tracking-wider mb-4 border-b border-brand-border pb-2 flex items-center gap-1.5">
+                <Eye size={14} />
+                Visualização do Leitor (Layout Real da Matéria):
+              </div>
+              {form.conteudo ? (
+                <div
+                  className="article-content font-corpo text-brand-creme"
+                  dangerouslySetInnerHTML={{ __html: formatArticleContent(form.conteudo) }}
+                />
+              ) : (
+                <p className="text-sm text-brand-muted italic py-8 text-center">
+                  Nenhum texto digitado ainda para exibir a pré-visualização.
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         {/* SEO Avançado */}
