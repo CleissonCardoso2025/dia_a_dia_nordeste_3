@@ -2,8 +2,11 @@
 
 import { motion } from 'framer-motion';
 import Hero from '@/components/news/Hero';
+import BahiaSection from '@/components/news/BahiaSection';
+import BrasilSection from '@/components/news/BrasilSection';
 import CityTabsSection from '@/components/news/CityTabsSection';
 import WebStoriesSection from '@/components/stories/WebStoriesSection';
+import CanabravaPodcastStrip from '@/components/podcast/CanabravaPodcastStrip';
 import Sidebar from '@/components/layout/Sidebar';
 import { BannerPlaceholder } from '@/components/ui/Banner';
 import { pageVariants } from '@/animations/variants';
@@ -32,14 +35,29 @@ export default function Home() {
         {/* Coluna principal */}
         <div className="flex-1 min-w-0 space-y-10">
           
+          {/* ── CARROSSEL CANABRAVA PODCAST ── */}
+          <div id="podcast">
+            <CanabravaPodcastStrip />
+          </div>
+
           {/* ── 2ª SEÇÍO: SEÇÍO SECUNDÁRIA COM ABAS DOS MUNICÍPIOS DO SEMIÁRIDO NORDESTE II ── */}
           <div id="municipios">
             <CityTabsSection />
           </div>
 
-          {/* ── 3ª SEÇÍO: WEB STORIES POR CATEGORIAS ── */}
+          {/* ── 3ª SEÇÍO: BAHIA EM PAUTA (DESTAQUE TERRITORIAL ESTADUAL) ── */}
+          <div id="bahia">
+            <BahiaSection />
+          </div>
+
+          {/* ── 4ª SEÇÍO: WEB STORIES POR CATEGORIAS ── */}
           <div id="stories">
             <WebStoriesSection />
+          </div>
+
+          {/* ── 5ª SEÇÍO: PANORAMA BRASIL (COBERTURA NACIONAL) ── */}
+          <div id="brasil">
+            <BrasilSection />
           </div>
 
           {/* Banner publicitário de meio */}
