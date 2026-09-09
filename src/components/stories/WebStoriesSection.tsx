@@ -34,7 +34,11 @@ export default function WebStoriesSection() {
       }
 
       if (resStories.data) {
-        setStories(resStories.data as WebStory[]);
+        const storiesLimpos = (resStories.data as WebStory[]).filter(
+          s => s.categoria?.toLowerCase() !== 'bahia' && 
+               s.categoria?.toLowerCase() !== 'brasil'
+        );
+        setStories(storiesLimpos);
       }
       setLoading(false);
     }
