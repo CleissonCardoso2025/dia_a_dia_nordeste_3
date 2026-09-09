@@ -19,9 +19,14 @@ export default function Hero() {
   useEffect(() => {
     getNoticiasDestaque(5).then(({ data }) => {
       if (data && data.length > 0) {
-        setDestaques(data as unknown as Partial<Noticia>[]);
+        const semBahiaBrasil = (data as unknown as Partial<Noticia>[]).filter(
+          n => n.categorias?.slug?.toLowerCase() !== 'bahia' && 
+               n.categorias?.slug?.toLowerCase() !== 'brasil' &&
+               n.categorias?.nome?.toLowerCase() !== 'bahia' && 
+               n.categorias?.nome?.toLowerCase() !== 'brasil'
+        );
+        setDestaques(semBahiaBrasil);
       }
-
     });
   }, []);
 

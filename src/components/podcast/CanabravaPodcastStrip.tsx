@@ -58,30 +58,35 @@ export default function CanabravaPodcastStrip() {
     <>
       <section 
         aria-label="Últimos Episódios - Canabrava Podcast"
-        className="w-full bg-brand-surface border border-brand-border border-t-2 border-t-red-700 dark:border-t-red-600 py-4 px-3 sm:px-4 rounded-xl shadow-xs"
+        className="w-full bg-brand-surface border border-brand-border border-t-2 border-t-red-600 p-4 sm:p-6 rounded-2xl shadow-sm space-y-4"
       >
-        <div className="flex items-center justify-between gap-3 mb-3">
-          <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-600/10 text-red-600 dark:text-red-400">
-              <Mic size={16} />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand-border pb-3.5">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600/10 text-red-600 dark:text-red-400 border border-red-600/20">
+              <Mic size={20} />
             </span>
-            <div className="flex items-center gap-2">
-              <h2 className="font-titulo font-extrabold text-brand-creme text-sm sm:text-base tracking-wide">
-                Canabrava Podcast
-              </h2>
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-red-600 text-white tracking-wider uppercase">
-                Vídeos & Cortes
-              </span>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-titulo font-extrabold text-brand-creme text-base sm:text-lg tracking-wide">
+                  Canabrava Podcast
+                </h2>
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-red-600 text-white tracking-wider uppercase">
+                  Vídeos & Cortes
+                </span>
+              </div>
+              <p className="text-xs text-brand-muted mt-0.5">
+                Cortes em vídeo, entrevistas e os melhores momentos do nosso canal
+              </p>
             </div>
           </div>
 
-          {/* Controles de Navegação */}
-          <div className="flex items-center gap-1">
+          {/* Controles de Navegação e Canal */}
+          <div className="flex items-center gap-2 self-end sm:self-auto">
             <a
               href="https://www.youtube.com/channel/UC8_1EAnJTnrn78GFTTMrY6Q"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] font-semibold text-brand-muted hover:text-red-600 transition-colors mr-2 hidden sm:inline-flex items-center gap-1"
+              className="text-xs font-semibold text-white bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-full transition-colors inline-flex items-center gap-1.5 shadow-sm"
             >
               <span>Canal no YouTube</span>
               <ExternalLink size={12} />
@@ -89,16 +94,16 @@ export default function CanabravaPodcastStrip() {
             <button
               onClick={() => scroll('left')}
               aria-label="Rolar episódios para esquerda"
-              className="h-7 w-7 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme hover:bg-red-600 hover:text-white transition-colors cursor-pointer"
+              className="h-8 w-8 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme hover:bg-red-600 hover:text-white transition-colors cursor-pointer"
             >
-              <ChevronLeft size={15} />
+              <ChevronLeft size={16} />
             </button>
             <button
               onClick={() => scroll('right')}
               aria-label="Rolar episódios para direita"
-              className="h-7 w-7 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme hover:bg-red-600 hover:text-white transition-colors cursor-pointer"
+              className="h-8 w-8 flex items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme hover:bg-red-600 hover:text-white transition-colors cursor-pointer"
             >
-              <ChevronRight size={15} />
+              <ChevronRight size={16} />
             </button>
           </div>
         </div>
@@ -108,18 +113,19 @@ export default function CanabravaPodcastStrip() {
           {/* Scroll Area */}
           <div
             ref={scrollRef}
-            className="flex items-center gap-5 overflow-x-auto pb-1 scrollbar-none scroll-smooth snap-x"
+            className="flex items-stretch gap-4 sm:gap-5 overflow-x-auto pb-2 scrollbar-none scroll-smooth snap-x"
           >
             {loading ? (
               // Shimmer Loading Skeleton
-              Array.from({ length: 4 }).map((_, i) => (
+              Array.from({ length: 3 }).map((_, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-3 shrink-0 w-72 sm:w-80 p-2 rounded-lg bg-brand-grafite/50 animate-pulse"
+                  className="flex flex-col shrink-0 w-72 sm:w-80 rounded-2xl bg-brand-grafite/40 border border-brand-border overflow-hidden animate-pulse"
                 >
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-brand-border shrink-0" />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-3.5 bg-brand-border rounded w-2/3" />
+                  <div className="aspect-video w-full bg-brand-border" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-3.5 bg-brand-border rounded w-1/3" />
+                    <div className="h-4 bg-brand-border rounded w-4/5" />
                     <div className="h-3 bg-brand-border rounded w-full" />
                   </div>
                 </div>
@@ -129,31 +135,53 @@ export default function CanabravaPodcastStrip() {
                 <button
                   key={ep.id}
                   onClick={() => setVideoModal(ep)}
-                  className="group/item flex items-center gap-3 shrink-0 w-72 sm:w-84 p-2 rounded-xl text-left bg-brand-grafite/40 hover:bg-brand-grafite border border-transparent hover:border-red-600/30 transition-all duration-200 cursor-pointer snap-start"
+                  className="group/item flex flex-col shrink-0 w-72 sm:w-80 rounded-2xl text-left bg-brand-grafite/50 hover:bg-brand-grafite border border-brand-border hover:border-red-600/40 transition-all duration-300 cursor-pointer snap-start overflow-hidden shadow-xs hover:shadow-card hover:-translate-y-0.5"
                 >
-                  {/* Thumbnail / Avatar com Botão Play */}
-                  <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-brand-grafite shrink-0 shadow-xs border border-brand-border/60">
+                  {/* Thumbnail 16:9 Ampla com Play no Canto (Não tampa o rosto) */}
+                  <div className="relative aspect-video w-full overflow-hidden bg-brand-surface shrink-0">
                     <img
                       src={ep.thumbnail}
                       alt={ep.title}
-                      className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-black/40 group-hover/item:bg-black/10 transition-colors flex items-center justify-center">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-white shadow-md transform group-hover/item:scale-110 transition-transform">
-                        <Play size={10} className="fill-white translate-x-0.5" />
+                    
+                    {/* Gradiente suave inferior para contraste */}
+                    <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent opacity-70 group-hover/item:opacity-90 transition-opacity" />
+
+                    {/* Tag de Vídeo no canto inferior esquerdo */}
+                    <div className="absolute bottom-2.5 left-2.5">
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-black/75 backdrop-blur-xs text-[10px] font-bold text-white shadow-xs">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                        Corte
+                      </span>
+                    </div>
+
+                    {/* Botão Play elegante no canto inferior direito - Rosto 100% desobstruído */}
+                    <div className="absolute bottom-2.5 right-2.5">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white shadow-lg group-hover/item:bg-red-500 group-hover/item:scale-110 transition-all">
+                        <Play size={13} className="fill-white translate-x-0.5" />
                       </span>
                     </div>
                   </div>
 
-                  {/* Informações: Título/Orador em vermelho + Descrição */}
-                  <div className="flex-1 min-w-0 pr-1">
-                    <span className="font-bold text-xs sm:text-sm text-red-700 dark:text-red-400 line-clamp-1 block group-hover/item:text-red-500 transition-colors">
-                      {ep.speaker || 'Canabrava Podcast'}
-                    </span>
-                    <p className="text-xs text-brand-creme leading-tight line-clamp-2 mt-0.5 font-normal">
-                      {ep.summary || ep.title}
-                    </p>
+                  {/* Informações: Orador / Convidado + Título + CTA */}
+                  <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between gap-2.5">
+                    <div>
+                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-red-500 line-clamp-1 block">
+                        {ep.speaker || 'Canabrava Podcast'}
+                      </span>
+                      <h3 className="font-titulo font-bold text-brand-creme text-sm sm:text-base leading-snug line-clamp-2 mt-1 group-hover/item:text-red-400 transition-colors">
+                        {ep.summary || ep.title}
+                      </h3>
+                    </div>
+
+                    <div className="pt-2 border-t border-brand-border/60 flex items-center justify-between text-xs text-brand-muted">
+                      <span className="text-red-500 font-semibold flex items-center gap-1 group-hover/item:underline">
+                        Assistir corte <Play size={10} className="fill-red-500" />
+                      </span>
+                      <span className="text-[11px] text-brand-muted">YouTube</span>
+                    </div>
                   </div>
                 </button>
               ))

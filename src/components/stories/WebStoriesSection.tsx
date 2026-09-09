@@ -23,7 +23,13 @@ export default function WebStoriesSection() {
       ]);
 
       if (resCat.data) {
-        const editoriais = (resCat.data as Categoria[]).filter(c => c.tipo === 'editorial');
+        const editoriais = (resCat.data as Categoria[]).filter(
+          c => c.tipo === 'editorial' &&
+               c.slug.toLowerCase() !== 'bahia' &&
+               c.slug.toLowerCase() !== 'brasil' &&
+               c.nome.toLowerCase() !== 'bahia' &&
+               c.nome.toLowerCase() !== 'brasil'
+        );
         setCategoriasEditoriais(['Todas', ...editoriais.map(e => e.nome)]);
       }
 

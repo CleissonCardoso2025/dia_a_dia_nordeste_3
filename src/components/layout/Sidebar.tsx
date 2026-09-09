@@ -41,11 +41,27 @@ export default function Sidebar() {
   const inView = useInView(sidebarRef, { once: true, margin: '-80px' });
 
   useEffect(() => {
-    getMaisAcessadas(5).then(({ data }) => {
-      if (data && data.length > 0) setMaisAcessadas(data as unknown as Partial<Noticia>[]);
+    getMaisAcessadas(10).then(({ data }) => {
+      if (data && data.length > 0) {
+        const filtradas = (data as unknown as Partial<Noticia>[]).filter(
+          n => n.categorias?.slug?.toLowerCase() !== 'bahia' &&
+               n.categorias?.slug?.toLowerCase() !== 'brasil' &&
+               n.categorias?.nome?.toLowerCase() !== 'bahia' &&
+               n.categorias?.nome?.toLowerCase() !== 'brasil'
+        );
+        setMaisAcessadas(filtradas.slice(0, 5));
+      }
     });
-    getNoticias(4).then(({ data }) => {
-      if (data && data.length > 0) setRecentes(data as unknown as Partial<Noticia>[]);
+    getNoticias(10).then(({ data }) => {
+      if (data && data.length > 0) {
+        const filtradas = (data as unknown as Partial<Noticia>[]).filter(
+          n => n.categorias?.slug?.toLowerCase() !== 'bahia' &&
+               n.categorias?.slug?.toLowerCase() !== 'brasil' &&
+               n.categorias?.nome?.toLowerCase() !== 'bahia' &&
+               n.categorias?.nome?.toLowerCase() !== 'brasil'
+        );
+        setRecentes(filtradas.slice(0, 4));
+      }
     });
   }, []);
 

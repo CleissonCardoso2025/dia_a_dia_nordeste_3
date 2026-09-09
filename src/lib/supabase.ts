@@ -29,12 +29,24 @@ export async function getNoticiaDestaque() {
 }
 
 export async function getNoticiasDestaque(limite = 5) {
-  return supabase
+  const { data, error } = await supabase
     .from('noticias')
     .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
     .eq('destaque', true)
     .order('data_publicacao', { ascending: false })
-    .limit(limite);
+    .limit(limite + 10);
+
+  if (error || !data) return { data: [], error };
+
+  const filtrados = data
+    .filter((n: any) => {
+      const slug = n.categorias?.slug?.toLowerCase();
+      const nome = n.categorias?.nome?.toLowerCase();
+      return slug !== 'bahia' && slug !== 'brasil' && nome !== 'bahia' && nome !== 'brasil';
+    })
+    .slice(0, limite);
+
+  return { data: filtrados, error: null };
 }
 
 export async function getNoticiaBySlug(slug: string) {
