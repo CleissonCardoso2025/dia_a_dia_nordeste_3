@@ -1,8 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Categoria } from '@/types';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://supabase.proradiobr.com';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTEyMzMxNDcsImV4cCI6MTg5MzQ1NjAwMCwicm9sZSI6ImFub24iLCJpc3MiOiJzdXBhYmFzZSJ9.GabEDM9oJuvMoU1HNAOq2l4EaV3ai15y5rx9LS9tEKE';
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseUrl = (rawUrl && !rawUrl.includes('mkbnqyhvaozqfpmcyoyw'))
+  ? rawUrl
+  : 'https://supabase.proradiobr.com';
+
+const rawKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseAnonKey = (rawKey && !rawKey.includes('CLof_mxTVCHjJqXnCorz2EdyXQ6EeAbgDO0YBhAsDb4'))
+  ? rawKey
+  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTEyMzMxNDcsImV4cCI6MTg5MzQ1NjAwMCwicm9sZSI6ImFub24iLCJpc3MiOiJzdXBhYmFzZSJ9.GabEDM9oJuvMoU1HNAOq2l4EaV3ai15y5rx9LS9tEKE';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
