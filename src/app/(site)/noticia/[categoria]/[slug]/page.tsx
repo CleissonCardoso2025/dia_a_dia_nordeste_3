@@ -98,7 +98,7 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
       url: 'https://diaadianordeste.com.br',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png',
+        url: 'https://diaadianordeste.com.br/logo.png',
       },
     },
   };

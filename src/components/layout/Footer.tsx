@@ -48,7 +48,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-4">
               <img
-                src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
+                src="/logo.png"
                 alt="Dia a Dia Nordeste"
                 className="h-10 w-auto object-contain"
               />

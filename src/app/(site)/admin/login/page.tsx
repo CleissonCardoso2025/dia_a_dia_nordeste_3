@@ -36,7 +36,7 @@ export default function AdminLogin() {
       >
         <div className="flex flex-col items-center mb-8">
           <img
-            src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
+            src="/logo.png"
             alt="Dia a Dia Nordeste"
             className="h-16 w-auto object-contain mb-3"
           />

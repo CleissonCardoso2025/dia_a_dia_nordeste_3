@@ -8,7 +8,7 @@ import { useRadio } from '@/contexts/RadioContext';
 export default function RadioPlayer() {
   const { isPlaying, volume, isMuted, togglePlay, handleVolumeChange, toggleMute } = useRadio();
 
-  const LOGO_URL = 'https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/imagens/galeria/1786059035334_uzrk66y.webp';
+  const LOGO_URL = '/logo.png';
 
   return (
     <motion.div

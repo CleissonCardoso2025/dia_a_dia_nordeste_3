@@ -31,7 +31,7 @@ export default function Preloader({ visible }: PreloaderProps) {
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
             >
               <img
-                src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
+                src="/logo.png"
                 alt="Dia a Dia Nordeste"
                 className="h-20 w-auto object-contain"
               />

@@ -63,7 +63,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center shrink-0 group">
           <img
-            src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
+            src="/logo.png"
             alt="Dia a Dia Nordeste"
             className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
           />

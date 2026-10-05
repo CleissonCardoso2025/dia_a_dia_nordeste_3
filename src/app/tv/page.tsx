@@ -155,7 +155,7 @@ function TVDisplayContent() {
         {/* Logo Dia a Dia Nordeste + Badge do Canal */}
         <div className="flex items-center gap-4 bg-black/50 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-white/10 pointer-events-auto">
           <img
-            src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
+            src="/logo.png"
             alt="Dia a Dia Nordeste"
             className="h-9 w-auto object-contain"
           />

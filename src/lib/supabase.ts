@@ -13,7 +13,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export async function getNoticias(limite = 12, offset = 0) {
   return supabase
     .from('noticias')
-    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
+    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url:avatar_url)')
     .order('data_publicacao', { ascending: false })
     .range(offset, offset + limite - 1);
 }
@@ -21,7 +21,7 @@ export async function getNoticias(limite = 12, offset = 0) {
 export async function getNoticiaDestaque() {
   return supabase
     .from('noticias')
-    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
+    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url:avatar_url)')
     .eq('destaque', true)
     .order('data_publicacao', { ascending: false })
     .limit(1)
@@ -31,7 +31,7 @@ export async function getNoticiaDestaque() {
 export async function getNoticiasDestaque(limite = 5) {
   const { data, error } = await supabase
     .from('noticias')
-    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
+    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url:avatar_url)')
     .eq('destaque', true)
     .order('data_publicacao', { ascending: false })
     .limit(limite + 10);
@@ -52,7 +52,7 @@ export async function getNoticiasDestaque(limite = 5) {
 export async function getNoticiaBySlug(slug: string) {
   return supabase
     .from('noticias')
-    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
+    .select('*, categorias(id,nome,slug,cor_hex), autores(id,nome,foto_url:avatar_url)')
     .eq('slug', slug)
     .single();
 }
@@ -60,7 +60,7 @@ export async function getNoticiaBySlug(slug: string) {
 export async function getNoticiasByCategoria(categoriaSlug: string, limite = 12, offset = 0) {
   return supabase
     .from('noticias')
-    .select('*, categorias!inner(id,nome,slug,cor_hex), autores(id,nome,foto_url)')
+    .select('*, categorias!inner(id,nome,slug,cor_hex), autores(id,nome,foto_url:avatar_url)')
     .eq('categorias.slug', categoriaSlug)
     .order('data_publicacao', { ascending: false })
     .range(offset, offset + limite - 1);

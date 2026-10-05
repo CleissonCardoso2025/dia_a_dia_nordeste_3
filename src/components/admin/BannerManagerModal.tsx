@@ -192,7 +192,7 @@ export default function BannerManagerModal({ isOpen, onClose }: BannerManagerMod
           <div className="border-b border-gray-200 pb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img
-                src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
+                src="/logo.png"
                 alt="Dia a Dia Nordeste"
                 className="h-10 w-auto object-contain"
               />

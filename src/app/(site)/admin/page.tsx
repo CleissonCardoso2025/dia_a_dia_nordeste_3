@@ -240,7 +240,7 @@ export default function Dashboard() {
       <header className="bg-brand-surface border-b border-brand-border px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img
-            src="https://mkbnqyhvaozqfpmcyoyw.supabase.co/storage/v1/object/public/logo/logo_%20diaadia.png"
+            src="/logo.png"
             alt="Dia a Dia Nordeste"
             className="h-8 w-auto object-contain"
           />
