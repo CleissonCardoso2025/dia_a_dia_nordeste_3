@@ -113,9 +113,14 @@ export default function CityCarousel({
             <motion.div
               key={noticia.id}
               whileHover={{ y: -4 }}
-              className="w-72 shrink-0 rounded-xl bg-brand-surface border border-brand-border overflow-hidden flex flex-col group hover:border-brand-laranja/50 transition-all"
+              className="w-72 shrink-0 rounded-xl bg-brand-surface border border-brand-border overflow-hidden flex flex-col group hover:border-brand-laranja/50 transition-all relative cursor-pointer"
             >
-              <Link href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`} className="block relative h-40 overflow-hidden bg-brand-grafite">
+              <Link
+                href={`/noticia/${categoriaSlug}/${noticia.slug}`}
+                className="absolute inset-0 z-20"
+                aria-label={noticia.titulo ?? ''}
+              />
+              <div className="block relative h-40 overflow-hidden bg-brand-grafite pointer-events-none">
                 {noticia.imagem_url ? (
                   <img
                     src={noticia.imagem_url}
@@ -134,14 +139,12 @@ export default function CityCarousel({
                 >
                   {categoriaNome}
                 </span>
-              </Link>
+              </div>
 
-              <div className="p-4 flex flex-col flex-1 justify-between gap-2">
-                <Link href={`/noticia/${categoriaSlug}/${noticia.slug}`}>
-                  <h4 className="font-titulo font-bold text-brand-creme text-sm line-clamp-2 group-hover:text-brand-laranja transition-colors leading-snug">
-                    {noticia.titulo}
-                  </h4>
-                </Link>
+              <div className="p-4 flex flex-col flex-1 justify-between gap-2 pointer-events-none">
+                <h4 className="font-titulo font-bold text-brand-creme text-sm line-clamp-2 group-hover:text-brand-laranja transition-colors leading-snug">
+                  {noticia.titulo}
+                </h4>
 
                 <div className="flex items-center gap-1 text-[11px] text-brand-muted">
                   <Clock size={11} />

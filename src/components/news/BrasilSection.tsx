@@ -122,12 +122,12 @@ export default function BrasilSection() {
             return (
               <article
                 key={noticia.id || idx}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-brand-grafite/60 hover:bg-brand-grafite border border-brand-border hover:border-emerald-500/40 shadow-sm hover:shadow-card transition-all duration-300"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-brand-grafite/60 hover:bg-brand-grafite border border-brand-border hover:border-emerald-500/40 shadow-sm hover:shadow-card transition-all duration-300 cursor-pointer"
               >
-                <Link href={href} className="absolute inset-0 z-10" aria-label={noticia.titulo} />
+                <Link href={href} className="absolute inset-0 z-20" aria-label={noticia.titulo} />
 
                 {/* Imagem Superior */}
-                <div className="relative h-38 sm:h-36 w-full overflow-hidden bg-brand-surface shrink-0">
+                <div className="relative h-38 sm:h-36 w-full overflow-hidden bg-brand-surface shrink-0 pointer-events-none">
                   {noticia.imagem_url ? (
                     <img
                       src={noticia.imagem_url}
@@ -156,7 +156,7 @@ export default function BrasilSection() {
                 </div>
 
                 {/* Corpo do Card */}
-                <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between">
+                <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between pointer-events-none">
                   <div>
                     <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-500 block mb-1">
                       {noticia.categorias?.nome || 'Brasil'}

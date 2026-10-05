@@ -88,23 +88,25 @@ export default function Hero() {
 
         {/* Título com reveal stagger */}
         <AnimatePresence mode="wait">
-          <motion.h1
-            key={`title-${atual}`}
-            variants={heroContainerVariants}
-            initial="hidden"
-            animate="show"
-            className="font-titulo font-black text-white text-2xl sm:text-4xl lg:text-5xl leading-tight max-w-4xl mb-3"
-          >
-            {words.map((word, i) => (
-              <motion.span
-                key={i}
-                variants={heroWordVariants}
-                className="inline-block mr-2"
-              >
-                {word}
-              </motion.span>
-            ))}
-          </motion.h1>
+          <Link href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`} className="block group/title">
+            <motion.h1
+              key={`title-${atual}`}
+              variants={heroContainerVariants}
+              initial="hidden"
+              animate="show"
+              className="font-titulo font-black text-white text-2xl sm:text-4xl lg:text-5xl leading-tight max-w-4xl mb-3 group-hover/title:text-brand-laranja transition-colors cursor-pointer"
+            >
+              {words.map((word, i) => (
+                <motion.span
+                  key={i}
+                  variants={heroWordVariants}
+                  className="inline-block mr-2"
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </motion.h1>
+          </Link>
         </AnimatePresence>
 
         {/* Resumo */}

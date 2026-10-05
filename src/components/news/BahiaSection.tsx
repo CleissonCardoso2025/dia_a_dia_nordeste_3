@@ -125,10 +125,10 @@ export default function BahiaSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
           {/* ── CARD PRINCIPAL EM DESTAQUE (Lado Esquerdo - 7 Colunas) ── */}
           <div className="lg:col-span-7 flex">
-            <article className="group relative flex flex-col justify-end w-full overflow-hidden rounded-xl bg-brand-grafite border border-brand-border shadow-card hover:shadow-card-hover transition-all duration-300 min-h-80 sm:min-h-100">
+            <article className="group relative flex flex-col justify-end w-full overflow-hidden rounded-xl bg-brand-grafite border border-brand-border shadow-card hover:shadow-card-hover transition-all duration-300 min-h-80 sm:min-h-100 cursor-pointer">
               <Link 
                 href={`/noticia/${noticiaPrincipal.categorias?.slug || 'bahia'}/${noticiaPrincipal.slug}`}
-                className="absolute inset-0 z-10"
+                className="absolute inset-0 z-30"
                 aria-label={noticiaPrincipal.titulo}
               />
               
@@ -151,7 +151,7 @@ export default function BahiaSection() {
               </div>
 
               {/* Informações Sobrepostas */}
-              <div className="relative z-20 p-4 sm:p-6 flex flex-col justify-end">
+              <div className="relative z-20 p-4 sm:p-6 flex flex-col justify-end pointer-events-none">
                 <div className="flex flex-wrap items-center gap-2 mb-2.5">
                   <span className="inline-flex items-center rounded-md bg-blue-600 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
                     {noticiaPrincipal.categorias?.nome || 'Bahia'}
@@ -204,12 +204,12 @@ export default function BahiaSection() {
               return (
                 <article
                   key={noticia.id || idx}
-                  className="group relative flex items-center gap-3 sm:gap-4 p-3 rounded-xl bg-brand-grafite/50 hover:bg-brand-grafite border border-brand-border hover:border-brand-laranja/40 transition-all duration-300 shadow-sm flex-1"
+                  className="group relative flex items-center gap-3 sm:gap-4 p-3 rounded-xl bg-brand-grafite/50 hover:bg-brand-grafite border border-brand-border hover:border-brand-laranja/40 transition-all duration-300 shadow-sm flex-1 cursor-pointer"
                 >
-                  <Link href={href} className="absolute inset-0 z-10" aria-label={noticia.titulo} />
+                  <Link href={href} className="absolute inset-0 z-20" aria-label={noticia.titulo} />
 
                   {/* Thumbnail */}
-                  <div className="relative w-24 h-24 sm:w-28 sm:h-24 rounded-lg overflow-hidden bg-brand-surface shrink-0 border border-brand-border">
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-24 rounded-lg overflow-hidden bg-brand-surface shrink-0 border border-brand-border pointer-events-none">
                     {noticia.imagem_url ? (
                       <img
                         src={noticia.imagem_url}
@@ -225,7 +225,7 @@ export default function BahiaSection() {
                   </div>
 
                   {/* Detalhes do Card */}
-                  <div className="flex flex-col justify-center flex-1 min-w-0 pr-1">
+                  <div className="flex flex-col justify-center flex-1 min-w-0 pr-1 pointer-events-none">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 mb-1">
                       {noticia.categorias?.nome || 'Bahia'}
                     </span>

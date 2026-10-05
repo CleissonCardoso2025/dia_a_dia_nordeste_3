@@ -19,11 +19,14 @@ export default function NewsCard({ noticia, destaque = false }: NewsCardProps) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface shadow-card hover:shadow-card-hover transition-shadow duration-300 ${destaque ? 'lg:col-span-2 lg:row-span-2' : ''}`}
+      className={`group relative flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface shadow-card hover:shadow-card-hover transition-shadow duration-300 cursor-pointer ${destaque ? 'lg:col-span-2 lg:row-span-2' : ''}`}
       whileHover={{ y: -3 }}
     >
+      {/* Link de cobertura total do card */}
+      <Link href={href} className="absolute inset-0 z-20" aria-label={noticia.titulo ?? ''} />
+
       {/* Imagem */}
-      <Link href={href} className="block overflow-hidden" tabIndex={-1} aria-hidden>
+      <div className="block overflow-hidden pointer-events-none">
         <div className={`relative overflow-hidden ${destaque ? 'h-60' : 'h-44'} bg-brand-grafite`}>
           {noticia.imagem_url ? (
             <img
@@ -56,19 +59,19 @@ export default function NewsCard({ noticia, destaque = false }: NewsCardProps) {
             <p className="text-xs text-white/90 line-clamp-2">{noticia.resumo}</p>
           </div>
         </div>
-      </Link>
+      </div>
 
       {/* Conteúdo textual */}
-      <div className="flex flex-col flex-1 p-4">
-        <Link href={href}>
+      <div className="flex flex-col flex-1 p-4 pointer-events-none">
+        <div>
           <h2
-            className={`font-titulo font-bold text-brand-creme leading-snug mb-2 hover:text-brand-laranja transition-colors ${
+            className={`font-titulo font-bold text-brand-creme leading-snug mb-2 group-hover:text-brand-laranja transition-colors ${
               destaque ? 'text-xl' : 'text-base'
             } line-clamp-3`}
           >
             {noticia.titulo}
           </h2>
-        </Link>
+        </div>
 
         {!destaque && noticia.resumo && (
           <p className="text-sm text-brand-muted leading-relaxed line-clamp-2 mb-3">
