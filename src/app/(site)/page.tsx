@@ -5,7 +5,7 @@ import Hero from '@/components/news/Hero';
 import BahiaSection from '@/components/news/BahiaSection';
 import BrasilSection from '@/components/news/BrasilSection';
 import CityTabsSection from '@/components/news/CityTabsSection';
-import WebStoriesSection from '@/components/stories/WebStoriesSection';
+import GeralSection from '@/components/news/GeralSection';
 import CanabravaPodcastStrip from '@/components/podcast/CanabravaPodcastStrip';
 import Sidebar from '@/components/layout/Sidebar';
 import { BannerPlaceholder } from '@/components/ui/Banner';
@@ -22,7 +22,7 @@ export default function Home() {
     >
       <h1 className="sr-only">Dia a Dia Nordeste - Portal de Notícias</h1>
 
-      {/* ── 1ª SEÇÍO: HERO DE DESTAQUES ── */}
+      {/* ── 1ª SEÇÃO: HERO DE DESTAQUES ── */}
       <section aria-label="Notícias em Destaque" id="destaques">
         <Hero />
       </section>
@@ -40,22 +40,17 @@ export default function Home() {
             <CanabravaPodcastStrip />
           </div>
 
-          {/* ── 2ª SEÇÍO: SEÇÍO SECUNDÁRIA COM ABAS DOS MUNICÍPIOS DO SEMIÁRIDO NORDESTE II ── */}
+          {/* ── 2ª SEÇÃO: SEÇÃO SECUNDÁRIA COM ABAS DOS MUNICÍPIOS DO SEMIÁRIDO NORDESTE II ── */}
           <div id="municipios">
             <CityTabsSection />
           </div>
 
-          {/* ── 3ª SEÇÍO: BAHIA EM PAUTA (DESTAQUE TERRITORIAL ESTADUAL) ── */}
+          {/* ── 3ª SEÇÃO: BAHIA EM PAUTA (DESTAQUE TERRITORIAL ESTADUAL) ── */}
           <div id="bahia">
             <BahiaSection />
           </div>
 
-          {/* ── 4ª SEÇÍO: WEB STORIES POR CATEGORIAS ── */}
-          <div id="stories">
-            <WebStoriesSection />
-          </div>
-
-          {/* ── 5ª SEÇÍO: PANORAMA BRASIL (COBERTURA NACIONAL) ── */}
+          {/* ── 4ª SEÇÃO: PANORAMA BRASIL (COBERTURA NACIONAL) ── */}
           <div id="brasil">
             <BrasilSection />
           </div>
@@ -71,6 +66,11 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* ── 5ª SEÇÃO: GERAL (Primeira de baixo para cima, logo antes do rodapé) ── */}
+      <section aria-label="Cobertura Geral" id="geral" className="w-full pt-2">
+        <GeralSection />
+      </section>
     </motion.div>
   );
 }
