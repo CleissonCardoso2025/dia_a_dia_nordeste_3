@@ -158,7 +158,7 @@ export default function GeralSection() {
 
         {/* ── ESTADO DE CARREGAMENTO (SKELETONS) ── */}
         {loading ? (
-          <div className="grid grid-rows-2 grid-flow-col auto-cols-[300px] sm:auto-cols-[380px] gap-4 overflow-x-auto pb-4 scrollbar-none">
+          <div className="grid grid-rows-2 grid-flow-col auto-cols-75 sm:auto-cols-95 gap-4 overflow-x-auto pb-4 scrollbar-none">
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
@@ -168,7 +168,7 @@ export default function GeralSection() {
           </div>
         ) : noticiasFiltradas.length === 0 ? (
           /* Estado Vazio */
-          <div className="flex flex-col items-center justify-center p-10 rounded-2xl bg-white/[0.02] border border-dashed border-white/10 text-center">
+          <div className="flex flex-col items-center justify-center p-10 rounded-2xl bg-white/2 border border-dashed border-white/10 text-center">
             <p className="text-sm text-zinc-400 mb-3">
               Nenhuma notícia cadastrada na categoria &quot;{categoriaSelecionada}&quot; no momento.
             </p>
@@ -183,7 +183,7 @@ export default function GeralSection() {
           /* ── CARROSSEL DE CARDS HORIZONTAIS EM BENTO (2 LINHAS) ── */
           <div
             ref={scrollRef}
-            className="grid grid-rows-2 grid-flow-col auto-cols-[300px] sm:auto-cols-[380px] lg:auto-cols-[400px] gap-4 overflow-x-auto pb-4 pt-1 scrollbar-none scroll-smooth"
+            className="grid grid-rows-2 grid-flow-col auto-cols-75 sm:auto-cols-95 lg:auto-cols-100 gap-4 overflow-x-auto pb-4 pt-1 scrollbar-none scroll-smooth"
           >
             {noticiasFiltradas.map((noticia, idx) => {
               const href = `/noticia/${noticia.categorias?.slug || 'geral'}/${noticia.slug}`;
@@ -193,7 +193,7 @@ export default function GeralSection() {
                 <motion.article
                   key={noticia.id || idx}
                   whileHover={{ y: -3 }}
-                  className="group relative flex gap-3.5 p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-brand-laranja/50 backdrop-blur-md shadow-lg transition-all duration-300 cursor-pointer overflow-hidden h-[126px] sm:h-[136px]"
+                  className="group relative flex gap-3.5 p-3 rounded-2xl bg-white/4 hover:bg-white/8 border border-white/10 hover:border-brand-laranja/50 backdrop-blur-md shadow-lg transition-all duration-300 cursor-pointer overflow-hidden h-31.5 sm:h-34"
                 >
                   {/* Link invisível de cobertura total */}
                   <Link
@@ -249,7 +249,7 @@ export default function GeralSection() {
 
                     {/* Rodapé do Card */}
                     <div className="flex items-center justify-between text-[11px] text-zinc-400 pt-1 border-t border-white/5">
-                      <span className="truncate max-w-[110px] sm:max-w-[130px] text-[10px] text-zinc-400">
+                      <span className="truncate max-w-27.5 sm:max-w-32.5 text-[10px] text-zinc-400">
                         {noticia.autores?.nome || 'Redação'}
                       </span>
 
