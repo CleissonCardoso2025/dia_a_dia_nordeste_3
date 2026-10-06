@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase, verificarEAlertarBannersExpirados } from '@/lib/supabase';
+import { supabase, verificarEAlertarBannersExpirados, STORAGE_BUCKET } from '@/lib/supabase';
 import { convertToWebP } from '@/lib/imageProcessor';
 import type { BannerAd } from '@/types';
 import { Plus, Trash2, Eye, MousePointerClick, Printer, Upload, X, BarChart3, Loader2, Calendar } from 'lucide-react';
@@ -76,13 +76,13 @@ export default function BannerManagerModal({ isOpen, onClose }: BannerManagerMod
       const fileName = `banners/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .upload(fileName, file, { cacheControl: '3600', upsert: true });
 
       if (uploadError) throw uploadError;
 
       const { data: publicUrlData } = supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .getPublicUrl(fileName);
 
       if (publicUrlData?.publicUrl) {

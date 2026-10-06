@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { supabase, getCategorias } from '@/lib/supabase';
+import { supabase, getCategorias, STORAGE_BUCKET } from '@/lib/supabase';
 import { convertToWebP } from '@/lib/imageProcessor';
 import type { Categoria, Noticia } from '@/types';
 import { ArrowLeft, Save, Upload, Image as ImageIcon, Link as LinkIcon, Trash2, Check, Loader2, Share2, Eye, Edit3, Bold, Heading2, Quote, CornerDownLeft } from 'lucide-react';
@@ -127,13 +127,13 @@ export default function ArticleEditor() {
       const filePath = `noticias/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .upload(filePath, finalFile, { cacheControl: '3600', upsert: true });
 
       if (uploadError) throw uploadError;
 
       const { data: publicUrlData } = supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .getPublicUrl(filePath);
 
       if (publicUrlData?.publicUrl) {

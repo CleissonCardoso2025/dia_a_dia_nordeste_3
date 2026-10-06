@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { supabase, insertMidiaAvulsa, getMidiasAvulsas, deleteMidiaAvulsa } from '@/lib/supabase';
+import { supabase, insertMidiaAvulsa, getMidiasAvulsas, deleteMidiaAvulsa, STORAGE_BUCKET } from '@/lib/supabase';
 import { convertToWebP } from '@/lib/imageProcessor';
 import { Image as ImageIcon, Upload, X, Copy, Check, Trash2, Loader2 } from 'lucide-react';
 
@@ -44,13 +44,13 @@ export default function MediaManagerModal({ isOpen, onClose }: MediaManagerModal
       const fileName = `galeria/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .upload(fileName, file, { cacheControl: '3600', upsert: true });
 
       if (uploadError) throw uploadError;
 
       const { data: publicUrlData } = supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .getPublicUrl(fileName);
 
       if (publicUrlData?.publicUrl) {

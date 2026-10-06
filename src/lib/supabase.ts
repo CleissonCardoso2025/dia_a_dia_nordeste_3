@@ -12,6 +12,7 @@ const supabaseAnonKey = (rawKey && !rawKey.includes('CLof_mxTVCHjJqXnCorz2EdyXQ6
   : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTEyMzMxNDcsImV4cCI6MTg5MzQ1NjAwMCwicm9sZSI6ImFub24iLCJpc3MiOiJzdXBhYmFzZSJ9.GabEDM9oJuvMoU1HNAOq2l4EaV3ai15y5rx9LS9tEKE';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const STORAGE_BUCKET = 'dia-a-dia-nordeste';
 
 // ─────────────────────────────────────────────
 // Helpers de query

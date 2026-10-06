@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase, insertWebStory, deleteWebStory } from '@/lib/supabase';
+import { supabase, insertWebStory, deleteWebStory, STORAGE_BUCKET } from '@/lib/supabase';
 import { convertToWebP } from '@/lib/imageProcessor';
 import type { WebStory, StorySlide, Categoria } from '@/types';
 import { Plus, Trash2, X, PlaySquare, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
@@ -124,13 +124,13 @@ export default function WebStoriesManagerModal({ isOpen, onClose }: WebStoriesMa
       const fileName = `webstories/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .upload(fileName, file, { cacheControl: '3600', upsert: true });
 
       if (uploadError) throw uploadError;
 
       const { data: publicUrlData } = supabase.storage
-        .from('imagens')
+        .from(STORAGE_BUCKET)
         .getPublicUrl(fileName);
 
       if (publicUrlData?.publicUrl) {
