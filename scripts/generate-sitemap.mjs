@@ -50,9 +50,12 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
   console.warn('[sitemap] Supabase não configurado — gerando sitemap apenas com rotas estáticas.');
 }
 
+const SUPABASE_SCHEMA = process.env.SUPABASE_SCHEMA || process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || env.SUPABASE_SCHEMA || env.NEXT_PUBLIC_SUPABASE_SCHEMA || 'dia_a_dia_nordeste';
+
 const supabase = createClient(
   SUPABASE_URL || 'https://placeholder.supabase.co',
-  SUPABASE_KEY || 'placeholder'
+  SUPABASE_KEY || 'placeholder',
+  { db: { schema: SUPABASE_SCHEMA } }
 );
 
 // Rotas estáticas do site

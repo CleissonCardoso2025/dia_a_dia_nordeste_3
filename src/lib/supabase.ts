@@ -11,7 +11,13 @@ const supabaseAnonKey = (rawKey && !rawKey.includes('CLof_mxTVCHjJqXnCorz2EdyXQ6
   ? rawKey
   : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTEyMzMxNDcsImV4cCI6MTg5MzQ1NjAwMCwicm9sZSI6ImFub24iLCJpc3MiOiJzdXBhYmFzZSJ9.GabEDM9oJuvMoU1HNAOq2l4EaV3ai15y5rx9LS9tEKE';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseSchema = process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || 'dia_a_dia_nordeste';
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  db: {
+    schema: supabaseSchema
+  }
+});
 export const STORAGE_BUCKET = 'dia-a-dia-nordeste';
 
 // ─────────────────────────────────────────────

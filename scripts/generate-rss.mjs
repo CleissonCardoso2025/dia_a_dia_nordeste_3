@@ -40,9 +40,12 @@ const SUPABASE_URL  = process.env.SUPABASE_URL  || process.env.VITE_SUPABASE_URL
 const SUPABASE_KEY  = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || env.SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY;
 const BASE_URL      = process.env.BASE_URL      || process.env.VITE_BASE_URL || env.BASE_URL      || env.VITE_BASE_URL || 'https://diaadianordeste.com.br';
 
+const SUPABASE_SCHEMA = process.env.SUPABASE_SCHEMA || process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || env.SUPABASE_SCHEMA || env.NEXT_PUBLIC_SUPABASE_SCHEMA || 'dia_a_dia_nordeste';
+
 const supabase = createClient(
   SUPABASE_URL || 'https://placeholder.supabase.co',
-  SUPABASE_KEY || 'placeholder'
+  SUPABASE_KEY || 'placeholder',
+  { db: { schema: SUPABASE_SCHEMA } }
 );
 
 function xmlEscape(str) {
