@@ -32,18 +32,27 @@ export default function GeralSection() {
           getCategorias(),
           supabase
             .from('noticias')
-            .select('*, categorias(id,nome,slug,cor_hex,tipo), autores(id,nome,foto_url:avatar_url)')
+            .select('*, categorias!inner(id,nome,slug,cor_hex,tipo), autores(id,nome,foto_url:avatar_url)')
+            .eq('categorias.tipo', 'editorial')
+            .neq('categorias.slug', 'bahia')
+            .neq('categorias.slug', 'brasil')
             .order('data_publicacao', { ascending: false })
             .limit(30)
         ]);
 
         if (resCat.data) {
-          // Apenas categorias editoriais
-          const editoriais = (resCat.data as Categoria[]).filter(
-            c => c.tipo === 'editorial' &&
-                 c.slug.toLowerCase() !== 'bahia' &&
-                 c.slug.toLowerCase() !== 'brasil'
-          );
+          // Apenas categorias editoriais (excluindo Bahia e Brasil que possuem seções exclusivas na Home)
+          const editoriais = (resCat.data as Categoria[])
+            .filter(
+              c => c.tipo === 'editorial' &&
+                   c.slug.toLowerCase() !== 'bahia' &&
+                   c.slug.toLowerCase() !== 'brasil'
+            )
+            .sort((a, b) => {
+              if (a.slug.toLowerCase() === 'geral') return -1;
+              if (b.slug.toLowerCase() === 'geral') return 1;
+              return a.nome.localeCompare(b.nome);
+            });
           setCategorias(editoriais);
         }
 
@@ -61,6 +70,7 @@ export default function GeralSection() {
   }, []);
 
   // Filtragem das notícias conforme categoria selecionada
+  // 'Todas' exibe apenas o conjunto de matérias editoriais/gerais decididas pelo usuário (nunca municípios)
   const noticiasFiltradas = categoriaSelecionada === 'Todas'
     ? noticias
     : noticias.filter(
@@ -169,15 +179,24 @@ export default function GeralSection() {
         ) : noticiasFiltradas.length === 0 ? (
           /* Estado Vazio */
           <div className="flex flex-col items-center justify-center p-10 rounded-2xl bg-white/2 border border-dashed border-white/10 text-center">
-            <p className="text-sm text-zinc-400 mb-3">
-              Nenhuma notícia cadastrada na categoria &quot;{categoriaSelecionada}&quot; no momento.
+            <p className="text-sm text-zinc-400 mb-2">
+              {categoriaSelecionada === 'Todas'
+                ? 'Nenhuma matéria cadastrada na seção Geral no momento.'
+                : `Nenhuma notícia cadastrada na categoria "${categoriaSelecionada}" no momento.`}
             </p>
-            <button
-              onClick={() => setCategoriaSelecionada('Todas')}
-              className="text-xs font-bold text-brand-laranja hover:underline cursor-pointer"
-            >
-              Ver todas as notícias
-            </button>
+            <p className="text-xs text-zinc-500 mb-4 max-w-md">
+              {categoriaSelecionada === 'Todas'
+                ? 'As notícias que você cadastrar na categoria Geral ou nas abas editoriais (Saúde, Polícia, etc.) serão exibidas aqui.'
+                : 'Selecione outra categoria acima ou publique uma nova matéria vinculada a esta seção no painel.'}
+            </p>
+            {categoriaSelecionada !== 'Todas' && (
+              <button
+                onClick={() => setCategoriaSelecionada('Todas')}
+                className="text-xs font-bold text-brand-laranja hover:underline cursor-pointer"
+              >
+                Ver todas as matérias gerais
+              </button>
+            )}
           </div>
         ) : (
           /* ── CARROSSEL DE CARDS HORIZONTAIS EM BENTO (2 LINHAS) ── */
