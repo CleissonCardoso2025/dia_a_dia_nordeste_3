@@ -14,33 +14,17 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-import { loadEnv } from 'vite';
+import dotenv from 'dotenv';
 
+// Carregar variáveis de ambiente do .env
+dotenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../.env.production') });
 
-// Tenta carregar variáveis manualmente caso o Docker/Dokploy as oculte
-const envFiles = ['../.env', '../.env.production'];
-for (const file of envFiles) {
-  const envPath = resolve(__dirname, file);
-  if (existsSync(envPath)) {
-    const envContent = readFileSync(envPath, 'utf-8');
-    envContent.split('\n').forEach(line => {
-      const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)\s*$/);
-      if (match) {
-        const key = match[1];
-        const val = match[2].trim().replace(/^["']|["']$/g, '');
-        if (!process.env[key]) process.env[key] = val;
-      }
-    });
-  }
-}
+const SUPABASE_URL  = process.env.SUPABASE_URL  || process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY  = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+const BASE_URL      = process.env.BASE_URL      || process.env.NEXT_PUBLIC_BASE_URL || process.env.VITE_BASE_URL || 'https://diaadianordeste.com.br';
 
-const env = loadEnv('', process.cwd(), '');
-
-const SUPABASE_URL  = process.env.SUPABASE_URL  || process.env.VITE_SUPABASE_URL || env.SUPABASE_URL  || env.VITE_SUPABASE_URL;
-const SUPABASE_KEY  = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || env.SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY;
-const BASE_URL      = process.env.BASE_URL      || process.env.VITE_BASE_URL || env.BASE_URL      || env.VITE_BASE_URL || 'https://diaadianordeste.com.br';
-
-const SUPABASE_SCHEMA = process.env.SUPABASE_SCHEMA || process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || env.SUPABASE_SCHEMA || env.NEXT_PUBLIC_SUPABASE_SCHEMA || 'dia_a_dia_nordeste';
+const SUPABASE_SCHEMA = process.env.SUPABASE_SCHEMA || process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || 'dia_a_dia_nordeste';
 
 const supabase = createClient(
   SUPABASE_URL || 'https://placeholder.supabase.co',
