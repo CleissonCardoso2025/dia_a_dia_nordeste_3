@@ -7,7 +7,7 @@ import type { Noticia } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import CityTabsSection from '@/components/news/CityTabsSection';
-import WebStoriesSection from '@/components/stories/WebStoriesSection';
+import CityCarousel from '@/components/news/CityCarousel';
 import ScrollProgress from '@/components/ui/ScrollProgress';
 import Sidebar from '@/components/layout/Sidebar';
 import ShareButton from './ShareButton';
@@ -225,8 +225,15 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
         {/* Seção com abas dos municípios abaixo da matéria */}
         <CityTabsSection categoriaInicialSlug={noticia.categorias?.slug} />
 
-        {/* Seção de Web Stories por categorias */}
-        <WebStoriesSection />
+        {/* Mais notícias da mesma editoria ou cidade */}
+        {noticia.categorias && (
+          <CityCarousel
+            categoriaSlug={noticia.categorias.slug}
+            categoriaNome={noticia.categorias.nome}
+            corHex={noticia.categorias.cor_hex}
+            noticiaAtualId={noticia.id}
+          />
+        )}
           </article>
         </div>
 

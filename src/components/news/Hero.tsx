@@ -20,10 +20,11 @@ export default function Hero() {
     getNoticiasDestaque(5).then(({ data }) => {
       if (data && data.length > 0) {
         const semBahiaBrasil = (data as unknown as Partial<Noticia>[]).filter(
-          n => n.categorias?.slug?.toLowerCase() !== 'bahia' && 
-               n.categorias?.slug?.toLowerCase() !== 'brasil' &&
-               n.categorias?.nome?.toLowerCase() !== 'bahia' && 
-               n.categorias?.nome?.toLowerCase() !== 'brasil'
+          n => {
+            const slug = n.categorias?.slug?.toLowerCase() || '';
+            const nome = n.categorias?.nome?.toLowerCase() || '';
+            return !slug.includes('bahia') && !slug.includes('brasil') && !nome.includes('bahia') && !nome.includes('brasil');
+          }
         );
         setDestaques(semBahiaBrasil);
       }

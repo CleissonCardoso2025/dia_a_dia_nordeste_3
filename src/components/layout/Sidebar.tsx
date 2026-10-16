@@ -44,10 +44,11 @@ export default function Sidebar() {
     getMaisAcessadas(10).then(({ data }) => {
       if (data && data.length > 0) {
         const filtradas = (data as unknown as Partial<Noticia>[]).filter(
-          n => n.categorias?.slug?.toLowerCase() !== 'bahia' &&
-               n.categorias?.slug?.toLowerCase() !== 'brasil' &&
-               n.categorias?.nome?.toLowerCase() !== 'bahia' &&
-               n.categorias?.nome?.toLowerCase() !== 'brasil'
+          n => {
+            const slug = n.categorias?.slug?.toLowerCase() || '';
+            const nome = n.categorias?.nome?.toLowerCase() || '';
+            return !slug.includes('bahia') && !slug.includes('brasil') && !nome.includes('bahia') && !nome.includes('brasil');
+          }
         );
         setMaisAcessadas(filtradas.slice(0, 5));
       }
@@ -55,10 +56,11 @@ export default function Sidebar() {
     getNoticias(10).then(({ data }) => {
       if (data && data.length > 0) {
         const filtradas = (data as unknown as Partial<Noticia>[]).filter(
-          n => n.categorias?.slug?.toLowerCase() !== 'bahia' &&
-               n.categorias?.slug?.toLowerCase() !== 'brasil' &&
-               n.categorias?.nome?.toLowerCase() !== 'bahia' &&
-               n.categorias?.nome?.toLowerCase() !== 'brasil'
+          n => {
+            const slug = n.categorias?.slug?.toLowerCase() || '';
+            const nome = n.categorias?.nome?.toLowerCase() || '';
+            return !slug.includes('bahia') && !slug.includes('brasil') && !nome.includes('bahia') && !nome.includes('brasil');
+          }
         );
         setRecentes(filtradas.slice(0, 4));
       }

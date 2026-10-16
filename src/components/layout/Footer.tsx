@@ -6,7 +6,9 @@ import { MessageCircle, Mail, Share2 } from 'lucide-react';
 const SECOES = [
   { nome: 'Início / Destaques', href: '/#destaques' },
   { nome: 'Notícias por Município', href: '/#municipios' },
-  { nome: 'Web Stories', href: '/#stories' },
+  { nome: 'Bahia em Pauta', href: '/#bahia' },
+  { nome: 'Panorama Brasil', href: '/#brasil' },
+  { nome: 'Geral', href: '/#geral' },
   { nome: 'Mais Acessadas', href: '/#mais-acessadas' },
   { nome: 'Pesquisar Notícias', href: '/busca' },
   { nome: 'Feed RSS 2.0', href: '/rss' },

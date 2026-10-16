@@ -54,9 +54,9 @@ export async function getNoticiasDestaque(limite = 5) {
 
   const filtrados = data
     .filter((n: any) => {
-      const slug = n.categorias?.slug?.toLowerCase();
-      const nome = n.categorias?.nome?.toLowerCase();
-      return slug !== 'bahia' && slug !== 'brasil' && nome !== 'bahia' && nome !== 'brasil';
+      const slug = n.categorias?.slug?.toLowerCase() || '';
+      const nome = n.categorias?.nome?.toLowerCase() || '';
+      return !slug.includes('bahia') && !slug.includes('brasil') && !nome.includes('bahia') && !nome.includes('brasil');
     })
     .slice(0, limite);
 
@@ -118,6 +118,10 @@ export async function getCategorias() {
 
 export async function insertCategoria(categoria: Omit<Categoria, 'id'>) {
   return supabase.from('categorias').insert([categoria]);
+}
+
+export async function updateCategoria(id: string, categoria: Partial<Omit<Categoria, 'id'>>) {
+  return supabase.from('categorias').update(categoria).eq('id', id);
 }
 
 export async function getBanners(posicao: string) {

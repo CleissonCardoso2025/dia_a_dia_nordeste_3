@@ -36,17 +36,19 @@ export default function GeralSection() {
             .eq('categorias.tipo', 'editorial')
             .neq('categorias.slug', 'bahia')
             .neq('categorias.slug', 'brasil')
+            .neq('categorias.slug', 'bahia-em-pauta')
+            .neq('categorias.slug', 'panorama-brasil')
             .order('data_publicacao', { ascending: false })
             .limit(30)
         ]);
 
         if (resCat.data) {
-          // Apenas categorias editoriais (excluindo Bahia e Brasil que possuem seções exclusivas na Home)
+          // Apenas categorias editoriais (excluindo Bahia em Pauta e Panorama Brasil que possuem seções exclusivas na Home)
           const editoriais = (resCat.data as Categoria[])
             .filter(
               c => c.tipo === 'editorial' &&
-                   c.slug.toLowerCase() !== 'bahia' &&
-                   c.slug.toLowerCase() !== 'brasil'
+                   !c.slug.toLowerCase().includes('bahia') &&
+                   !c.slug.toLowerCase().includes('brasil')
             )
             .sort((a, b) => {
               if (a.slug.toLowerCase() === 'geral') return -1;
