@@ -16,10 +16,6 @@ const nextConfig = {
         destination: '/api/rss/geral',
       },
       {
-        source: '/rss-web-stories.xml',
-        destination: '/api/rss/web-stories',
-      },
-      {
         source: '/rss-:slug.xml',
         destination: '/api/rss/:slug',
       },

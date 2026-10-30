@@ -222,18 +222,16 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
           <BannerPlaceholder posicao="footer" />
         </div>
 
+        {/* Mais notícias da mesma categoria */}
+        <CityCarousel
+          categoriaSlug={catSlug}
+          categoriaNome={noticia.categorias?.nome ?? 'Geral'}
+          corHex={noticia.categorias?.cor_hex ?? '#D9491F'}
+          noticiaAtualId={noticia.id}
+        />
+
         {/* Seção com abas dos municípios abaixo da matéria */}
         <CityTabsSection categoriaInicialSlug={noticia.categorias?.slug} />
-
-        {/* Mais notícias da mesma editoria ou cidade */}
-        {noticia.categorias && (
-          <CityCarousel
-            categoriaSlug={noticia.categorias.slug}
-            categoriaNome={noticia.categorias.nome}
-            corHex={noticia.categorias.cor_hex}
-            noticiaAtualId={noticia.id}
-          />
-        )}
           </article>
         </div>
 

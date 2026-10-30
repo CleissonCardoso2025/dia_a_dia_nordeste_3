@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -88,7 +88,7 @@ export default function AnunciePage() {
             </div>
             <h3 className="font-titulo font-bold text-brand-creme text-lg">Múltiplos Formatos</h3>
             <p className="text-xs text-brand-muted leading-relaxed">
-              Banners de alta visibilidade (Header, Sidebar 300x300), Web Stories de marca e matérias patrocinadas.
+              Banners de alta visibilidade (Header, Sidebar 300x300), destaques editoriais e matérias patrocinadas.
             </p>
           </div>
 
@@ -129,9 +129,9 @@ export default function AnunciePage() {
             </div>
 
             <div className="rounded-xl bg-brand-grafite border border-brand-border p-4 space-y-2">
-              <span className="text-xs font-bold text-brand-laranja uppercase">Web Stories Patrocinados</span>
-              <h4 className="font-titulo font-bold text-brand-creme text-sm">Story Visual 9:16 Interativo</h4>
-              <p className="text-xs text-brand-muted">Destaque dinâmico na seção de Web Stories do portal com link direto de conversão.</p>
+              <span className="text-xs font-bold text-brand-laranja uppercase">Destaque Multiplataforma</span>
+              <h4 className="font-titulo font-bold text-brand-creme text-sm">Portal + Redes Sociais</h4>
+              <p className="text-xs text-brand-muted">Divulgação integrada no portal e nos canais oficiais do Dia a Dia Nordeste com link direto.</p>
             </div>
           </div>
         </div>
@@ -220,7 +220,6 @@ export default function AnunciePage() {
                     <option value="banner-topo">Banner Topo</option>
                     <option value="banner-sidebar">Banner Sidebar (300x300)</option>
                     <option value="publieditorial">Publieditorial</option>
-                    <option value="web-stories">Web Stories</option>
                     <option value="pacote-completo">Pacote Mensal Completo</option>
                   </select>
                 </div>

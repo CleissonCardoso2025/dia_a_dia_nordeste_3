@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Rss, Copy, Download, Code, Eye, Check, MapPin, Sparkles, ChevronRight, ExternalLink, Zap } from 'lucide-react';
+import { Rss, Copy, Download, Code, Eye, Check, MapPin, Sparkles, ChevronRight, ExternalLink } from 'lucide-react';
 import SEOHead from '@/components/ui/SEOHead';
-import { getCategorias, getNoticias, getWebStories } from '@/lib/supabase';
+import { getCategorias, getNoticias } from '@/lib/supabase';
 import { gerarRssXml } from '@/lib/rss';
 import type { Categoria, Noticia } from '@/types';
 import { pageVariants } from '@/animations/variants';
@@ -15,9 +15,7 @@ import { ptBR } from 'date-fns/locale';
 export default function RssPage() {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState<Categoria | null>(null);
-  const [isWebStories, setIsWebStories] = useState(false);
   const [noticias, setNoticias] = useState<Partial<Noticia>[]>([]);
-  const [noticiasWebStories, setNoticiasWebStories] = useState<Partial<Noticia>[]>([]);
   const [copiado, setCopiado] = useState(false);
   const [modoXml, setModoXml] = useState(false);
 
@@ -31,46 +29,20 @@ export default function RssPage() {
     getNoticias(40).then(({ data }) => {
       if (data) setNoticias(data as unknown as Partial<Noticia>[]);
     });
-
-    // Carrega web stories reais
-    getWebStories().then(({ data }) => {
-      if (data) {
-        const stories = data.map(s => ({
-          id: s.id,
-          titulo: `[Web Story] ${s.titulo}`,
-          slug: s.id,
-          data_publicacao: s.criadoEm,
-          resumo: s.corpo || 'Confira nosso Web Story.',
-          conteudo: `<p><img src="${s.capaUrl}" /></p><p>${s.corpo || ''}</p>`,
-          imagem_url: s.capaUrl,
-          categorias: { id: s.id, nome: s.categoria || 'Web Stories', slug: 'web-stories', cor_hex: s.corCategoria || '#D9491F' },
-        }));
-        setNoticiasWebStories(stories as Partial<Noticia>[]);
-      }
-    });
   }, []);
 
-
-
-  // Notícias filtradas por cidade/categoria ou Web Stories
-  const noticiasFiltradas = isWebStories
-    ? noticiasWebStories
-    : categoriaSelecionada
+  // Notícias filtradas por cidade/categoria
+  const noticiasFiltradas = categoriaSelecionada
     ? noticias.filter(n => n.categorias?.slug === categoriaSelecionada.slug)
     : noticias;
 
   // XML Gerado em Tempo Real
-  const xmlConteudo = gerarRssXml(
-    noticiasFiltradas,
-    isWebStories ? ({ id: 'web-stories', nome: 'Web Stories âš¡', slug: 'web-stories', cor_hex: '#D9491F' } as Categoria) : categoriaSelecionada
-  );
+  const xmlConteudo = gerarRssXml(noticiasFiltradas, categoriaSelecionada);
 
   // Link do arquivo RSS
   const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_BASE_URL || 'https://diaadianordeste.com.br');
   
-  const rssLinkFile = isWebStories
-    ? `${origin}/rss-web-stories.xml`
-    : categoriaSelecionada
+  const rssLinkFile = categoriaSelecionada
     ? `${origin}/rss-${categoriaSelecionada.slug}.xml`
     : `${origin}/rss.xml`;
 
@@ -150,10 +122,9 @@ export default function RssPage() {
             <button
               onClick={() => {
                 setCategoriaSelecionada(null);
-                setIsWebStories(false);
               }}
               className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold transition-all ${
-                categoriaSelecionada === null && !isWebStories
+                categoriaSelecionada === null
                   ? 'bg-brand-laranja text-white shadow-lg scale-105'
                   : 'bg-brand-grafite text-brand-muted hover:text-brand-creme border border-brand-border'
               }`}
@@ -161,30 +132,13 @@ export default function RssPage() {
               ðŸŒ Todas as Notícias
             </button>
 
-            {/* Opção do Feed de Web Stories */}
-            <button
-              onClick={() => {
-                setCategoriaSelecionada(null);
-                setIsWebStories(true);
-              }}
-              className={`shrink-0 flex items-center gap-1 px-4 py-2 rounded-full text-xs font-bold transition-all ${
-                isWebStories
-                  ? 'bg-brand-laranja text-white shadow-lg scale-105'
-                  : 'bg-brand-grafite text-brand-muted hover:text-brand-creme border border-brand-border'
-              }`}
-            >
-              <Zap size={14} className="text-yellow-400" />
-              Feed Web Stories
-            </button>
-
             {categorias.map(cat => {
-              const selected = categoriaSelecionada?.id === cat.id && !isWebStories;
+              const selected = categoriaSelecionada?.id === cat.id;
               return (
                 <button
                   key={cat.id}
                   onClick={() => {
                     setCategoriaSelecionada(cat);
-                    setIsWebStories(false);
                   }}
                   className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold transition-all ${
                     selected
@@ -281,7 +235,7 @@ export default function RssPage() {
                   {/* Título */}
                   <h2 className="font-titulo font-bold text-brand-creme text-2xl leading-snug">
                     <Link
-                      href={noticia.categorias?.slug === 'web-stories' ? `/story/${noticia.slug}` : `/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
+                      href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
                       className="hover:text-brand-laranja transition-colors"
                     >
                       {noticia.titulo}
@@ -311,7 +265,7 @@ export default function RssPage() {
                   {/* Link Direto */}
                   <div className="pt-2">
                     <Link
-                      href={noticia.categorias?.slug === 'web-stories' ? `/story/${noticia.slug}` : `/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
+                      href={`/noticia/${noticia.categorias?.slug ?? 'geral'}/${noticia.slug}`}
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-laranja hover:underline"
                     >
                       <span>Ler notícia completa no portal</span>

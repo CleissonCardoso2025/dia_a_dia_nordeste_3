@@ -9,11 +9,10 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag, PlaySquare, Image as ImageIcon, Menu, X } from 'lucide-react';
+import { Tv, QrCode, ExternalLink, Copy, Check, Settings, Monitor, Webhook, Zap, Loader2, Megaphone, Tag, Image as ImageIcon, Menu, X } from 'lucide-react';
 import { getWebhookUrl, setWebhookUrl, sendWebhookPayload, getNewsWebhookUrl, setNewsWebhookUrl, sendNewsWebhookPayload } from '@/lib/webhook';
 import CategoryManagerModal from '@/components/admin/CategoryManagerModal';
 import BannerManagerModal from '@/components/admin/BannerManagerModal';
-import WebStoriesManagerModal from '@/components/admin/WebStoriesManagerModal';
 import MediaManagerModal from '@/components/admin/MediaManagerModal';
 
 
@@ -26,7 +25,6 @@ export default function Dashboard() {
   const noticiasPorPagina = 10;
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-  const [isWebStoriesModalOpen, setIsWebStoriesModalOpen] = useState(false);
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
   const [isFabOpen, setIsFabOpen] = useState(false);
 
@@ -563,14 +561,6 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setIsWebStoriesModalOpen(true)}
-              className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
-            >
-              <PlaySquare size={15} className="text-brand-laranja" />
-              Gestão de Web Stories
-            </button>
-
-            <button
               onClick={() => setIsBannerModalOpen(true)}
               className="flex items-center gap-1.5 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-xs font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-sm cursor-pointer"
             >
@@ -694,12 +684,6 @@ export default function Dashboard() {
         onClose={() => setIsCategoryModalOpen(false)}
       />
 
-      {/* Modal de Gestão de Web Stories */}
-      <WebStoriesManagerModal
-        isOpen={isWebStoriesModalOpen}
-        onClose={() => setIsWebStoriesModalOpen(false)}
-      />
-
       {/* Modal de Gestão de Mídias (Upload Avulso) */}
       <MediaManagerModal
         isOpen={isMediaModalOpen}
@@ -731,14 +715,6 @@ export default function Dashboard() {
               >
                 Gestão de Banners (GIF) & Relatórios
                 <Megaphone size={16} className="text-brand-laranja" />
-              </button>
-
-              <button
-                onClick={() => { setIsWebStoriesModalOpen(true); setIsFabOpen(false); }}
-                className="flex items-center gap-2 rounded-full bg-brand-surface border border-brand-border px-4 py-2 text-sm font-bold text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors shadow-lg cursor-pointer"
-              >
-                Gestão de Web Stories
-                <PlaySquare size={16} className="text-brand-laranja" />
               </button>
 
               <button

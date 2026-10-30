@@ -1,4 +1,4 @@
-import { getNoticias, getCategorias, getWebStories } from '@/lib/supabase';
+import { getNoticias, getCategorias } from '@/lib/supabase';
 import { gerarRssXml } from '@/lib/rss';
 import type { Noticia, Categoria } from '@/types';
 
@@ -27,29 +27,12 @@ export async function GET(
 
     let noticias: Partial<Noticia>[] = [];
     let categoriaSelecionada: Categoria | null = null;
-    let isWebStories = false;
 
     if (slug === 'geral') {
       // Busca as ultimas noticias gerais
       const { data } = await getNoticias(25);
       if (data) {
         noticias = data as unknown as Partial<Noticia>[];
-      }
-    } else if (slug === 'web-stories') {
-      // Busca web stories
-      isWebStories = true;
-      const { data: webStories } = await getWebStories();
-      if (webStories) {
-        noticias = webStories.map(s => ({
-          id: s.id,
-          titulo: `[Web Story] ${s.titulo}`,
-          slug: s.id, // O ID é usado no lugar do slug pois Web Stories não tem página individual
-          data_publicacao: s.criadoEm,
-          resumo: s.corpo || 'Confira nosso Web Story.',
-          conteudo: `<p><img src="${s.capaUrl}" /></p><p>${s.corpo || ''}</p>`,
-          imagem_url: s.capaUrl,
-          categorias: { id: s.id, nome: s.categoria || 'Web Stories', slug: 'web-stories', cor_hex: s.corCategoria || '#D9491F' },
-        })) as Partial<Noticia>[];
       }
     } else {
       // Busca categorias para encontrar o municipio
@@ -68,10 +51,6 @@ export async function GET(
           });
         }
       }
-    }
-
-    if (isWebStories) {
-      categoriaSelecionada = { id: 'web-stories', nome: 'Web Stories ⚡', slug: 'web-stories', cor_hex: '#D9491F' } as Categoria;
     }
 
     const xml = gerarRssXml(noticias, categoriaSelecionada);

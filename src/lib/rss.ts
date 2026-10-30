@@ -41,8 +41,7 @@ export function gerarRssXml(
     .map(n => {
       const catNome = n.categorias?.nome || categoriaSelecionada?.nome || 'Geral';
       const catSlug = n.categorias?.slug || categoriaSelecionada?.slug || 'geral';
-      const isWebStory = catSlug === 'web-stories';
-      const linkNoticia = isWebStory ? `${baseUrl}/story/${n.slug}` : `${baseUrl}/noticia/${catSlug}/${n.slug}`;
+      const linkNoticia = `${baseUrl}/noticia/${catSlug}/${n.slug}`;
       const imagem = n.imagem_url || '';
       const pubDate = formatRfc822Date(n.data_publicacao);
       const conteudoCompleto = formatArticleContent(n.conteudo || n.resumo || '');

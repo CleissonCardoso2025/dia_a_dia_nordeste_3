@@ -1,7 +1,9 @@
+'use client';
+
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, MapPin, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Newspaper, Clock, ArrowRight } from 'lucide-react';
 import { getNoticiasByCategoria } from '@/lib/supabase';
 import type { Noticia } from '@/types';
 import { format } from 'date-fns';
@@ -53,45 +55,55 @@ export default function CityCarousel({
   }
 
   return (
-    <section className="mt-12 pt-8 border-t border-brand-border">
+    <section className="mt-10 rounded-2xl bg-brand-surface border border-brand-border p-6 space-y-6">
       {/* Cabeçalho do Carrossel */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-4">
+        <div className="flex items-center gap-3">
           <div
-            className="flex h-8 w-8 items-center justify-center rounded-full text-white shrink-0"
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-white shrink-0 shadow-sm"
             style={{ backgroundColor: corHex }}
           >
-            <MapPin size={16} />
+            <Newspaper size={18} />
           </div>
           <div>
-            <h3 className="font-titulo font-bold text-brand-creme text-xl">
-              Mais de {categoriaNome}
-            </h3>
+            <h2 className="font-titulo font-bold text-brand-creme text-xl">
+              Mais notícias de {categoriaNome}
+            </h2>
             <p className="text-xs text-brand-muted">
-              Últimas publicações do município
+              Continue lendo outras matérias desta mesma categoria
             </p>
           </div>
         </div>
 
-        {/* Botões de navegação */}
-        {noticias.length > 2 && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => handleScroll('left')}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-surface border border-brand-border text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors"
-              aria-label="Notícias anteriores"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              onClick={() => handleScroll('right')}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-surface border border-brand-border text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors"
-              aria-label="Próximas notícias"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        )}
+        <div className="flex items-center justify-between sm:justify-end gap-3">
+          <Link
+            href={`/categoria/${categoriaSlug}`}
+            className="inline-flex items-center gap-1 text-xs font-bold text-brand-laranja hover:underline"
+          >
+            <span>Ver todas</span>
+            <ArrowRight size={13} />
+          </Link>
+
+          {/* Botões de navegação */}
+          {noticias.length > 2 && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleScroll('left')}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors cursor-pointer"
+                aria-label="Notícias anteriores"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={() => handleScroll('right')}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-grafite border border-brand-border text-brand-creme hover:border-brand-laranja hover:text-brand-laranja transition-colors cursor-pointer"
+                aria-label="Próximas notícias"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Trilha do Carrossel */}
@@ -100,23 +112,23 @@ export default function CityCarousel({
           {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
-              className="w-72 shrink-0 h-64 rounded-xl bg-brand-surface border border-brand-border animate-shimmer"
+              className="w-72 shrink-0 h-64 rounded-xl bg-brand-grafite border border-brand-border animate-shimmer"
             />
           ))}
         </div>
       ) : (
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth"
+          className="flex gap-4 overflow-x-auto pb-2 scrollbar-none scroll-smooth"
         >
           {noticias.map(noticia => (
             <motion.div
               key={noticia.id}
               whileHover={{ y: -4 }}
-              className="w-72 shrink-0 rounded-xl bg-brand-surface border border-brand-border overflow-hidden flex flex-col group hover:border-brand-laranja/50 transition-all relative cursor-pointer"
+              className="w-72 shrink-0 rounded-xl bg-brand-grafite/60 border border-brand-border overflow-hidden flex flex-col group hover:border-brand-laranja/50 transition-all relative cursor-pointer"
             >
               <Link
-                href={`/noticia/${categoriaSlug}/${noticia.slug}`}
+                href={`/noticia/${noticia.categorias?.slug ?? categoriaSlug}/${noticia.slug}`}
                 className="absolute inset-0 z-20"
                 aria-label={noticia.titulo ?? ''}
               />
@@ -134,7 +146,7 @@ export default function CityCarousel({
                   </div>
                 )}
                 <span
-                  className="absolute top-2 left-2 rounded-full px-2 py-0.5 text-[10px] font-bold text-white shadow-md"
+                  className="absolute top-2 left-2 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-white shadow-md"
                   style={{ backgroundColor: corHex }}
                 >
                   {categoriaNome}
@@ -142,9 +154,9 @@ export default function CityCarousel({
               </div>
 
               <div className="p-4 flex flex-col flex-1 justify-between gap-2 pointer-events-none">
-                <h4 className="font-titulo font-bold text-brand-creme text-sm line-clamp-2 group-hover:text-brand-laranja transition-colors leading-snug">
+                <h3 className="font-titulo font-bold text-brand-creme text-sm line-clamp-2 group-hover:text-brand-laranja transition-colors leading-snug">
                   {noticia.titulo}
-                </h4>
+                </h3>
 
                 <div className="flex items-center gap-1 text-[11px] text-brand-muted">
                   <Clock size={11} />
